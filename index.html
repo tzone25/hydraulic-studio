@@ -1,0 +1,3569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#111827">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Hydraulic Studio">
+
+<title>Hydraulic Studio</title>
+
+<link rel="manifest" href="manifest.json">
+
+<style>
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+    margin:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+    background:#0b1020;
+    color:#f1f5f9;
+}
+
+button,
+input,
+select{
+    font:inherit;
+}
+
+button{
+    border:1px solid #34405a;
+    background:#182136;
+    color:#e5e7eb;
+    border-radius:7px;
+    padding:8px 11px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#24304a;
+}
+
+button:active{
+    transform:scale(.98);
+}
+
+#app{
+    width:100%;
+    height:100%;
+    display:flex;
+    flex-direction:column;
+}
+
+/* TOP BAR */
+
+.topbar{
+    height:62px;
+    flex-shrink:0;
+    background:#111827;
+    border-bottom:1px solid #30394f;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:8px 12px;
+    gap:12px;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    min-width:230px;
+}
+
+.brandLogo{
+    width:40px;
+    height:40px;
+    border-radius:10px;
+    background:#2563eb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:900;
+    font-size:15px;
+}
+
+.brandTitle{
+    font-size:16px;
+    font-weight:800;
+}
+
+.brandSubtitle{
+    font-size:10px;
+    color:#8490a8;
+    margin-top:2px;
+}
+
+.toolbar{
+    display:flex;
+    align-items:center;
+    gap:5px;
+    overflow-x:auto;
+    scrollbar-width:none;
+}
+
+.toolbar::-webkit-scrollbar{
+    display:none;
+}
+
+.toolbar button{
+    white-space:nowrap;
+}
+
+.simulateButton{
+    background:#15803d;
+    border-color:#22a653;
+    font-weight:800;
+}
+
+.simulateButton.running{
+    background:#991b1b;
+    border-color:#dc2626;
+}
+
+/* MAIN */
+
+.main{
+    flex:1;
+    min-height:0;
+    display:grid;
+    grid-template-columns:250px minmax(0,1fr) 285px;
+}
+
+/* SIDEBARS */
+
+.sidebar{
+    background:#111827;
+    overflow:auto;
+}
+
+.leftSidebar{
+    border-right:1px solid #30394f;
+}
+
+.rightSidebar{
+    border-left:1px solid #30394f;
+}
+
+.sectionTitle{
+    padding:15px 13px 8px;
+    font-size:10px;
+    letter-spacing:1.2px;
+    font-weight:900;
+    color:#8793aa;
+}
+
+.searchBox{
+    width:calc(100% - 24px);
+    margin:0 12px 8px;
+    background:#0b1020;
+    border:1px solid #34405a;
+    color:#fff;
+    border-radius:7px;
+    padding:9px;
+    outline:none;
+}
+
+.searchBox:focus{
+    border-color:#60a5fa;
+}
+
+.componentLibrary{
+    padding:0 9px 15px;
+}
+
+.groupTitle{
+    padding:11px 5px 6px;
+    color:#73809a;
+    font-size:10px;
+    text-transform:uppercase;
+    font-weight:800;
+}
+
+.componentButton{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    margin:3px 0;
+    text-align:left;
+    background:#151d2e;
+}
+
+.componentIcon{
+    width:32px;
+    height:32px;
+    flex-shrink:0;
+    border:1px solid #46516a;
+    border-radius:6px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:16px;
+}
+
+.componentButton span:last-child{
+    font-size:12px;
+}
+
+.libraryHint{
+    border-top:1px solid #252d40;
+    padding:12px 13px;
+    color:#6f7d98;
+    font-size:10px;
+    line-height:1.5;
+}
+
+/* WORKSPACE */
+
+.workspace{
+    position:relative;
+    min-width:0;
+    min-height:0;
+    background:#080d18;
+}
+
+.canvasWrap{
+    position:absolute;
+    inset:0 0 33px 0;
+    overflow:hidden;
+    cursor:grab;
+}
+
+.canvasWrap.panning{
+    cursor:grabbing;
+}
+
+#hydraulicCanvas{
+    width:100%;
+    height:100%;
+    display:block;
+    background:#0b1020;
+}
+
+#gridPattern path{
+    stroke:#667085;
+}
+
+.canvasHelp{
+    position:absolute;
+    left:12px;
+    bottom:12px;
+    background:rgba(17,24,39,.88);
+    border:1px solid #30394f;
+    color:#7f8ca5;
+    font-size:10px;
+    padding:7px 9px;
+    border-radius:6px;
+    pointer-events:none;
+}
+
+/* STATUS */
+
+.statusBar{
+    position:absolute;
+    bottom:0;
+    left:0;
+    right:0;
+    height:33px;
+    background:#111827;
+    border-top:1px solid #30394f;
+    display:flex;
+    align-items:center;
+    gap:22px;
+    padding:0 10px;
+    color:#7f8ca5;
+    font-size:10px;
+    white-space:nowrap;
+    overflow:hidden;
+}
+
+.statusValue{
+    color:#f1f5f9;
+    font-weight:700;
+}
+
+.ready{
+    color:#67e8a5;
+    font-weight:900;
+}
+
+.runningStatus{
+    color:#38bdf8;
+    font-weight:900;
+}
+
+/* PROPERTIES */
+
+.properties{
+    padding:0 12px 15px;
+}
+
+.noSelection{
+    color:#6f7d98;
+    font-size:11px;
+    line-height:1.5;
+    padding:5px 0 10px;
+}
+
+.propertyHeading{
+    font-size:14px;
+    font-weight:800;
+    margin-bottom:12px;
+}
+
+.propertyField{
+    margin-bottom:9px;
+}
+
+.propertyField label{
+    display:block;
+    font-size:10px;
+    color:#8490a8;
+    margin-bottom:4px;
+}
+
+.propertyField input,
+.propertyField select{
+    width:100%;
+    background:#0b1020;
+    border:1px solid #34405a;
+    color:#f8fafc;
+    border-radius:6px;
+    padding:7px;
+    outline:none;
+}
+
+.propertyField input:focus,
+.propertyField select:focus{
+    border-color:#60a5fa;
+}
+
+.deleteButton{
+    width:100%;
+    margin-top:6px;
+    background:#35151d;
+    border-color:#6b2737;
+    color:#fca5a5;
+}
+
+/* SIMULATION PANEL */
+
+.simulationPanel{
+    padding:0 12px 15px;
+}
+
+.simulationField{
+    margin-bottom:9px;
+}
+
+.simulationField label{
+    display:block;
+    font-size:10px;
+    color:#8490a8;
+    margin-bottom:4px;
+}
+
+.simulationField input{
+    width:100%;
+    background:#0b1020;
+    border:1px solid #34405a;
+    color:white;
+    border-radius:6px;
+    padding:7px;
+}
+
+.simulationPanel button{
+    width:100%;
+    margin-top:5px;
+}
+
+.faultBox{
+    margin-top:10px;
+    padding:10px;
+    border-radius:7px;
+    background:#302711;
+    border:1px solid #725d1c;
+    color:#f6d479;
+    font-size:10px;
+    line-height:1.5;
+}
+
+.hidden{
+    display:none;
+}
+
+/* SVG */
+
+.component{
+    cursor:move;
+}
+
+.component .body{
+    fill:#121a2a;
+    stroke:#74819a;
+    stroke-width:1.6;
+}
+
+.component.selected .body{
+    stroke:#60a5fa;
+    stroke-width:2.8;
+}
+
+.componentText{
+    fill:#e2e8f0;
+    font-size:11px;
+    text-anchor:middle;
+    pointer-events:none;
+}
+
+.componentSymbol{
+    stroke:#cbd5e1;
+    fill:none;
+    stroke-width:2;
+}
+
+.port{
+    fill:#0b1020;
+    stroke:#d1d5db;
+    stroke-width:2;
+    cursor:crosshair;
+}
+
+.port:hover{
+    fill:#60a5fa;
+}
+
+.wire{
+    fill:none;
+    stroke:#aeb8ca;
+    stroke-width:3;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+
+.wire.flow{
+    stroke:#38bdf8;
+    stroke-dasharray:10 8;
+    animation:flowAnimation .55s linear infinite;
+}
+
+.wire.selected{
+    stroke:#60a5fa;
+}
+
+@keyframes flowAnimation{
+    from{
+        stroke-dashoffset:0;
+    }
+    to{
+        stroke-dashoffset:-18;
+    }
+}
+
+/* MOBILE */
+
+@media(max-width:1000px){
+
+    .main{
+        grid-template-columns:210px minmax(0,1fr);
+    }
+
+    .rightSidebar{
+        display:none;
+    }
+
+    .brand{
+        min-width:auto;
+    }
+
+    .brandText{
+        display:none;
+    }
+
+}
+
+@media(max-width:650px){
+
+    .topbar{
+        height:55px;
+        padding:6px;
+    }
+
+    .main{
+        grid-template-columns:1fr;
+    }
+
+    .leftSidebar{
+        display:none;
+    }
+
+    .brandLogo{
+        width:36px;
+        height:36px;
+    }
+
+    .toolbar{
+        flex:1;
+        justify-content:flex-end;
+    }
+
+    .toolbar button{
+        padding:7px 8px;
+    }
+
+    .hideMobile{
+        display:none;
+    }
+
+    .statusBar{
+        gap:10px;
+        font-size:9px;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<div id="app">
+
+<header class="topbar">
+
+    <div class="brand">
+
+        <div class="brandLogo">
+            HS
+        </div>
+
+        <div class="brandText">
+
+            <div class="brandTitle">
+                Hydraulic Studio
+            </div>
+
+            <div class="brandSubtitle">
+                Hydraulic schematic & simulation workstation
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="toolbar">
+
+        <button id="newProjectButton">
+            New
+        </button>
+
+        <button id="openProjectButton">
+            Open
+        </button>
+
+        <button id="saveProjectButton">
+            Save
+        </button>
+
+        <button id="undoButton">
+            ↶
+        </button>
+
+        <button id="redoButton">
+            ↷
+        </button>
+
+        <button id="zoomOutButton">
+            −
+        </button>
+
+        <button id="zoomLabel">
+            100%
+        </button>
+
+        <button id="zoomInButton">
+            +
+        </button>
+
+        <button id="gridButton">
+            Grid
+        </button>
+
+        <button id="themeButton">
+            ☾
+        </button>
+
+        <button id="simulateButton" class="simulateButton">
+            ▶ Simulate
+        </button>
+
+    </div>
+
+</header>
+
+
+<div class="main">
+
+
+<!-- LEFT SIDEBAR -->
+
+<aside class="sidebar leftSidebar">
+
+    <div class="sectionTitle">
+        COMPONENT LIBRARY
+    </div>
+
+    <input
+        id="componentSearch"
+        class="searchBox"
+        type="search"
+        placeholder="Search components..."
+    >
+
+    <div id="componentLibrary" class="componentLibrary"></div>
+
+    <div class="libraryHint">
+
+        Drag components onto the drawing area.<br><br>
+
+        Connect ports by dragging from one port to another.<br><br>
+
+        Double-click a component to edit its engineering properties.
+
+    </div>
+
+</aside>
+
+
+<!-- WORKSPACE -->
+
+<main class="workspace">
+
+    <div id="canvasWrap" class="canvasWrap">
+
+        <svg
+            id="hydraulicCanvas"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+
+            <defs>
+
+                <pattern
+                    id="gridPattern"
+                    width="24"
+                    height="24"
+                    patternUnits="userSpaceOnUse"
+                >
+
+                    <path
+                        d="M 24 0 L 0 0 0 24"
+                        fill="none"
+                        stroke-width="0.6"
+                    />
+
+                </pattern>
+
+                <marker
+                    id="flowArrow"
+                    markerWidth="8"
+                    markerHeight="8"
+                    refX="7"
+                    refY="4"
+                    orient="auto"
+                >
+
+                    <path
+                        d="M0,0 L8,4 L0,8 Z"
+                        fill="#38bdf8"
+                    />
+
+                </marker>
+
+            </defs>
+
+
+            <rect
+                id="gridBackground"
+                x="0"
+                y="0"
+                width="100%"
+                height="100%"
+                fill="url(#gridPattern)"
+            ></rect>
+
+
+            <g id="wireLayer"></g>
+
+            <g id="componentLayer"></g>
+
+            <g id="selectionLayer"></g>
+
+        </svg>
+
+
+        <div class="canvasHelp">
+
+            Drag empty space to pan • Mouse wheel/pinch to zoom • Drag ports to connect
+
+        </div>
+
+    </div>
+
+
+    <div class="statusBar">
+
+        <span id="simulationStatus" class="ready">
+            READY
+        </span>
+
+        <span id="circuitStatus">
+            0 components • 0 connections
+        </span>
+
+        <span>
+            Pressure:
+            <b id="pressureValue" class="statusValue">0 psi</b>
+        </span>
+
+        <span>
+            Flow:
+            <b id="flowValue" class="statusValue">0 L/min</b>
+        </span>
+
+        <span>
+            Power:
+            <b id="powerValue" class="statusValue">0 kW</b>
+        </span>
+
+    </div>
+
+</main>
+
+
+<!-- RIGHT SIDEBAR -->
+
+<aside class="sidebar rightSidebar">
+
+    <div class="sectionTitle">
+        COMPONENT PROPERTIES
+    </div>
+
+    <div id="propertiesPanel" class="properties">
+
+        <div class="noSelection">
+            Select a component to view and edit its engineering properties.
+        </div>
+
+    </div>
+
+
+    <div class="sectionTitle">
+        SIMULATION
+    </div>
+
+    <div class="simulationPanel">
+
+        <div class="simulationField">
+
+            <label>
+                Maximum system pressure
+            </label>
+
+            <input
+                id="maximumPressure"
+                type="number"
+                value="3000"
+                min="0"
+            >
+
+        </div>
+
+
+        <div class="simulationField">
+
+            <label>
+                Fluid density
+            </label>
+
+            <input
+                id="fluidDensity"
+                type="number"
+                value="850"
+            >
+
+        </div>
+
+
+        <div class="simulationField">
+
+            <label>
+                Fluid viscosity
+            </label>
+
+            <input
+                id="fluidViscosity"
+                type="number"
+                value="32"
+            >
+
+        </div>
+
+
+        <button id="resetSimulationButton">
+            Reset Simulation
+        </button>
+
+        <button id="trainingFaultButton">
+            Insert Training Fault
+        </button>
+
+
+        <div
+            id="faultBox"
+            class="faultBox hidden"
+        ></div>
+
+    </div>
+
+</aside>
+
+</div>
+
+</div>
+
+
+<input
+    id="projectFileInput"
+    type="file"
+    accept=".json"
+    hidden
+>
+
+
+<script>
+
+/* =========================================================
+   HYDRAULIC COMPONENT DATABASE
+========================================================= */
+
+const COMPONENTS = {
+
+    tank:{
+        name:"Reservoir",
+        category:"Sources",
+        icon:"▱",
+        width:100,
+        height:80,
+        ports:[
+            ["T",0,1]
+        ],
+        properties:{
+            capacity:20,
+            level:80
+        }
+    },
+
+    fixedPump:{
+        name:"Fixed Displacement Pump",
+        category:"Sources",
+        icon:"◉",
+        width:150,
+        height:82,
+        ports:[
+            ["IN",-1,0],
+            ["OUT",1,0]
+        ],
+        properties:{
+            displacement:16,
+            rpm:1450,
+            efficiency:90
+        }
+    },
+
+    variablePump:{
+        name:"Variable Piston Pump",
+        category:"Sources",
+        icon:"◉",
+        width:160,
+        height:82,
+        ports:[
+            ["IN",-1,0],
+            ["OUT",1,0]
+        ],
+        properties:{
+            displacement:16,
+            rpm:1450,
+            efficiency:90,
+            swash:100
+        }
+    },
+
+    cylinder:{
+        name:"Double Acting Cylinder",
+        category:"Actuators",
+        icon:"▭",
+        width:160,
+        height:90,
+        ports:[
+            ["A",-1,0],
+            ["B",1,0]
+        ],
+        properties:{
+            bore:100,
+            rod:50,
+            stroke:500,
+            load:10000
+        }
+    },
+
+    motor:{
+        name:"Hydraulic Motor",
+        category:"Actuators",
+        icon:"◎",
+        width:150,
+        height:82,
+        ports:[
+            ["IN",-1,0],
+            ["OUT",1,0]
+        ],
+        properties:{
+            displacement:25,
+            efficiency:90,
+            loadTorque:100
+        }
+    },
+
+    valve43:{
+        name:"4/3 Directional Valve",
+        category:"Directional Valves",
+        icon:"▤",
+        width:170,
+        height:100,
+        ports:[
+            ["P",-1,0],
+            ["T",1,0],
+            ["A",0,-1],
+            ["B",0,1]
+        ],
+        properties:{
+            flow:80,
+            centre:"Closed",
+            position:"Centre"
+        }
+    },
+
+    valve42:{
+        name:"4/2 Directional Valve",
+        category:"Directional Valves",
+        icon:"▥",
+        width:160,
+        height:90,
+        ports:[
+            ["P",-1,0],
+            ["T",1,0],
+            ["A",0,-1],
+            ["B",0,1]
+        ],
+        properties:{
+            flow:80,
+            position:"Extend"
+        }
+    },
+
+    proportionalValve:{
+        name:"Proportional Valve",
+        category:"Directional Valves",
+        icon:"▦",
+        width:180,
+        height:100,
+        ports:[
+            ["P",-1,0],
+            ["T",1,0],
+            ["A",0,-1],
+            ["B",0,1]
+        ],
+        properties:{
+            flow:120,
+            command:50
+        }
+    },
+
+    relief:{
+        name:"Pressure Relief Valve",
+        category:"Pressure Control",
+        icon:"↗",
+        width:160,
+        height:82,
+        ports:[
+            ["IN",-1,0],
+            ["OUT",1,0]
+        ],
+        properties:{
+            setting:1800,
+            flow:100
+        }
+    },
+
+    reducing:{
+        name:"Pressure Reducing Valve",
+        category:"Pressure Control",
+        icon:"⇩",
+        width:170,
+        height:82,
+        ports:[
+            ["IN",-1,0],
+            ["OUT",1,0]
+        ],
+        properties:{
+            setting:1000,
+            flow:80
+        }
+    },
+
+    sequence:{
+        name:"Sequence Valve",
+        category:"Pressure Control",
+        icon:"⇢",
+        width:160,
+        height:82,
+        ports:[
+            ["IN",-1,0],
+            ["OUT",1,0]
+        ],
+        properties:{
+            setting:1200,
+            flow:80
+        }
+    },
+
+    check:{
+        name:"Check Valve",
+        category:"Flow Control",
+        icon:"▷",
+        width:150,
+        height:70,
+        ports:[
+            ["IN",-1,0],
+            ["OUT",1,0]
+        ],
+        properties:{
+            cracking:5
+        }
+    },
+
+    flowControl:{
+        name:"Flow Control Valve",
+        category:"Flow Control",
+        icon:"◇",
+        width:160,
+        height:75,
+        ports:[
+            ["IN",-1,0],
+            ["OUT",1,0]
+        ],
+        properties:{
+            flow:30
+        }
+    },
+
+    filter:{
+        name:"Hydraulic Filter",
+        category:"Flow Control",
+        icon:"⌁",
+        width:150,
+        height:70,
+        ports:[
+            ["IN",-1,0],
+            ["OUT",1,0]
+        ],
+        properties:{
+            restriction:2
+        }
+    },
+
+    accumulator:{
+        name:"Accumulator",
+        category:"Pressure",
+        icon:"○",
+        width:120,
+        height:90,
+        ports:[
+            ["A",0,1]
+        ],
+        properties:{
+            volume:10,
+            precharge:1000
+        }
+    },
+
+    gauge:{
+        name:"Pressure Gauge",
+        category:"Instrumentation",
+        icon:"◉",
+        width:100,
+        height:80,
+        ports:[
+            ["A",0,1]
+        ],
+        properties:{
+            range:3000
+        }
+    },
+
+    flowMeter:{
+        name:"Flow Meter",
+        category:"Instrumentation",
+        icon:"◇",
+        width:140,
+        height:70,
+        ports:[
+            ["IN",-1,0],
+            ["OUT",1,0]
+        ],
+        properties:{
+            range:200
+        }
+    },
+
+    temperatureSensor:{
+        name:"Temperature Sensor",
+        category:"Instrumentation",
+        icon:"T",
+        width:120,
+        height:70,
+        ports:[
+            ["A",0,1]
+        ],
+        properties:{
+            range:150
+        }
+    }
+
+};
+
+
+/* =========================================================
+   APPLICATION STATE
+========================================================= */
+
+let state = {
+
+    components:[],
+    wires:[],
+
+    selected:null,
+
+    running:false,
+
+    grid:true,
+
+    zoom:1,
+
+    panX:0,
+    panY:0,
+
+    metrics:{
+        pressure:0,
+        flow:0,
+        power:0
+    }
+
+};
+
+let undoStack=[];
+let redoStack=[];
+
+let componentDrag=null;
+let panDrag=null;
+
+let pendingConnection=null;
+
+
+/* =========================================================
+   DOM
+========================================================= */
+
+const canvas =
+    document.getElementById("hydraulicCanvas");
+
+const canvasWrap =
+    document.getElementById("canvasWrap");
+
+const componentLayer =
+    document.getElementById("componentLayer");
+
+const wireLayer =
+    document.getElementById("wireLayer");
+
+const propertiesPanel =
+    document.getElementById("propertiesPanel");
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+function id(){
+
+    return Math.random()
+        .toString(36)
+        .substring(2,10);
+
+}
+
+
+function cloneState(){
+
+    return JSON.stringify(state);
+
+}
+
+
+function saveUndo(){
+
+    undoStack.push(cloneState());
+
+    if(undoStack.length>50){
+        undoStack.shift();
+    }
+
+    redoStack=[];
+
+}
+
+
+function restoreState(data){
+
+    state=JSON.parse(data);
+
+    render();
+
+    updateProperties();
+
+    updateStatus();
+
+}
+
+
+/* =========================================================
+   COORDINATES
+========================================================= */
+
+function screenToWorld(event){
+
+    const rect=
+        canvas.getBoundingClientRect();
+
+    return {
+
+        x:
+        (event.clientX-rect.left-state.panX)
+        /state.zoom,
+
+        y:
+        (event.clientY-rect.top-state.panY)
+        /state.zoom
+
+    };
+
+}
+
+
+function snap(value){
+
+    if(!state.grid){
+        return value;
+    }
+
+    return Math.round(value/24)*24;
+
+}
+
+
+/* =========================================================
+   COMPONENT SIZE
+========================================================= */
+
+function componentSize(component){
+
+    const type=
+        COMPONENTS[component.type];
+
+    return {
+
+        width:type.width,
+        height:type.height
+
+    };
+
+}
+
+
+/* =========================================================
+   PORT POSITIONS
+========================================================= */
+
+function getPortPosition(component,port){
+
+    const size=
+        componentSize(component);
+
+    return {
+
+        x:
+        component.x+
+        port[1]*size.width/2,
+
+        y:
+        component.y+
+        port[2]*size.height/2,
+
+        name:port[0]
+
+    };
+
+}
+
+
+function getPorts(component){
+
+    return COMPONENTS[
+        component.type
+    ].ports.map(
+        p=>getPortPosition(component,p)
+    );
+
+}
+
+
+/* =========================================================
+   ADD COMPONENT
+========================================================= */
+
+function addComponent(type,x,y){
+
+    saveUndo();
+
+    const definition=
+        COMPONENTS[type];
+
+    const properties={};
+
+    Object.entries(
+        definition.properties
+    ).forEach(([key,value])=>{
+        properties[key]=value;
+    });
+
+    const component={
+
+        id:id(),
+
+        type:type,
+
+        x:snap(x),
+        y:snap(y),
+
+        rotation:0,
+
+        properties:properties,
+
+        runtime:{}
+
+    };
+
+    state.components.push(component);
+
+    state.selected=component.id;
+
+    render();
+
+    updateProperties();
+
+    updateStatus();
+
+}
+
+
+/* =========================================================
+   DRAW COMPONENT
+========================================================= */
+
+function drawComponent(component){
+
+    const definition=
+        COMPONENTS[component.type];
+
+    const size=
+        componentSize(component);
+
+    const group=
+        document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "g"
+        );
+
+    group.classList.add("component");
+
+    group.dataset.id=
+        component.id;
+
+    if(state.selected===component.id){
+
+        group.classList.add("selected");
+
+    }
+
+
+    const body=
+        document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "rect"
+        );
+
+    body.classList.add("body");
+
+    body.setAttribute(
+        "x",
+        component.x-size.width/2
+    );
+
+    body.setAttribute(
+        "y",
+        component.y-size.height/2
+    );
+
+    body.setAttribute(
+        "width",
+        size.width
+    );
+
+    body.setAttribute(
+        "height",
+        size.height
+    );
+
+    body.setAttribute(
+        "rx",
+        8
+    );
+
+    group.appendChild(body);
+
+
+    /* SYMBOL */
+
+    drawSymbol(
+        group,
+        component,
+        size
+    );
+
+
+    const text=
+        document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "text"
+        );
+
+    text.classList.add(
+        "componentText"
+    );
+
+    text.setAttribute(
+        "x",
+        component.x
+    );
+
+    text.setAttribute(
+        "y",
+        component.y+5
+    );
+
+    text.textContent=
+        definition.icon+
+        " "+
+        definition.name;
+
+    group.appendChild(text);
+
+
+    /* PORTS */
+
+    getPorts(component).forEach(port=>{
+
+        const circle=
+            document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "circle"
+            );
+
+        circle.classList.add("port");
+
+        circle.setAttribute(
+            "cx",
+            port.x
+        );
+
+        circle.setAttribute(
+            "cy",
+            port.y
+        );
+
+        circle.setAttribute(
+            "r",
+            6
+        );
+
+        circle.dataset.component=
+            component.id;
+
+        circle.dataset.port=
+            port.name;
+
+        group.appendChild(circle);
+
+    });
+
+
+    componentLayer.appendChild(group);
+
+}
+
+
+/* =========================================================
+   SYMBOL DRAWING
+========================================================= */
+
+function drawSymbol(group,component,size){
+
+    const x=component.x;
+    const y=component.y;
+
+
+    function line(x1,y1,x2,y2){
+
+        const element=
+            document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "line"
+            );
+
+        element.classList.add(
+            "componentSymbol"
+        );
+
+        element.setAttribute(
+            "x1",x1
+        );
+
+        element.setAttribute(
+            "y1",y1
+        );
+
+        element.setAttribute(
+            "x2",x2
+        );
+
+        element.setAttribute(
+            "y2",y2
+        );
+
+        group.appendChild(element);
+
+    }
+
+
+    if(component.type==="tank"){
+
+        line(
+            x-30,
+            y+12,
+            x+30,
+            y+12
+        );
+
+        line(
+            x-22,
+            y+20,
+            x+22,
+            y+20
+        );
+
+    }
+
+
+    if(
+        component.type==="fixedPump" ||
+        component.type==="variablePump"
+    ){
+
+        const circle=
+            document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "circle"
+            );
+
+        circle.setAttribute(
+            "cx",x
+        );
+
+        circle.setAttribute(
+            "cy",y
+        );
+
+        circle.setAttribute(
+            "r",22
+        );
+
+        circle.classList.add(
+            "componentSymbol"
+        );
+
+        group.appendChild(circle);
+
+        line(
+            x-10,y+10,
+            x+11,y-10
+        );
+
+    }
+
+
+    if(component.type==="motor"){
+
+        const circle=
+            document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "circle"
+            );
+
+        circle.setAttribute(
+            "cx",x
+        );
+
+        circle.setAttribute(
+            "cy",y
+        );
+
+        circle.setAttribute(
+            "r",22
+        );
+
+        circle.classList.add(
+            "componentSymbol"
+        );
+
+        group.appendChild(circle);
+
+        line(
+            x-10,y-10,
+            x+10,y+10
+        );
+
+    }
+
+
+    if(component.type==="cylinder"){
+
+        line(
+            x,
+            y-27,
+            x,
+            y+27
+        );
+
+        line(
+            x,
+            y,
+            x+45,
+            y
+        );
+
+        line(
+            x+45,
+            y,
+            x+45,
+            y-20
+        );
+
+    }
+
+
+    if(
+        component.type==="valve43" ||
+        component.type==="valve42" ||
+        component.type==="proportionalValve"
+    ){
+
+        line(
+            x,
+            y-size.height/2+10,
+            x,
+            y+size.height/2-10
+        );
+
+        line(
+            x-28,
+            y,
+            x+28,
+            y
+        );
+
+        line(
+            x-12,
+            y-12,
+            x+12,
+            y+12
+        );
+
+    }
+
+
+    if(
+        component.type==="relief" ||
+        component.type==="reducing" ||
+        component.type==="sequence"
+    ){
+
+        line(
+            x-20,y+15,
+            x+20,y-15
+        );
+
+        line(
+            x-20,y-15,
+            x+20,y+15
+        );
+
+    }
+
+
+    if(component.type==="check"){
+
+        line(
+            x-22,y,
+            x+8,y
+        );
+
+        line(
+            x+8,y-14,
+            x+8,y+14
+        );
+
+        line(
+            x+8,y-14,
+            x+28,y
+        );
+
+        line(
+            x+28,y,
+            x+8,y+14
+        );
+
+    }
+
+
+    if(component.type==="flowControl"){
+
+        line(
+            x-22,y,
+            x+22,y
+        );
+
+        line(
+            x-10,y-12,
+            x+10,y+12
+        );
+
+    }
+
+
+    if(component.type==="filter"){
+
+        line(
+            x-22,y-16,
+            x+22,y+16
+        );
+
+        line(
+            x-22,y+16,
+            x+22,y-16
+        );
+
+    }
+
+
+    if(
+        component.type==="gauge" ||
+        component.type==="accumulator"
+    ){
+
+        const circle=
+            document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "circle"
+            );
+
+        circle.setAttribute(
+            "cx",x
+        );
+
+        circle.setAttribute(
+            "cy",y
+        );
+
+        circle.setAttribute(
+            "r",22
+        );
+
+        circle.classList.add(
+            "componentSymbol"
+        );
+
+        group.appendChild(circle);
+
+    }
+
+}
+
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function render(){
+
+    componentLayer.innerHTML="";
+    wireLayer.innerHTML="";
+
+    const transform=
+        `translate(${state.panX},${state.panY}) scale(${state.zoom})`;
+
+    componentLayer.setAttribute(
+        "transform",
+        transform
+    );
+
+    wireLayer.setAttribute(
+        "transform",
+        transform
+    );
+
+
+    state.wires.forEach(wire=>{
+
+        const a=
+            findPort(
+                wire.a
+            );
+
+        const b=
+            findPort(
+                wire.b
+            );
+
+        if(!a||!b){
+            return;
+        }
+
+
+        const path=
+            document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "path"
+            );
+
+        path.classList.add("wire");
+
+        if(
+            state.running &&
+            wire.flow
+        ){
+
+            path.classList.add("flow");
+
+        }
+
+
+        const middleX=
+            (a.x+b.x)/2;
+
+
+        path.setAttribute(
+            "d",
+            `
+            M ${a.x} ${a.y}
+            L ${middleX} ${a.y}
+            L ${middleX} ${b.y}
+            L ${b.x} ${b.y}
+            `
+        );
+
+
+        wireLayer.appendChild(path);
+
+    });
+
+
+    state.components.forEach(
+        drawComponent
+    );
+
+
+    document.getElementById(
+        "gridBackground"
+    ).style.display=
+        state.grid
+        ?"block"
+        :"none";
+
+
+    document.getElementById(
+        "zoomLabel"
+    ).textContent=
+        Math.round(
+            state.zoom*100
+        )+"%";
+
+}
+
+
+/* =========================================================
+   FIND PORT
+========================================================= */
+
+function findPort(reference){
+
+    const component=
+        state.components.find(
+            c=>c.id===reference.component
+        );
+
+    if(!component){
+        return null;
+    }
+
+    const definition=
+        COMPONENTS[
+            component.type
+        ];
+
+    const port=
+        definition.ports.find(
+            p=>p[0]===reference.port
+        );
+
+    if(!port){
+        return null;
+    }
+
+    return getPortPosition(
+        component,
+        port
+    );
+
+}
+
+
+/* =========================================================
+   PROPERTIES
+========================================================= */
+
+function updateProperties(){
+
+    const component=
+        state.components.find(
+            c=>c.id===state.selected
+        );
+
+
+    if(!component){
+
+        propertiesPanel.innerHTML=`
+
+            <div class="noSelection">
+
+                Select a component to view and edit its engineering properties.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    const definition=
+        COMPONENTS[
+            component.type
+        ];
+
+
+    let html=`
+
+        <div class="propertyHeading">
+            ${definition.name}
+        </div>
+
+    `;
+
+
+    Object.entries(
+        component.properties
+    ).forEach(
+        ([key,value])=>{
+
+            const label=
+                key
+                .replace(
+                    /([A-Z])/g,
+                    " $1"
+                )
+                .replace(
+                    /^./,
+                    m=>m.toUpperCase()
+                );
+
+
+            html+=`
+
+                <div class="propertyField">
+
+                    <label>
+                        ${label}
+                    </label>
+
+                    <input
+                        data-property="${key}"
+                        value="${value}"
+                    >
+
+                </div>
+
+            `;
+
+        }
+    );
+
+
+    html+=`
+
+        <button
+            id="deleteComponentButton"
+            class="deleteButton"
+        >
+            Delete Component
+        </button>
+
+    `;
+
+
+    propertiesPanel.innerHTML=
+        html;
+
+
+    propertiesPanel
+        .querySelectorAll(
+            "[data-property]"
+        )
+        .forEach(input=>{
+
+            input.addEventListener(
+                "change",
+                ()=>{
+
+                    saveUndo();
+
+                    let value=
+                        input.value;
+
+                    if(
+                        value!="" &&
+                        !isNaN(value)
+                    ){
+
+                        value=
+                            Number(value);
+
+                    }
+
+                    component.properties[
+                        input.dataset.property
+                    ]=value;
+
+                    render();
+
+                }
+            );
+
+        });
+
+
+    document.getElementById(
+        "deleteComponentButton"
+    ).onclick=()=>{
+
+        saveUndo();
+
+        state.wires=
+            state.wires.filter(
+                wire=>
+                    wire.a.component!==component.id &&
+                    wire.b.component!==component.id
+            );
+
+        state.components=
+            state.components.filter(
+                c=>c.id!==component.id
+            );
+
+        state.selected=null;
+
+        render();
+
+        updateProperties();
+
+        updateStatus();
+
+    };
+
+}
+
+
+/* =========================================================
+   LIBRARY
+========================================================= */
+
+function buildLibrary(filter=""){
+
+    const library=
+        document.getElementById(
+            "componentLibrary"
+        );
+
+    library.innerHTML="";
+
+
+    const groups={};
+
+
+    Object.entries(
+        COMPONENTS
+    ).forEach(
+        ([type,definition])=>{
+
+            if(
+                filter &&
+                !definition.name
+                    .toLowerCase()
+                    .includes(
+                        filter.toLowerCase()
+                    )
+            ){
+
+                return;
+
+            }
+
+
+            if(!groups[
+                definition.category
+            ]){
+
+                groups[
+                    definition.category
+                ]=[];
+
+            }
+
+
+            groups[
+                definition.category
+            ].push(
+                [type,definition]
+            );
+
+        }
+    );
+
+
+    Object.entries(
+        groups
+    ).forEach(
+        ([category,items])=>{
+
+            const title=
+                document.createElement(
+                    "div"
+                );
+
+            title.className=
+                "groupTitle";
+
+            title.textContent=
+                category;
+
+            library.appendChild(
+                title
+            );
+
+
+            items.forEach(
+                ([type,definition])=>{
+
+                    const button=
+                        document.createElement(
+                            "button"
+                        );
+
+                    button.className=
+                        "componentButton";
+
+                    button.draggable=true;
+
+
+                    button.innerHTML=`
+
+                        <span class="componentIcon">
+                            ${definition.icon}
+                        </span>
+
+                        <span>
+                            ${definition.name}
+                        </span>
+
+                    `;
+
+
+                    button.addEventListener(
+                        "dragstart",
+                        event=>{
+
+                            event.dataTransfer
+                                .setData(
+                                    "component-type",
+                                    type
+                                );
+
+                        }
+                    );
+
+
+                    button.addEventListener(
+                        "click",
+                        ()=>{
+
+                            addComponent(
+                                type,
+                                (
+                                    canvas.clientWidth/2-
+                                    state.panX
+                                )/state.zoom,
+                                (
+                                    canvas.clientHeight/2-
+                                    state.panY
+                                )/state.zoom
+                            );
+
+                        }
+                    );
+
+
+                    library.appendChild(
+                        button
+                    );
+
+                }
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   DRAG FROM LIBRARY
+========================================================= */
+
+canvasWrap.addEventListener(
+    "dragover",
+    event=>{
+        event.preventDefault();
+    }
+);
+
+
+canvasWrap.addEventListener(
+    "drop",
+    event=>{
+
+        event.preventDefault();
+
+        const type=
+            event.dataTransfer.getData(
+                "component-type"
+            );
+
+        if(!type){
+            return;
+        }
+
+        const position=
+            screenToWorld(event);
+
+        addComponent(
+            type,
+            position.x,
+            position.y
+        );
+
+    }
+);
+
+
+/* =========================================================
+   CANVAS POINTER DOWN
+========================================================= */
+
+canvas.addEventListener(
+    "pointerdown",
+    event=>{
+
+        const port=
+            event.target.closest(
+                ".port"
+            );
+
+
+        if(port){
+
+            pendingConnection={
+
+                component:
+                    port.dataset.component,
+
+                port:
+                    port.dataset.port
+
+            };
+
+            return;
+
+        }
+
+
+        const componentElement=
+            event.target.closest(
+                ".component"
+            );
+
+
+        if(componentElement){
+
+            const component=
+                state.components.find(
+                    c=>
+                        c.id===
+                        componentElement.dataset.id
+                );
+
+
+            if(!component){
+                return;
+            }
+
+
+            state.selected=
+                component.id;
+
+
+            updateProperties();
+
+
+            const point=
+                screenToWorld(event);
+
+
+            componentDrag={
+
+                component,
+
+                offsetX:
+                    component.x-point.x,
+
+                offsetY:
+                    component.y-point.y
+
+            };
+
+
+            return;
+
+        }
+
+
+        if(
+            event.target===canvas ||
+            event.target.id===
+            "gridBackground"
+        ){
+
+            panDrag={
+
+                startX:event.clientX,
+                startY:event.clientY,
+
+                originalX:state.panX,
+                originalY:state.panY
+
+            };
+
+
+            canvasWrap.classList.add(
+                "panning"
+            );
+
+
+            state.selected=null;
+
+            updateProperties();
+
+            render();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   POINTER MOVE
+========================================================= */
+
+window.addEventListener(
+    "pointermove",
+    event=>{
+
+        if(componentDrag){
+
+            const point=
+                screenToWorld(event);
+
+
+            componentDrag.component.x=
+                snap(
+                    point.x+
+                    componentDrag.offsetX
+                );
+
+
+            componentDrag.component.y=
+                snap(
+                    point.y+
+                    componentDrag.offsetY
+                );
+
+
+            render();
+
+            return;
+
+        }
+
+
+        if(panDrag){
+
+            state.panX=
+                panDrag.originalX+
+                event.clientX-
+                panDrag.startX;
+
+
+            state.panY=
+                panDrag.originalY+
+                event.clientY-
+                panDrag.startY;
+
+
+            render();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   POINTER UP
+========================================================= */
+
+window.addEventListener(
+    "pointerup",
+    event=>{
+
+        if(componentDrag){
+
+            saveUndo();
+
+            componentDrag=null;
+
+            return;
+
+        }
+
+
+        if(panDrag){
+
+            panDrag=null;
+
+            canvasWrap.classList.remove(
+                "panning"
+            );
+
+        }
+
+
+        if(pendingConnection){
+
+            const port=
+                event.target.closest?.(
+                    ".port"
+                );
+
+
+            if(port){
+
+                const target={
+
+                    component:
+                        port.dataset.component,
+
+                    port:
+                        port.dataset.port
+
+                };
+
+
+                if(
+                    target.component!==
+                    pendingConnection.component ||
+                    target.port!==
+                    pendingConnection.port
+                ){
+
+                    saveUndo();
+
+
+                    state.wires.push({
+
+                        id:id(),
+
+                        a:
+                            pendingConnection,
+
+                        b:
+                            target,
+
+                        flow:false
+
+                    });
+
+
+                    updateStatus();
+
+                    render();
+
+                }
+
+            }
+
+
+            pendingConnection=null;
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   DOUBLE CLICK
+========================================================= */
+
+canvas.addEventListener(
+    "dblclick",
+    event=>{
+
+        const component=
+            event.target.closest(
+                ".component"
+            );
+
+        if(component){
+
+            state.selected=
+                component.dataset.id;
+
+            updateProperties();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   ZOOM
+========================================================= */
+
+document.getElementById(
+    "zoomInButton"
+).onclick=()=>{
+
+    state.zoom=
+        Math.min(
+            3,
+            state.zoom*1.15
+        );
+
+    render();
+
+};
+
+
+document.getElementById(
+    "zoomOutButton"
+).onclick=()=>{
+
+    state.zoom=
+        Math.max(
+            .3,
+            state.zoom/1.15
+        );
+
+    render();
+
+};
+
+
+canvas.addEventListener(
+    "wheel",
+    event=>{
+
+        event.preventDefault();
+
+        const oldZoom=
+            state.zoom;
+
+
+        const point=
+            screenToWorld(event);
+
+
+        state.zoom=
+            Math.max(
+                .3,
+                Math.min(
+                    3,
+                    oldZoom*
+                    (
+                        event.deltaY<0
+                        ?1.1
+                        :.9
+                    )
+                )
+            );
+
+
+        state.panX=
+            event.offsetX-
+            point.x*
+            state.zoom;
+
+
+        state.panY=
+            event.offsetY-
+            point.y*
+            state.zoom;
+
+
+        render();
+
+    },
+    {
+        passive:false
+    }
+);
+
+
+/* =========================================================
+   GRID
+========================================================= */
+
+document.getElementById(
+    "gridButton"
+).onclick=()=>{
+
+    state.grid=
+        !state.grid;
+
+    render();
+
+};
+
+
+/* =========================================================
+   THEME
+========================================================= */
+
+document.getElementById(
+    "themeButton"
+).onclick=()=>{
+
+    document.body.classList.toggle(
+        "lightMode"
+    );
+
+};
+
+
+/* =========================================================
+   SIMULATION ENGINE
+========================================================= */
+
+function simulateHydraulicSystem(){
+
+    let totalFlow=0;
+
+    let systemPressure=0;
+
+    let hydraulicPower=0;
+
+
+    const pumps=
+        state.components.filter(
+            c=>
+                c.type==="fixedPump" ||
+                c.type==="variablePump"
+        );
+
+
+    pumps.forEach(
+        pump=>{
+
+            const displacement=
+                Number(
+                    pump.properties
+                        .displacement
+                )||0;
+
+
+            const rpm=
+                Number(
+                    pump.properties
+                        .rpm
+                )||0;
+
+
+            const efficiency=
+                (
+                    Number(
+                        pump.properties
+                            .efficiency
+                    )||90
+                )/100;
+
+
+            let swash=1;
+
+
+            if(
+                pump.type===
+                "variablePump"
+            ){
+
+                swash=
+                    (
+                        Number(
+                            pump.properties
+                                .swash
+                        )||100
+                    )/100;
+
+            }
+
+
+            const flow=
+                displacement*
+                rpm/
+                1000*
+                efficiency*
+                swash;
+
+
+            totalFlow+=flow;
+
+        }
+    );
+
+
+    const relief=
+        state.components.find(
+            c=>
+                c.type==="relief"
+        );
+
+
+    const maxPressure=
+        Number(
+            document.getElementById(
+                "maximumPressure"
+            ).value
+        )||3000;
+
+
+    if(relief){
+
+        systemPressure=
+            Number(
+                relief.properties
+                    .setting
+            )||1800;
+
+    }else{
+
+        systemPressure=
+            maxPressure;
+
+    }
+
+
+    systemPressure=
+        Math.min(
+            systemPressure,
+            maxPressure
+        );
+
+
+    hydraulicPower=
+        totalFlow*
+        systemPressure/
+        600;
+
+
+    /* CYLINDER CALCULATIONS */
+
+    state.components
+        .filter(
+            c=>
+                c.type==="cylinder"
+        )
+        .forEach(
+            cylinder=>{
+
+                const bore=
+                    (
+                        Number(
+                            cylinder.properties
+                                .bore
+                        )||0
+                    )/1000;
+
+
+                const rod=
+                    (
+                        Number(
+                            cylinder.properties
+                                .rod
+                        )||0
+                    )/1000;
+
+
+                const pressurePa=
+                    systemPressure*
+                    6894.757;
+
+
+                const pistonArea=
+                    Math.PI*
+                    bore*
+                    bore/
+                    4;
+
+
+                const annulusArea=
+                    pistonArea-
+                    Math.PI*
+                    rod*
+                    rod/
+                    4;
+
+
+                const forceExtend=
+                    pressurePa*
+                    pistonArea;
+
+
+                const forceRetract=
+                    pressurePa*
+                    annulusArea;
+
+
+                const flowM3s=
+                    totalFlow/
+                    1000/
+                    60;
+
+
+                const speedExtend=
+                    flowM3s/
+                    pistonArea;
+
+
+                const speedRetract=
+                    flowM3s/
+                    annulusArea;
+
+
+                cylinder.runtime={
+
+                    forceExtend:
+                        forceExtend,
+
+                    forceRetract:
+                        forceRetract,
+
+                    speedExtend:
+                        speedExtend*
+                        1000,
+
+                    speedRetract:
+                        speedRetract*
+                        1000
+
+                };
+
+            }
+        );
+
+
+    state.metrics={
+
+        pressure:
+            Math.round(
+                systemPressure
+            ),
+
+        flow:
+            Math.round(
+                totalFlow*10
+            )/10,
+
+        power:
+            Math.round(
+                hydraulicPower*100
+            )/100
+
+    };
+
+
+    state.wires.forEach(
+        wire=>{
+
+            wire.flow=
+                state.running;
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   SIMULATION BUTTON
+========================================================= */
+
+document.getElementById(
+    "simulateButton"
+).onclick=()=>{
+
+    state.running=
+        !state.running;
+
+
+    if(state.running){
+
+        simulateHydraulicSystem();
+
+    }else{
+
+        state.wires.forEach(
+            wire=>{
+                wire.flow=false;
+            }
+        );
+
+    }
+
+
+    updateStatus();
+
+    render();
+
+};
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+document.getElementById(
+    "resetSimulationButton"
+).onclick=()=>{
+
+    state.running=false;
+
+    state.metrics={
+
+        pressure:0,
+        flow:0,
+        power:0
+
+    };
+
+
+    state.wires.forEach(
+        wire=>{
+            wire.flow=false;
+        }
+    );
+
+
+    updateStatus();
+
+    render();
+
+};
+
+
+/* =========================================================
+   TRAINING FAULT
+========================================================= */
+
+document.getElementById(
+    "trainingFaultButton"
+).onclick=()=>{
+
+    const faultBox=
+        document.getElementById(
+            "faultBox"
+        );
+
+
+    const relief=
+        state.components.find(
+            c=>
+                c.type==="relief"
+        );
+
+
+    faultBox.classList.remove(
+        "hidden"
+    );
+
+
+    if(relief){
+
+        saveUndo();
+
+        relief.properties.setting=
+            800;
+
+
+        faultBox.innerHTML=`
+
+            <b>Training fault inserted</b><br><br>
+
+            The main relief valve has been
+            incorrectly adjusted to <b>800 psi</b>.<br><br>
+
+            Diagnose why the system cannot
+            achieve normal operating pressure.
+
+        `;
+
+
+        updateProperties();
+
+        if(state.running){
+
+            simulateHydraulicSystem();
+
+        }
+
+        render();
+
+        updateStatus();
+
+    }else{
+
+        faultBox.innerHTML=`
+
+            <b>Training fault</b><br><br>
+
+            No relief valve is currently installed.
+            Add a relief valve and inspect its
+            pressure setting.
+
+        `;
+
+    }
+
+};
+
+
+/* =========================================================
+   SAVE PROJECT
+========================================================= */
+
+document.getElementById(
+    "saveProjectButton"
+).onclick=()=>{
+
+    const project={
+
+        application:"Hydraulic Studio",
+
+        version:"1.0",
+
+        date:
+            new Date().toISOString(),
+
+        state:state
+
+    };
+
+
+    const blob=
+        new Blob(
+            [
+                JSON.stringify(
+                    project,
+                    null,
+                    2
+                )
+            ],
+            {
+                type:
+                    "application/json"
+            }
+        );
+
+
+    const url=
+        URL.createObjectURL(
+            blob
+        );
+
+
+    const link=
+        document.createElement(
+            "a"
+        );
+
+
+    link.href=url;
+
+    link.download=
+        "hydraulic-project.json";
+
+    link.click();
+
+
+    URL.revokeObjectURL(url);
+
+};
+
+
+/* =========================================================
+   OPEN PROJECT
+========================================================= */
+
+document.getElementById(
+    "openProjectButton"
+).onclick=()=>{
+
+    document.getElementById(
+        "projectFileInput"
+    ).click();
+
+};
+
+
+document.getElementById(
+    "projectFileInput"
+).addEventListener(
+    "change",
+    event=>{
+
+        const file=
+            event.target.files[0];
+
+        if(!file){
+            return;
+        }
+
+
+        const reader=
+            new FileReader();
+
+
+        reader.onload=()=>{
+
+            try{
+
+                const data=
+                    JSON.parse(
+                        reader.result
+                    );
+
+
+                saveUndo();
+
+
+                if(data.state){
+
+                    state=
+                        data.state;
+
+                }else{
+
+                    state=data;
+
+                }
+
+
+                render();
+
+                updateProperties();
+
+                updateStatus();
+
+            }catch(error){
+
+                alert(
+                    "Unable to open project file."
+                );
+
+            }
+
+        };
+
+
+        reader.readAsText(
+            file
+        );
+
+    }
+);
+
+
+/* =========================================================
+   NEW PROJECT
+========================================================= */
+
+document.getElementById(
+    "newProjectButton"
+).onclick=()=>{
+
+    if(
+        !confirm(
+            "Create a new hydraulic project?"
+        )
+    ){
+
+        return;
+
+    }
+
+
+    saveUndo();
+
+
+    state={
+
+        components:[],
+        wires:[],
+        selected:null,
+
+        running:false,
+
+        grid:true,
+
+        zoom:1,
+
+        panX:
+            canvas.clientWidth/2,
+
+        panY:
+            canvas.clientHeight/2,
+
+        metrics:{
+            pressure:0,
+            flow:0,
+            power:0
+        }
+
+    };
+
+
+    render();
+
+    updateProperties();
+
+    updateStatus();
+
+};
+
+
+/* =========================================================
+   UNDO
+========================================================= */
+
+document.getElementById(
+    "undoButton"
+).onclick=()=>{
+
+    if(!undoStack.length){
+        return;
+    }
+
+
+    redoStack.push(
+        cloneState()
+    );
+
+
+    restoreState(
+        undoStack.pop()
+    );
+
+};
+
+
+/* =========================================================
+   REDO
+========================================================= */
+
+document.getElementById(
+    "redoButton"
+).onclick=()=>{
+
+    if(!redoStack.length){
+        return;
+    }
+
+
+    undoStack.push(
+        cloneState()
+    );
+
+
+    restoreState(
+        redoStack.pop()
+    );
+
+};
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+document.getElementById(
+    "componentSearch"
+).addEventListener(
+    "input",
+    event=>{
+
+        buildLibrary(
+            event.target.value
+        );
+
+    }
+);
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function updateStatus(){
+
+    const status=
+        document.getElementById(
+            "simulationStatus"
+        );
+
+
+    if(state.running){
+
+        status.textContent=
+            "RUNNING";
+
+        status.className=
+            "runningStatus";
+
+    }else{
+
+        status.textContent=
+            "READY";
+
+        status.className=
+            "ready";
+
+    }
+
+
+    document.getElementById(
+        "simulateButton"
+    ).textContent=
+        state.running
+        ?"■ Stop"
+        :"▶ Simulate";
+
+
+    document.getElementById(
+        "simulateButton"
+    ).classList.toggle(
+        "running",
+        state.running
+    );
+
+
+    document.getElementById(
+        "circuitStatus"
+    ).textContent=
+        `${state.components.length} components • ${state.wires.length} connections`;
+
+
+    document.getElementById(
+        "pressureValue"
+    ).textContent=
+        `${state.metrics.pressure||0} psi`;
+
+
+    document.getElementById(
+        "flowValue"
+    ).textContent=
+        `${state.metrics.flow||0} L/min`;
+
+
+    document.getElementById(
+        "powerValue"
+    ).textContent=
+        `${state.metrics.power||0} kW`;
+
+}
+
+
+/* =========================================================
+   KEYBOARD
+========================================================= */
+
+window.addEventListener(
+    "keydown",
+    event=>{
+
+        if(
+            (
+                event.key==="Delete" ||
+                event.key==="Backspace"
+            ) &&
+            state.selected
+        ){
+
+            const button=
+                document.getElementById(
+                    "deleteComponentButton"
+                );
+
+            if(button){
+                button.click();
+            }
+
+        }
+
+
+        if(
+            event.ctrlKey &&
+            event.key.toLowerCase()==="z"
+        ){
+
+            event.preventDefault();
+
+            document.getElementById(
+                "undoButton"
+            ).click();
+
+        }
+
+
+        if(
+            event.ctrlKey &&
+            event.key.toLowerCase()==="y"
+        ){
+
+            event.preventDefault();
+
+            document.getElementById(
+                "redoButton"
+            ).click();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   INITIALISE
+========================================================= */
+
+function initialise(){
+
+    state.panX=
+        canvas.clientWidth/2;
+
+    state.panY=
+        canvas.clientHeight/2;
+
+
+    buildLibrary();
+
+    render();
+
+    updateProperties();
+
+    updateStatus();
+
+}
+
+
+initialise();
+
+</script>
+
+</body>
+</html>
