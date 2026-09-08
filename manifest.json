@@ -1,0 +1,11 @@
+{
+  "name": "Hydraulic Studio",
+  "short_name": "Hydraulic Studio",
+  "description": "Hydraulic schematic design and simulation software",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0b1020",
+  "theme_color": "#111827",
+  "orientation": "landscape",
+  "icons": []
+}
