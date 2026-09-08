@@ -1,5935 +1,3285 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="theme-color" content="#080d16">
+<meta name="theme-color" content="#0b1220">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Hydraulic Studio">
 <title>Hydraulic Studio</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden}
+body{
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+background:#0b1220;color:#e7edf7;
+-webkit-user-select:none;user-select:none;
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+
+:root{
+--bg:#0b1220;
+--panel:#111a2b;
+--panel2:#172235;
+--line:#2b3950;
+--text:#e7edf7;
+--muted:#91a0b7;
+--accent:#3b82f6;
+--green:#22c55e;
+--orange:#f59e0b;
+--red:#ef4444;
+--cyan:#06b6d4;
+--purple:#8b5cf6;
 }
 
-html,body{
-  margin:0;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  background:#070b12;
-  color:#edf4ff;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-}
-
-button,input,select{
-  font:inherit;
-}
-
-button{
-  color:#edf4ff;
-  background:#111b2b;
-  border:1px solid #293a54;
-  border-radius:8px;
-  padding:8px 11px;
-  cursor:pointer;
-}
-
-button:active{
-  transform:scale(.98);
-}
-
-button.primary{
-  background:#1269a6;
-  border-color:#268bcf;
-}
-
-button.danger{
-  background:#6b202a;
-  border-color:#a83845;
-}
-
-button.active{
-  background:#12385c;
-  border-color:#3baaff;
-}
-
-.app{
-  width:100%;
-  height:100%;
-  display:grid;
-  grid-template-rows:56px 1fr 28px;
+#app{
+display:grid;
+grid-template-rows:58px 1fr 30px;
+width:100%;
+height:100%;
 }
 
 .topbar{
-  display:flex;
-  align-items:center;
-  gap:9px;
-  padding:6px 10px;
-  background:#090f19;
-  border-bottom:1px solid #26364d;
-  z-index:100;
+display:flex;
+align-items:center;
+gap:10px;
+padding:7px 10px;
+background:#0e1728;
+border-bottom:1px solid var(--line);
+z-index:20;
 }
 
 .brand{
-  font-weight:800;
-  white-space:nowrap;
+display:flex;
+align-items:center;
+gap:9px;
+font-weight:800;
+font-size:17px;
+white-space:nowrap;
 }
 
-.brand span{
-  color:#38a8ff;
+.brandIcon{
+width:35px;height:35px;
+display:grid;place-items:center;
+border-radius:9px;
+background:#1d4ed8;
+font-size:19px;
 }
 
-.top-actions{
-  display:flex;
-  gap:5px;
-  margin-left:auto;
+.toolbar{
+display:flex;
+align-items:center;
+gap:5px;
+margin-left:12px;
 }
 
-.status{
-  font-size:11px;
-  color:#8fa4bf;
-  border:1px solid #26364d;
-  padding:6px 9px;
-  border-radius:20px;
+.toolbtn{
+height:38px;
+min-width:38px;
+padding:0 10px;
+border:1px solid var(--line);
+background:#151f31;
+color:var(--text);
+border-radius:7px;
+font-weight:700;
 }
 
-.status.running{
-  color:#7ff0c7;
-  border-color:#15795f;
-  background:#08261e;
+.toolbtn:hover{background:#202d43}
+.toolbtn.active{background:#1d4ed8;border-color:#3b82f6}
+.toolbtn.run{background:#15803d;border-color:#22c55e}
+.toolbtn.stop{background:#991b1b;border-color:#ef4444}
+
+.topSpacer{flex:1}
+
+.statusPill{
+padding:7px 11px;
+border:1px solid var(--line);
+border-radius:20px;
+font-size:12px;
+color:var(--muted);
+white-space:nowrap;
 }
 
-.workspace{
-  min-height:0;
-  position:relative;
-  overflow:hidden;
+.main{
+display:grid;
+grid-template-columns:250px 1fr 280px;
+min-height:0;
 }
 
-.library,
+.sidebar,.inspector{
+background:var(--panel);
+border-right:1px solid var(--line);
+overflow:auto;
+z-index:10;
+}
+
 .inspector{
-  position:absolute;
-  top:0;
-  bottom:0;
-  width:245px;
-  background:#0c1421;
-  z-index:60;
-  overflow:auto;
+border-right:0;
+border-left:1px solid var(--line);
+}
+
+.panelTitle{
+padding:13px 14px 8px;
+font-size:12px;
+font-weight:800;
+text-transform:uppercase;
+letter-spacing:.08em;
+color:#aebbd0;
 }
 
 .library{
-  left:0;
-  border-right:1px solid #27374e;
+padding:7px 9px 15px;
 }
 
-.inspector{
-  right:0;
-  width:310px;
-  border-left:1px solid #27374e;
+.librarySection{
+margin-bottom:13px;
 }
 
-.canvas-wrap{
-  position:absolute;
-  inset:0;
-  overflow:hidden;
-  background:#080d16;
+.libraryHead{
+font-size:11px;
+color:#74839b;
+font-weight:800;
+padding:6px;
 }
 
-#canvas{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  display:block;
-
-  /*
-    IMPORTANT:
-    The browser must not interpret gestures as page scrolling.
-    We handle all canvas navigation ourselves.
-  */
-  touch-action:none;
-  user-select:none;
-  -webkit-user-select:none;
-  cursor:grab;
+.component{
+display:flex;
+align-items:center;
+gap:9px;
+width:100%;
+padding:9px;
+margin:3px 0;
+border:1px solid transparent;
+border-radius:8px;
+background:#151f31;
+color:var(--text);
+text-align:left;
 }
 
-#canvas.dragging{
-  cursor:grabbing;
+.component:hover{
+border-color:#385070;
+background:#1a2940;
 }
 
-.panel-title{
-  padding:12px;
-  font-size:12px;
-  font-weight:800;
-  text-transform:uppercase;
-  letter-spacing:.7px;
-  color:#d8e5f5;
+.componentIcon{
+width:38px;height:30px;
+display:grid;
+place-items:center;
+background:#0c1423;
+border:1px solid #34435b;
+border-radius:5px;
+font-size:17px;
 }
 
-.panel-section{
-  padding:0 10px 12px;
-  border-bottom:1px solid #1b2a3e;
+.componentText b{
+display:block;
+font-size:12px;
 }
 
-.library-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:6px;
+.componentText span{
+display:block;
+font-size:10px;
+color:var(--muted);
+margin-top:2px;
 }
 
-.lib{
-  min-height:58px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:4px;
-  font-size:10px;
+.workspace{
+position:relative;
+overflow:hidden;
+background:#0b111c;
+touch-action:none;
 }
 
-.lib-icon{
-  font-size:20px;
-  color:#42adff;
+#svg{
+position:absolute;
+inset:0;
+width:100%;
+height:100%;
+touch-action:none;
 }
 
-.help{
-  color:#879bb6;
-  font-size:11px;
-  line-height:1.5;
+.canvasGrid{
+pointer-events:none;
 }
 
-.canvas-tools{
-  position:absolute;
-  top:10px;
-  left:10px;
-  z-index:30;
-  display:flex;
-  gap:5px;
-  pointer-events:auto;
+#world{
+will-change:transform;
 }
 
-.canvas-tools button{
-  min-width:38px;
-  padding:8px;
-  font-size:12px;
+.bottomInfo{
+height:30px;
+display:flex;
+align-items:center;
+gap:18px;
+padding:0 10px;
+background:#0e1728;
+border-top:1px solid var(--line);
+font-size:11px;
+color:#8190a8;
+z-index:20;
 }
 
-.nav-info{
-  position:absolute;
-  top:10px;
-  left:50%;
-  transform:translateX(-50%);
-  z-index:20;
-  pointer-events:none;
-  padding:7px 11px;
-  background:#09111dcc;
-  border:1px solid #26364d;
-  border-radius:20px;
-  color:#8ea3bf;
-  font-size:10px;
-  white-space:nowrap;
+.inspectorInner{
+padding:0 12px 20px;
 }
 
-.zoom{
-  position:absolute;
-  top:10px;
-  right:10px;
-  z-index:30;
-  padding:7px 10px;
-  border-radius:8px;
-  background:#09111dcc;
-  border:1px solid #26364d;
-  color:#8ea3bf;
-  font-size:11px;
+.emptyInspector{
+padding:25px 10px;
+text-align:center;
+color:#718097;
+font-size:13px;
 }
 
-.bottom-status{
-  background:#090f18;
-  border-top:1px solid #25354b;
-  color:#8297b2;
-  font-size:10px;
-  display:flex;
-  align-items:center;
-  gap:15px;
-  padding:0 10px;
-  white-space:nowrap;
-  overflow:hidden;
+.propGroup{
+margin:10px 0 14px;
+padding:10px;
+border:1px solid var(--line);
+border-radius:9px;
+background:#0e1728;
 }
 
-.bottom-status span{
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-
-.mobile-nav{
-  display:none;
+.propTitle{
+font-size:11px;
+font-weight:800;
+color:#aebbd0;
+margin-bottom:8px;
+text-transform:uppercase;
 }
 
 .field{
-  margin:8px 0;
+margin:8px 0;
 }
 
 .field label{
-  display:block;
-  color:#95a9c2;
-  font-size:10px;
-  margin-bottom:4px;
+display:block;
+font-size:10px;
+font-weight:700;
+color:#8190a8;
+margin-bottom:4px;
 }
 
-.field input,
-.field select{
-  width:100%;
-  background:#080f1a;
-  border:1px solid #27384f;
-  color:#edf4ff;
-  border-radius:7px;
-  padding:8px;
+.field input,.field select{
+width:100%;
+height:34px;
+padding:6px 8px;
+background:#151f31;
+color:#e7edf7;
+border:1px solid #33425a;
+border-radius:6px;
+outline:none;
 }
 
-.section{
-  margin:8px 10px;
-  padding:10px;
-  border:1px solid #203047;
-  background:#0a1220;
-  border-radius:9px;
+.field input:focus,.field select:focus{
+border-color:#3b82f6;
 }
 
-.section h4{
-  margin:0 0 8px;
-  font-size:10px;
-  text-transform:uppercase;
-  color:#bfd0e4;
+.propButtons{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:6px;
+margin-top:8px;
 }
 
-.metric-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:6px;
+.actionBtn{
+border:1px solid var(--line);
+background:#172235;
+color:#e7edf7;
+padding:8px;
+border-radius:7px;
+font-size:11px;
+font-weight:700;
 }
+
+.actionBtn.primary{background:#1d4ed8;border-color:#2563eb}
+.actionBtn.danger{background:#7f1d1d;border-color:#991b1b}
+.actionBtn.green{background:#166534;border-color:#15803d}
 
 .metric{
-  padding:7px;
-  background:#0c1726;
-  border:1px solid #1e2d42;
-  border-radius:7px;
+display:flex;
+justify-content:space-between;
+gap:10px;
+padding:6px 0;
+border-bottom:1px solid #202d40;
+font-size:11px;
 }
 
-.metric .v{
-  font-size:14px;
-  font-weight:800;
+.metric:last-child{border-bottom:0}
+.metric span:first-child{color:#8492a8}
+.metric strong{color:#e7edf7}
+
+.legend{
+position:absolute;
+left:12px;
+bottom:12px;
+padding:9px;
+background:#0d1626dd;
+border:1px solid #2c3a50;
+border-radius:8px;
+font-size:10px;
+z-index:5;
+pointer-events:none;
 }
 
-.metric .l{
-  font-size:8px;
-  color:#8095af;
-  margin-top:2px;
+.legendRow{
+display:flex;
+align-items:center;
+gap:6px;
+margin:3px 0;
 }
 
-.good{color:#34d399}
-.warn{color:#fbbf24}
-.bad{color:#fb5b67}
-.info{color:#38a8ff}
+.dot{
+width:9px;height:9px;border-radius:50%;
+}
+
+.mobileBar{
+display:none;
+}
 
 .modal{
-  position:fixed;
-  inset:0;
-  z-index:200;
-  background:#000b;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:14px;
+position:fixed;
+inset:0;
+background:#0009;
+display:none;
+align-items:center;
+justify-content:center;
+z-index:100;
+padding:15px;
 }
 
-.modal.show{
-  display:flex;
+.modal.show{display:flex}
+
+.modalBox{
+width:min(800px,100%);
+max-height:90vh;
+overflow:auto;
+background:#111a2b;
+border:1px solid #34445d;
+border-radius:13px;
+box-shadow:0 20px 70px #0008;
 }
 
-.modal-box{
-  width:min(720px,100%);
-  max-height:90vh;
-  overflow:auto;
-  background:#0c1523;
-  border:1px solid #2a3c55;
-  border-radius:14px;
-  box-shadow:0 25px 90px #000c;
+.modalHead{
+display:flex;
+align-items:center;
+gap:10px;
+padding:13px 15px;
+border-bottom:1px solid var(--line);
 }
 
-.modal-head{
-  display:flex;
-  align-items:center;
-  padding:12px;
-  border-bottom:1px solid #27384f;
+.modalHead h2{
+margin:0;
+font-size:16px;
 }
 
-.modal-head h3{
-  margin:0;
-  font-size:14px;
+.modalClose{
+margin-left:auto;
+width:34px;height:34px;
+border:1px solid var(--line);
+border-radius:7px;
+background:#172235;
+color:#fff;
 }
 
-.modal-head button{
-  margin-left:auto;
+.modalBody{padding:15px}
+
+.exampleGrid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:9px;
 }
 
-.modal-body{
-  padding:12px;
+.exampleCard{
+padding:15px;
+border:1px solid var(--line);
+background:#151f31;
+border-radius:9px;
+cursor:pointer;
 }
 
-.examples{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
+.exampleCard:hover{
+background:#1c2a40;
+border-color:#3b82f6;
 }
 
-.example{
-  text-align:left;
-  padding:12px;
+.exampleCard b{
+display:block;
+font-size:13px;
+margin-bottom:4px;
 }
 
-.example strong{
-  display:block;
-  margin-bottom:4px;
+.exampleCard span{
+font-size:11px;
+color:var(--muted);
 }
 
-.example small{
-  color:#8da1bb;
+.drawTabs{
+display:flex;
+gap:5px;
+margin-bottom:12px;
 }
 
-.toast{
-  position:fixed;
-  z-index:300;
-  left:50%;
-  bottom:42px;
-  transform:translate(-50%,20px);
-  opacity:0;
-  pointer-events:none;
-  background:#111d2e;
-  border:1px solid #38516d;
-  border-radius:9px;
-  padding:8px 12px;
-  font-size:11px;
-  transition:.18s;
+.drawTab{
+padding:9px 12px;
+border:1px solid var(--line);
+background:#151f31;
+color:#aebbd0;
+border-radius:7px;
+font-size:11px;
+font-weight:700;
 }
 
-.toast.show{
-  opacity:1;
-  transform:translate(-50%,0);
+.drawTab.active{
+background:#1d4ed8;
+color:white;
 }
 
-@media(max-width:850px){
-
-  .app{
-    grid-template-rows:52px 1fr 54px;
-  }
-
-  .topbar{
-    padding:6px 8px;
-  }
-
-  .brand{
-    font-size:14px;
-  }
-
-  .status{
-    display:none;
-  }
-
-  .top-actions button{
-    display:none;
-  }
-
-  .top-actions button:last-child{
-    display:block;
-  }
-
-  .library,
-  .inspector{
-    display:none;
-    width:100%;
-    border:0;
-    z-index:90;
-  }
-
-  .library.mobile-show,
-  .inspector.mobile-show{
-    display:block;
-  }
-
-  .canvas-wrap{
-    inset:0;
-  }
-
-  .mobile-nav{
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    background:#09101b;
-    border-top:1px solid #26364d;
-    z-index:100;
-  }
-
-  .mobile-nav button{
-    border:0;
-    border-radius:0;
-    background:transparent;
-    color:#8195ae;
-    font-size:9px;
-    padding:4px 2px;
-  }
-
-  .mobile-nav button strong{
-    display:block;
-    font-size:18px;
-    line-height:20px;
-  }
-
-  .mobile-nav button.active{
-    background:#10243a;
-    color:#fff;
-  }
-
-  .nav-info{
-    top:auto;
-    bottom:10px;
-    font-size:9px;
-  }
-
-  .canvas-tools{
-    top:8px;
-    left:8px;
-  }
-
-  .zoom{
-    top:8px;
-    right:8px;
-  }
-
-  .examples{
-    grid-template-columns:1fr;
-  }
+.schematic{
+width:100%;
+height:500px;
+background:white;
+border-radius:7px;
+overflow:auto;
 }
 
-@media(min-width:851px){
-  .mobile-nav{
-    display:none;
-  }
+.schematic svg{
+width:100%;
+height:100%;
+min-width:700px;
+background:white;
+}
+
+.notice{
+padding:9px;
+border-radius:7px;
+background:#172235;
+border:1px solid var(--line);
+font-size:11px;
+color:#aebbd0;
+margin-bottom:10px;
+}
+
+.notice.good{border-color:#166534;background:#0d2618}
+.notice.warn{border-color:#92400e;background:#291b09}
+
+.mobileOnly{display:none}
+
+@media(max-width:950px){
+.main{grid-template-columns:205px 1fr}
+.inspector{display:none}
+.toolbar .desktopTool{display:none}
+.brandText{display:none}
+}
+
+@media(max-width:700px){
+#app{grid-template-rows:52px 1fr 0}
+.topbar{height:52px}
+.main{display:block;height:calc(100vh - 52px)}
+.sidebar{display:none}
+.workspace{height:100%}
+.bottomInfo{display:none}
+.mobileBar{
+display:grid;
+grid-template-columns:repeat(6,1fr);
+position:absolute;
+left:7px;
+right:7px;
+bottom:7px;
+height:55px;
+background:#101a2bdd;
+border:1px solid #33425a;
+border-radius:12px;
+z-index:30;
+backdrop-filter:blur(12px);
+}
+.mobileBar button{
+border:0;
+background:transparent;
+color:#b7c4d8;
+font-size:9px;
+font-weight:700;
+}
+.mobileBar button div{font-size:19px;margin-bottom:2px}
+.mobileOnly{display:block}
+.legend{bottom:70px;left:8px}
+.statusPill{font-size:10px;padding:6px 8px}
+.exampleGrid{grid-template-columns:1fr}
+.modal{padding:8px}
+.modalBox{max-height:94vh}
+}
+
+@media(min-width:701px){
+.mobileBar{display:none}
 }
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<div id="app">
 
 <header class="topbar">
 
-  <div class="brand">
-    ⚙ <span>Hydraulic</span> Studio
-  </div>
+<div class="brand">
+<div class="brandIcon">⚙</div>
+<div class="brandText">Hydraulic Studio</div>
+</div>
 
-  <div class="status" id="status">
-    STOPPED
-  </div>
+<div class="toolbar">
 
-  <div class="top-actions">
-    <button onclick="newCircuit()">New</button>
-    <button onclick="showExamples()">Examples</button>
-    <button onclick="undo()">Undo</button>
-    <button onclick="redo()">Redo</button>
-    <button onclick="saveCircuit()">Save</button>
-    <button onclick="loadCircuit()">Load</button>
-    <button class="primary" onclick="toggleSimulation()" id="runBtn">▶ Run</button>
-  </div>
-
-</header>
-
-<div class="workspace">
-
-  <aside class="library" id="library">
-
-    <div class="panel-title">Components</div>
-
-    <div class="panel-section">
-      <div class="library-grid">
-
-        <button class="lib" onclick="addComponent('tank')">
-          <span class="lib-icon">▱</span>Tank
-        </button>
-
-        <button class="lib" onclick="addComponent('pump')">
-          <span class="lib-icon">◉</span>Fixed Pump
-        </button>
-
-        <button class="lib" onclick="addComponent('variablePump')">
-          <span class="lib-icon">◉</span>Variable Pump
-        </button>
-
-        <button class="lib" onclick="addComponent('accumulator')">
-          <span class="lib-icon">◉</span>Accumulator
-        </button>
-
-        <button class="lib" onclick="addComponent('valve43')">
-          <span class="lib-icon">▣</span>4/3 Valve
-        </button>
-
-        <button class="lib" onclick="addComponent('valve42')">
-          <span class="lib-icon">▣</span>4/2 Valve
-        </button>
-
-        <button class="lib" onclick="addComponent('proportional')">
-          <span class="lib-icon">▣</span>Proportional
-        </button>
-
-        <button class="lib" onclick="addComponent('cylinder')">
-          <span class="lib-icon">⇆</span>Cylinder
-        </button>
-
-        <button class="lib" onclick="addComponent('motor')">
-          <span class="lib-icon">↻</span>Motor
-        </button>
-
-        <button class="lib" onclick="addComponent('relief')">
-          <span class="lib-icon">▽</span>Relief
-        </button>
-
-        <button class="lib" onclick="addComponent('reducing')">
-          <span class="lib-icon">▽</span>Reducing
-        </button>
-
-        <button class="lib" onclick="addComponent('sequence')">
-          <span class="lib-icon">▽</span>Sequence
-        </button>
-
-        <button class="lib" onclick="addComponent('counterbalance')">
-          <span class="lib-icon">▽</span>Counterbalance
-        </button>
-
-        <button class="lib" onclick="addComponent('check')">
-          <span class="lib-icon">▶</span>Check
-        </button>
-
-        <button class="lib" onclick="addComponent('flowControl')">
-          <span class="lib-icon">◈</span>Flow Control
-        </button>
-
-        <button class="lib" onclick="addComponent('throttleCheck')">
-          <span class="lib-icon">◈</span>Throttle Check
-        </button>
-
-        <button class="lib" onclick="addComponent('filter')">
-          <span class="lib-icon">◇</span>Filter
-        </button>
-
-        <button class="lib" onclick="addComponent('gauge')">
-          <span class="lib-icon">◌</span>Gauge
-        </button>
-
-        <button class="lib" onclick="addComponent('flowmeter')">
-          <span class="lib-icon">≋</span>Flow Meter
-        </button>
-
-      </div>
-    </div>
-
-    <div class="panel-title">Navigation</div>
-
-    <div class="panel-section">
-
-      <button style="width:100%;margin-bottom:6px" onclick="fitView()">
-        ⊡ Fit Circuit
-      </button>
-
-      <button style="width:100%;margin-bottom:6px" onclick="resetView()">
-        ◎ Reset View
-      </button>
-
-      <button style="width:100%;margin-bottom:6px" onclick="connectMode()">
-        🔗 Connect Ports
-      </button>
-
-      <button style="width:100%;margin-bottom:6px" onclick="validateCircuit()">
-        ✓ Validate
-      </button>
-
-      <button style="width:100%" onclick="showExamples()">
-        ⚡ Examples
-      </button>
-
-    </div>
-
-    <div class="panel-title">CAD Controls</div>
-
-    <div class="panel-section">
-      <div class="help">
-        <b>Desktop</b><br>
-        Drag empty space to pan.<br>
-        Mouse wheel zooms around cursor.<br>
-        Drag components to move them.<br><br>
-
-        <b>iPhone / iPad</b><br>
-        One finger on empty space = pan.<br>
-        Pinch = zoom.<br>
-        Two fingers = pan + zoom.<br>
-        One finger on a component = move it.<br>
-        Tap a port, then another port = connect.
-      </div>
-    </div>
-
-  </aside>
-
-  <main class="canvas-wrap" id="canvasWrap">
-
-    <div class="canvas-tools">
-      <button onclick="zoomBy(1.15)">＋</button>
-      <button onclick="zoomBy(.87)">−</button>
-      <button onclick="fitView()">Fit</button>
-      <button onclick="resetView()">Reset</button>
-    </div>
-
-    <div class="nav-info">
-      Drag empty space to pan • Pinch to zoom
-    </div>
-
-    <div class="zoom" id="zoomText">
-      100%
-    </div>
-
-    <svg id="canvas">
-
-      <defs>
-
-        <pattern
-          id="grid"
-          width="24"
-          height="24"
-          patternUnits="userSpaceOnUse"
-        >
-          <path
-            d="M24 0H0V24"
-            fill="none"
-            stroke="#172235"
-            stroke-width="1"
-          />
-        </pattern>
-
-        <marker
-          id="arrowBlue"
-          markerWidth="8"
-          markerHeight="8"
-          refX="7"
-          refY="4"
-          orient="auto"
-        >
-          <path d="M0 0 L8 4 L0 8 Z" fill="#38a8ff"/>
-        </marker>
-
-        <marker
-          id="arrowYellow"
-          markerWidth="8"
-          markerHeight="8"
-          refX="7"
-          refY="4"
-          orient="auto"
-        >
-          <path d="M0 0 L8 4 L0 8 Z" fill="#fbbf24"/>
-        </marker>
-
-        <marker
-          id="arrowRed"
-          markerWidth="8"
-          markerHeight="8"
-          refX="7"
-          refY="4"
-          orient="auto"
-        >
-          <path d="M0 0 L8 4 L0 8 Z" fill="#fb5b67"/>
-        </marker>
-
-      </defs>
-
-      <rect
-        id="gridRect"
-        x="0"
-        y="0"
-        width="100%"
-        height="100%"
-        fill="url(#grid)"
-      />
-
-      <g id="world"></g>
-
-    </svg>
-
-  </main>
-
-  <aside class="inspector" id="inspector">
-
-    <div class="panel-title">
-      Engineering Monitor
-    </div>
-
-    <div id="inspectorContent"></div>
-
-  </aside>
+<button class="toolbtn" onclick="newCircuit()" title="New">New</button>
+<button class="toolbtn desktopTool" onclick="openExamples()">Examples</button>
+<button class="toolbtn" onclick="undo()">↶</button>
+<button class="toolbtn" onclick="redo()">↷</button>
+<button class="toolbtn" onclick="zoomOut()">−</button>
+<button class="toolbtn" onclick="zoomIn()">+</button>
+<button class="toolbtn desktopTool" onclick="fitView()">Fit</button>
+<button class="toolbtn desktopTool" onclick="resetView()">Reset</button>
+<button class="toolbtn desktopTool" onclick="openDrawings()">Schematics</button>
+<button class="toolbtn desktopTool" onclick="saveCircuit()">Save</button>
+<button class="toolbtn desktopTool" onclick="loadCircuit()">Load</button>
+<button class="toolbtn run" onclick="toggleSimulation()" id="runBtn">▶ Run</button>
 
 </div>
 
-<nav class="mobile-nav">
+<div class="topSpacer"></div>
 
-  <button onclick="mobileLibrary()" id="navLibrary">
-    <strong>▦</strong>
-    Components
-  </button>
+<div class="statusPill" id="status">Stopped</div>
 
-  <button onclick="mobileCircuit()">
-    <strong>⌘</strong>
-    Circuit
-  </button>
+</header>
 
-  <button onclick="toggleSimulation()">
-    <strong id="mobileRun">▶</strong>
-    Simulate
-  </button>
+<div class="main">
 
-  <button onclick="showMonitor()">
-    <strong>◌</strong>
-    Monitor
-  </button>
+<aside class="sidebar">
 
-  <button onclick="showProperties()">
-    <strong>⚙</strong>
-    Properties
-  </button>
+<div class="panelTitle">Components</div>
 
-</nav>
+<div class="library">
 
-<footer class="bottom-status">
+<div class="librarySection">
+<div class="libraryHead">SOURCE & STORAGE</div>
 
-  <span id="statusText">
-    Ready
-  </span>
+<button class="component" onclick="addComponent('tank')">
+<div class="componentIcon">▱</div>
+<div class="componentText"><b>Reservoir</b><span>Tank</span></div>
+</button>
 
-  <span id="liveText">
-    0 components • 0 connections
-  </span>
+<button class="component" onclick="addComponent('pump')">
+<div class="componentIcon">◉</div>
+<div class="componentText"><b>Fixed Pump</b><span>Hydraulic pump</span></div>
+</button>
 
+<button class="component" onclick="addComponent('variablePump')">
+<div class="componentIcon">◉</div>
+<div class="componentText"><b>Variable Pump</b><span>Load sensing / variable</span></div>
+</button>
+
+<button class="component" onclick="addComponent('accumulator')">
+<div class="componentIcon">◌</div>
+<div class="componentText"><b>Accumulator</b><span>Gas charged</span></div>
+</button>
+</div>
+
+<div class="librarySection">
+<div class="libraryHead">CONTROL VALVES</div>
+
+<button class="component" onclick="addComponent('valve43')">
+<div class="componentIcon">▣</div>
+<div class="componentText"><b>4/3 Directional Valve</b><span>Centre selectable</span></div>
+</button>
+
+<button class="component" onclick="addComponent('valve42')">
+<div class="componentIcon">▣</div>
+<div class="componentText"><b>4/2 Directional Valve</b><span>Extend / retract</span></div>
+</button>
+
+<button class="component" onclick="addComponent('proportional')">
+<div class="componentIcon">▣</div>
+<div class="componentText"><b>Proportional Valve</b><span>0–100% command</span></div>
+</button>
+
+<button class="component" onclick="addComponent('relief')">
+<div class="componentIcon">◈</div>
+<div class="componentText"><b>Relief Valve</b><span>Pressure limiting</span></div>
+</button>
+
+<button class="component" onclick="addComponent('reducing')">
+<div class="componentIcon">◈</div>
+<div class="componentText"><b>Pressure Reducing</b><span>Secondary pressure</span></div>
+</button>
+
+<button class="component" onclick="addComponent('sequence')">
+<div class="componentIcon">◈</div>
+<div class="componentText"><b>Sequence Valve</b><span>Pressure sequence</span></div>
+</button>
+
+<button class="component" onclick="addComponent('counterbalance')">
+<div class="componentIcon">◈</div>
+<div class="componentText"><b>Counterbalance</b><span>Load control</span></div>
+</button>
+
+</div>
+
+<div class="librarySection">
+<div class="libraryHead">FLOW CONTROL</div>
+
+<button class="component" onclick="addComponent('check')">
+<div class="componentIcon">▷</div>
+<div class="componentText"><b>Check Valve</b><span>One-way flow</span></div>
+</button>
+
+<button class="component" onclick="addComponent('flowControl')">
+<div class="componentIcon">◁</div>
+<div class="componentText"><b>Flow Control</b><span>Adjustable restriction</span></div>
+</button>
+
+<button class="component" onclick="addComponent('throttleCheck')">
+<div class="componentIcon">◁</div>
+<div class="componentText"><b>Throttle Check</b><span>Free one direction</span></div>
+</button>
+
+<button class="component" onclick="addComponent('filter')">
+<div class="componentIcon">◇</div>
+<div class="componentText"><b>Filter</b><span>Return / pressure line</span></div>
+</button>
+
+</div>
+
+<div class="librarySection">
+<div class="libraryHead">ACTUATORS</div>
+
+<button class="component" onclick="addComponent('cylinder')">
+<div class="componentIcon">▭</div>
+<div class="componentText"><b>Double Acting Cylinder</b><span>Force / speed / stroke</span></div>
+</button>
+
+<button class="component" onclick="addComponent('motor')">
+<div class="componentIcon">◉</div>
+<div class="componentText"><b>Hydraulic Motor</b><span>Speed / torque</span></div>
+</button>
+
+</div>
+
+<div class="librarySection">
+<div class="libraryHead">INSTRUMENTATION</div>
+
+<button class="component" onclick="addComponent('gauge')">
+<div class="componentIcon">G</div>
+<div class="componentText"><b>Pressure Gauge</b><span>Pressure indication</span></div>
+</button>
+
+<button class="component" onclick="addComponent('flowmeter')">
+<div class="componentIcon">F</div>
+<div class="componentText"><b>Flow Meter</b><span>Flow indication</span></div>
+</button>
+
+</div>
+
+<div class="propGroup">
+<div class="propTitle">Navigation</div>
+<div style="font-size:10px;color:#8190a8;line-height:1.55">
+Desktop:<br>
+• Drag empty space = pan<br>
+• Mouse wheel = zoom<br>
+• Drag component = move<br>
+• Click port → click port = connect<br><br>
+Mobile:<br>
+• One finger empty area = pan<br>
+• Pinch = zoom<br>
+• Drag component = move<br>
+• Tap port → tap port = connect
+</div>
+</div>
+
+</div>
+</aside>
+
+<section class="workspace" id="workspace">
+
+<svg id="svg"
+xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink">
+
+<defs>
+
+<pattern id="gridSmall" width="20" height="20" patternUnits="userSpaceOnUse">
+<path d="M20 0H0V20" fill="none" stroke="#182438" stroke-width="1"/>
+</pattern>
+
+<pattern id="gridLarge" width="100" height="100" patternUnits="userSpaceOnUse">
+<rect width="100" height="100" fill="url(#gridSmall)"/>
+<path d="M100 0H0V100" fill="none" stroke="#25334a" stroke-width="1"/>
+</pattern>
+
+<marker id="arrowBlue" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+<path d="M0 0L8 4L0 8Z" fill="#3b82f6"/>
+</marker>
+
+<marker id="arrowGreen" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+<path d="M0 0L8 4L0 8Z" fill="#22c55e"/>
+</marker>
+
+</defs>
+
+<rect class="canvasGrid" x="0" y="0" width="100%" height="100%" fill="url(#gridLarge)"/>
+
+<g id="world"></g>
+
+</svg>
+
+<div class="legend">
+<div class="legendRow"><span class="dot" style="background:#3b82f6"></span> Pressure / supply</div>
+<div class="legendRow"><span class="dot" style="background:#22c55e"></span> Flow</div>
+<div class="legendRow"><span class="dot" style="background:#ef4444"></span> High pressure / fault</div>
+</div>
+
+<div class="mobileBar">
+<button onclick="openMobileComponents()"><div>⚙</div>Parts</button>
+<button onclick="openExamples()"><div>📁</div>Examples</button>
+<button onclick="zoomOut()"><div>−</div>Zoom</button>
+<button onclick="fitView()"><div>⌗</div>Fit</button>
+<button onclick="openDrawings()"><div>📐</div>Drawings</button>
+<button onclick="toggleSimulation()"><div id="mobileRun">▶</div>Run</button>
+</div>
+
+</section>
+
+<aside class="inspector">
+
+<div class="panelTitle">Inspector</div>
+
+<div id="inspectorContent">
+<div class="emptyInspector">
+Select a component to edit its properties.
+</div>
+</div>
+
+</aside>
+
+</div>
+
+<footer class="bottomInfo">
+<span id="coord">X 0 • Y 0</span>
+<span id="zoomLabel">100%</span>
+<span id="selectionLabel">No selection</span>
+<span id="simulationLabel">Simulation stopped</span>
 </footer>
 
 </div>
 
 <div class="modal" id="modal">
-
-  <div class="modal-box">
-
-    <div class="modal-head">
-      <h3 id="modalTitle">Hydraulic Studio</h3>
-      <button onclick="closeModal()">✕</button>
-    </div>
-
-    <div class="modal-body" id="modalBody"></div>
-
-  </div>
-
+<div class="modalBox">
+<div class="modalHead">
+<h2 id="modalTitle">Hydraulic Studio</h2>
+<button class="modalClose" onclick="closeModal()">×</button>
+</div>
+<div class="modalBody" id="modalBody"></div>
+</div>
 </div>
 
-<div class="toast" id="toast"></div>
-
 <script>
-
-"use strict";
-
 /* =========================================================
-   DATA
+   HYDRAULIC STUDIO
+   Standalone browser hydraulic schematic + simulation app
    ========================================================= */
 
 const SVG_NS="http://www.w3.org/2000/svg";
-
-const canvas=document.getElementById("canvas");
-const world=document.getElementById("world");
-const canvasWrap=document.getElementById("canvasWrap");
+const STORAGE="hydraulic_studio_v5";
 
 let components=[];
 let wires=[];
-
-let selectedId=null;
-let connectFrom=null;
-
+let selected=null;
 let running=false;
-let timer=null;
+let simulationTimer=null;
 
 let history=[];
-let future=[];
+let historyIndex=-1;
 
-let idCounter=1;
-
-/*
-  CAMERA
-
-  This is now a real viewport/camera system.
-
-  world position:
-    screen = world * zoom + pan
-
-  Pan is completely independent of component movement.
-*/
 let camera={
-  x:0,
-  y:0,
-  zoom:1
+ x:0,
+ y:0,
+ zoom:1
 };
 
-let interaction=null;
+let activePointers=new Map();
+let pointerMode=null;
+let dragData=null;
+let pinchData=null;
+let connectingPort=null;
 
-let lastTouchDistance=0;
-let lastTouchCenter=null;
+let nextId=1;
 
-const state={
-  time:0,
-  dt:.016,
-  systemPressure:0,
-  supplyFlow:0,
-  returnFlow:0,
-  warnings:[]
-};
-
-/* =========================================================
-   COMPONENT DEFINITIONS
-   ========================================================= */
-
-const TYPES={
-
+const defaults={
 tank:{
  name:"Reservoir",
- icon:"▱",
- ports:[["T","fluid"]],
- defaults:{
-  volume:100,
-  level:80,
-  temperature:25
- }
+ ports:[{id:"T",x:-55,y:0,dir:"out"}],
+ volume:50,
+ level:80
 },
 
 pump:{
- name:"Fixed Displacement Pump",
- icon:"◉",
- ports:[["IN","fluid"],["OUT","fluid"]],
- defaults:{
-  displacement:16,
-  rpm:1450,
-  efficiency:.90
- }
+ name:"Fixed Pump",
+ ports:[{id:"IN",x:-55,y:0,dir:"in"},{id:"OUT",x:55,y:0,dir:"out"}],
+ displacement:16,
+ rpm:1450,
+ efficiency:.9,
+ pressureLimit:210
 },
 
 variablePump:{
- name:"Variable Piston Pump",
- icon:"◉",
- ports:[["IN","fluid"],["OUT","fluid"]],
- defaults:{
-  displacement:32,
-  rpm:1450,
-  efficiency:.92,
-  swash:75,
-  compensator:250
- }
+ name:"Variable Pump",
+ ports:[{id:"IN",x:-55,y:0,dir:"in"},{id:"OUT",x:55,y:0,dir:"out"}],
+ displacement:32,
+ rpm:1450,
+ swash:75,
+ efficiency:.92,
+ compensator:210
 },
 
 accumulator:{
  name:"Accumulator",
- icon:"◉",
- ports:[["P","fluid"]],
- defaults:{
-  volume:20,
-  precharge:100,
-  maxPressure:250,
-  gasIndex:1.4
- }
+ ports:[{id:"P",x:0,y:55,dir:"both"}],
+ volume:20,
+ precharge:100,
+ maxPressure:250,
+ gasIndex:1.4
 },
 
 valve43:{
  name:"4/3 Directional Valve",
- icon:"▣",
  ports:[
-  ["P","fluid"],
-  ["T","fluid"],
-  ["A","fluid"],
-  ["B","fluid"]
+ {id:"P",x:-65,y:-35,dir:"in"},
+ {id:"T",x:-65,y:35,dir:"out"},
+ {id:"A",x:65,y:-35,dir:"both"},
+ {id:"B",x:65,y:35,dir:"both"}
  ],
- defaults:{
-  position:"extend",
-  centre:"closed",
-  flowRating:120
- }
+ position:"extend",
+ centre:"closed",
+ flowRating:120
 },
 
 valve42:{
  name:"4/2 Directional Valve",
- icon:"▣",
  ports:[
-  ["P","fluid"],
-  ["T","fluid"],
-  ["A","fluid"],
-  ["B","fluid"]
+ {id:"P",x:-65,y:-30,dir:"in"},
+ {id:"T",x:-65,y:30,dir:"out"},
+ {id:"A",x:65,y:-30,dir:"both"},
+ {id:"B",x:65,y:30,dir:"both"}
  ],
- defaults:{
-  position:"extend",
-  flowRating:120
- }
+ position:"extend",
+ flowRating:120
 },
 
 proportional:{
  name:"Proportional Valve",
- icon:"▣",
  ports:[
-  ["P","fluid"],
-  ["T","fluid"],
-  ["A","fluid"],
-  ["B","fluid"]
+ {id:"P",x:-65,y:-35,dir:"in"},
+ {id:"T",x:-65,y:35,dir:"out"},
+ {id:"A",x:65,y:-35,dir:"both"},
+ {id:"B",x:65,y:35,dir:"both"}
  ],
- defaults:{
-  command:70,
-  flowRating:120,
-  centre:"closed"
- }
+ command:70,
+ centre:"closed",
+ flowRating:120
 },
 
 relief:{
- name:"Pressure Relief Valve",
- icon:"▽",
+ name:"Relief Valve",
  ports:[
-  ["IN","fluid"],
-  ["OUT","fluid"]
+ {id:"P",x:-60,y:0,dir:"in"},
+ {id:"T",x:60,y:0,dir:"out"}
  ],
- defaults:{
-  setting:210,
-  cracking:.5,
-  flowCapacity:180
- }
+ setting:210,
+ cracking:.5,
+ flowCapacity:180
 },
 
 reducing:{
  name:"Pressure Reducing Valve",
- icon:"▽",
  ports:[
-  ["IN","fluid"],
-  ["OUT","fluid"]
+ {id:"IN",x:-60,y:0,dir:"in"},
+ {id:"OUT",x:60,y:0,dir:"out"}
  ],
- defaults:{
-  setting:120,
-  flowCapacity:120
- }
+ setting:120,
+ flowCapacity:120
 },
 
 sequence:{
  name:"Sequence Valve",
- icon:"▽",
  ports:[
-  ["IN","fluid"],
-  ["OUT","fluid"]
+ {id:"IN",x:-60,y:0,dir:"in"},
+ {id:"OUT",x:60,y:0,dir:"out"}
  ],
- defaults:{
-  setting:100,
-  flowCapacity:120
- }
+ setting:100,
+ flowCapacity:120
 },
 
 counterbalance:{
  name:"Counterbalance Valve",
- icon:"▽",
  ports:[
-  ["IN","fluid"],
-  ["OUT","fluid"],
-  ["PILOT","fluid"]
+ {id:"IN",x:-60,y:0,dir:"in"},
+ {id:"OUT",x:60,y:0,dir:"out"}
  ],
- defaults:{
-  setting:100,
-  pilotRatio:3,
-  flowCapacity:100
- }
+ setting:100,
+ pilotRatio:3,
+ flowCapacity:100
 },
 
 check:{
  name:"Check Valve",
- icon:"▶",
  ports:[
-  ["IN","fluid"],
-  ["OUT","fluid"]
+ {id:"IN",x:-55,y:0,dir:"in"},
+ {id:"OUT",x:55,y:0,dir:"out"}
  ],
- defaults:{
-  cracking:.5,
-  flowCapacity:180
- }
+ cracking:.5,
+ flowCapacity:180
 },
 
 flowControl:{
  name:"Flow Control",
- icon:"◈",
  ports:[
-  ["IN","fluid"],
-  ["OUT","fluid"]
+ {id:"IN",x:-55,y:0,dir:"in"},
+ {id:"OUT",x:55,y:0,dir:"out"}
  ],
- defaults:{
-  opening:100,
-  maxFlow:80,
-  mode:"meter-in",
-  restriction:2
- }
+ opening:100,
+ maxFlow:80,
+ restriction:2,
+ mode:"meter-in"
 },
 
 throttleCheck:{
  name:"Throttle Check",
- icon:"◈",
  ports:[
-  ["IN","fluid"],
-  ["OUT","fluid"]
+ {id:"IN",x:-55,y:0,dir:"in"},
+ {id:"OUT",x:55,y:0,dir:"out"}
  ],
- defaults:{
-  opening:100,
-  maxFlow:70,
-  mode:"meter-in",
-  restriction:2
- }
+ opening:100,
+ maxFlow:70,
+ restriction:2,
+ mode:"meter-in"
 },
 
 filter:{
  name:"Filter",
- icon:"◇",
  ports:[
-  ["IN","fluid"],
-  ["OUT","fluid"]
+ {id:"IN",x:-55,y:0,dir:"in"},
+ {id:"OUT",x:55,y:0,dir:"out"}
  ],
- defaults:{
-  rating:150,
-  restriction:.3
- }
+ rating:150,
+ restriction:.3
 },
 
 cylinder:{
  name:"Double Acting Cylinder",
- icon:"⇆",
  ports:[
-  ["A","fluid"],
-  ["B","fluid"]
+ {id:"A",x:-85,y:-35,dir:"both"},
+ {id:"B",x:-85,y:35,dir:"both"}
  ],
- defaults:{
-  bore:100,
-  rod:50,
-  stroke:500,
-  load:50000,
-  friction:1500,
-  position:100,
-  maxSpeed:300,
-  leakage:0
- }
+ bore:100,
+ rod:50,
+ stroke:500,
+ load:50000,
+ friction:1500,
+ position:100,
+ maxSpeed:300,
+ leakage:0
 },
 
 motor:{
  name:"Hydraulic Motor",
- icon:"↻",
  ports:[
-  ["A","fluid"],
-  ["B","fluid"]
+ {id:"A",x:-60,y:-30,dir:"both"},
+ {id:"B",x:-60,y:30,dir:"both"}
  ],
- defaults:{
-  displacement:80,
-  loadTorque:100,
-  speedLimit:2500,
-  efficiency:.9
- }
+ displacement:80,
+ loadTorque:100,
+ speedLimit:2500,
+ efficiency:.9
 },
 
 gauge:{
  name:"Pressure Gauge",
- icon:"◌",
  ports:[
-  ["P","fluid"]
+ {id:"P",x:-45,y:0,dir:"in"}
  ],
- defaults:{
-  range:250
- }
+ range:250
 },
 
 flowmeter:{
  name:"Flow Meter",
- icon:"≋",
  ports:[
-  ["IN","fluid"],
-  ["OUT","fluid"]
+ {id:"IN",x:-55,y:0,dir:"in"},
+ {id:"OUT",x:55,y:0,dir:"out"}
  ],
- defaults:{
-  range:200
- }
+ range:200
 }
-
 };
 
-/* =========================================================
-   UTILITIES
-   ========================================================= */
+const componentInfo={
+tank:["Source","Reservoir"],
+pump:["Source","Fixed displacement pump"],
+variablePump:["Source","Variable displacement pump"],
+accumulator:["Source","Hydraulic accumulator"],
+valve43:["Valve","4/3 directional control"],
+valve42:["Valve","4/2 directional control"],
+proportional:["Valve","Proportional directional control"],
+relief:["Valve","Pressure relief"],
+reducing:["Valve","Pressure reducing"],
+sequence:["Valve","Sequence control"],
+counterbalance:["Valve","Counterbalance"],
+check:["Flow","Check valve"],
+flowControl:["Flow","Adjustable flow control"],
+throttleCheck:["Flow","Throttle check"],
+filter:["Flow","Filter"],
+cylinder:["Actuator","Double acting cylinder"],
+motor:["Actuator","Hydraulic motor"],
+gauge:["Instrumentation","Pressure gauge"],
+flowmeter:["Instrumentation","Flow meter"]
+};
 
-function uid(prefix="C"){
-  return prefix+(idCounter++);
+/* ---------- utilities ---------- */
+
+function uid(){
+ return "c"+(nextId++);
 }
 
-function clone(o){
-  return JSON.parse(JSON.stringify(o));
+function deepClone(x){
+ return JSON.parse(JSON.stringify(x));
+}
+
+function esc(v){
+ return String(v??"").replace(/[&<>"']/g,m=>({
+ "&":"&amp;",
+ "<":"&lt;",
+ ">":"&gt;",
+ '"':"&quot;",
+ "'":"&#39;"
+ }[m]));
+}
+
+function fmt(n,d=1){
+ return Number(n||0).toFixed(d);
 }
 
 function clamp(v,a,b){
-  return Math.max(a,Math.min(b,v));
+ return Math.max(a,Math.min(b,v));
 }
 
-function fmt(v,d=1){
-  return Number.isFinite(v)?Number(v).toFixed(d):"0";
+function componentById(id){
+ return components.find(c=>c.id===id);
 }
 
-function areaBore(mm){
-  const d=mm/1000;
-  return Math.PI*d*d/4;
+function getPort(c,pid){
+ return c?.ports?.find(p=>p.id===pid);
 }
 
-function areaRod(bore,rod){
-  const d=bore/1000;
-  const r=rod/1000;
-  return Math.PI*(d*d-r*r)/4;
+function portWorld(c,p){
+ return {
+  x:c.x+p.x,
+  y:c.y+p.y
+ };
 }
 
-function escapeHtml(s){
-  return String(s).replace(/[&<>"']/g,m=>({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#039;"
-  }[m]));
+function saveState(){
+ const state={
+  components,
+  wires
+ };
+ history=history.slice(0,historyIndex+1);
+ history.push(deepClone(state));
+ if(history.length>80)history.shift();
+ historyIndex=history.length-1;
 }
 
-function typeInfo(c){
-  return TYPES[c.type];
-}
-
-function getComponent(id){
-  return components.find(c=>c.id===id);
-}
-
-function getWire(id){
-  return wires.find(w=>w.id===id);
-}
-
-/* =========================================================
-   COMPONENT CREATION
-   ========================================================= */
-
-function makeComponent(type,x=200,y=200){
-
-  const info=TYPES[type];
-
-  const c={
-    id:uid(),
-    type,
-    x,
-    y,
-    w:120,
-    h:78,
-    props:clone(info.defaults),
-
-    runtime:{
-      pressures:{},
-      flows:{},
-      position:0,
-      speed:0,
-      rpm:0,
-      torque:0,
-      force:0,
-      pressure:0,
-      flow:0,
-      open:false,
-      fault:false
-    },
-
-    runtimeFaults:{}
-  };
-
-  if(type==="tank"){
-    c.w=100;
-    c.h=65;
-  }
-
-  if(type==="cylinder"){
-    c.w=150;
-    c.h=70;
-  }
-
-  if(type==="motor"){
-    c.w=100;
-    c.h=70;
-  }
-
-  if(
-    type==="valve43"||
-    type==="valve42"||
-    type==="proportional"
-  ){
-    c.w=140;
-    c.h=90;
-  }
-
-  components.push(c);
-
-  return c;
-}
-
-function addComponent(type){
-
-  const c=makeComponent(
-    type,
-    cameraToWorld(
-      canvasWrap.clientWidth/2,
-      canvasWrap.clientHeight/2
-    ).x,
-    cameraToWorld(
-      canvasWrap.clientWidth/2,
-      canvasWrap.clientHeight/2
-    ).y
-  );
-
-  c.x-=c.w/2;
-  c.y-=c.h/2;
-
-  pushHistory();
-
-  selectedId=c.id;
-
-  render();
-  renderInspector();
-
-  toast(typeInfo(c).name+" added");
-}
-
-/* =========================================================
-   HISTORY
-   ========================================================= */
-
-function snapshot(){
-  return clone({
-    components,
-    wires,
-    idCounter
-  });
-}
-
-function pushHistory(){
-
-  history.push(snapshot());
-
-  if(history.length>50){
-    history.shift();
-  }
-
-  future=[];
+function restoreState(state){
+ components=deepClone(state.components||[]);
+ wires=deepClone(state.wires||[]);
+ selected=null;
+ connectingPort=null;
+ render();
+ updateInspector();
 }
 
 function undo(){
-
-  if(!history.length){
-    toast("Nothing to undo");
-    return;
-  }
-
-  future.push(snapshot());
-
-  const s=history.pop();
-
-  components=s.components;
-  wires=s.wires;
-  idCounter=s.idCounter;
-
-  selectedId=null;
-  connectFrom=null;
-
-  render();
-  renderInspector();
+ if(historyIndex<=0)return;
+ historyIndex--;
+ restoreState(history[historyIndex]);
 }
 
 function redo(){
-
-  if(!future.length){
-    toast("Nothing to redo");
-    return;
-  }
-
-  history.push(snapshot());
-
-  const s=future.pop();
-
-  components=s.components;
-  wires=s.wires;
-  idCounter=s.idCounter;
-
-  render();
-  renderInspector();
+ if(historyIndex>=history.length-1)return;
+ historyIndex++;
+ restoreState(history[historyIndex]);
 }
 
-/* =========================================================
-   PORTS
-   ========================================================= */
+/* ---------- camera ---------- */
 
-function portPosition(c,name){
-
-  if(c.type==="tank"){
-    return{
-      x:c.x+c.w/2,
-      y:c.y
-    };
-  }
-
-  if(c.type==="cylinder"||c.type==="motor"){
-
-    if(name==="A"){
-      return{
-        x:c.x,
-        y:c.y+c.h/2
-      };
-    }
-
-    return{
-      x:c.x+c.w,
-      y:c.y+c.h/2
-    };
-  }
-
-  if(
-    c.type==="valve43"||
-    c.type==="valve42"||
-    c.type==="proportional"
-  ){
-
-    if(name==="P"){
-      return{
-        x:c.x+c.w/2,
-        y:c.y
-      };
-    }
-
-    if(name==="T"){
-      return{
-        x:c.x+c.w/2,
-        y:c.y+c.h
-      };
-    }
-
-    if(name==="A"){
-      return{
-        x:c.x+c.w,
-        y:c.y+c.h/2-18
-      };
-    }
-
-    if(name==="B"){
-      return{
-        x:c.x,
-        y:c.y+c.h/2+18
-      };
-    }
-  }
-
-  if(c.type==="counterbalance"&&name==="PILOT"){
-    return{
-      x:c.x+c.w/2,
-      y:c.y+c.h
-    };
-  }
-
-  if(typeInfo(c).ports.length===1){
-    return{
-      x:c.x+c.w,
-      y:c.y+c.h/2
-    };
-  }
-
-  if(name==="IN"){
-    return{
-      x:c.x,
-      y:c.y+c.h/2
-    };
-  }
-
-  if(name==="OUT"){
-    return{
-      x:c.x+c.w,
-      y:c.y+c.h/2
-    };
-  }
-
-  if(name==="P"){
-    return{
-      x:c.x+c.w,
-      y:c.y+c.h/2
-    };
-  }
-
-  return{
-    x:c.x+c.w/2,
-    y:c.y+c.h/2
-  };
-}
-
-/* =========================================================
-   CONNECTIONS
-   ========================================================= */
-
-function wireExists(a,b){
-
-  return wires.some(w=>
-    (
-      w.a.c===a.c &&
-      w.a.p===a.p &&
-      w.b.c===b.c &&
-      w.b.p===b.p
-    )||
-    (
-      w.a.c===b.c &&
-      w.a.p===b.p &&
-      w.b.c===a.c &&
-      w.b.p===a.p
-    )
-  );
-}
-
-function createWireRaw(c1,p1,c2,p2){
-
-  if(!c1||!c2)return false;
-
-  if(wireExists(
-    {c:c1.id,p:p1},
-    {c:c2.id,p:p2}
-  )){
-    return false;
-  }
-
-  wires.push({
-    id:uid("W"),
-
-    a:{
-      c:c1.id,
-      p:p1
-    },
-
-    b:{
-      c:c2.id,
-      p:p2
-    },
-
-    flow:0,
-    pressure:0,
-    direction:0,
-    restriction:0
-  });
-
-  return true;
-}
-
-function portHit(x,y){
-
-  for(let i=components.length-1;i>=0;i--){
-
-    const c=components[i];
-
-    for(const [name] of typeInfo(c).ports){
-
-      const p=portPosition(c,name);
-
-      const dx=x-p.x;
-      const dy=y-p.y;
-
-      if(dx*dx+dy*dy<144){
-        return{
-          c,
-          p:name
-        };
-      }
-    }
-  }
-
-  return null;
-}
-
-/* =========================================================
-   CAMERA / CAD NAVIGATION
-   ========================================================= */
-
-/*
-  Converts SCREEN coordinates to WORLD coordinates.
-*/
 function cameraToWorld(sx,sy){
-
-  return{
-    x:(sx-camera.x)/camera.zoom,
-    y:(sy-camera.y)/camera.zoom
-  };
+ const r=document.getElementById("svg").getBoundingClientRect();
+ return {
+  x:(sx-r.left-camera.x)/camera.zoom,
+  y:(sy-r.top-camera.y)/camera.zoom
+ };
 }
 
-/*
-  Converts WORLD coordinates to SCREEN coordinates.
-*/
-function worldToCamera(wx,wy){
-
-  return{
-    x:wx*camera.zoom+camera.x,
-    y:wy*camera.zoom+camera.y
-  };
+function worldToScreen(x,y){
+ return {
+  x:x*camera.zoom+camera.x,
+  y:y*camera.zoom+camera.y
+ };
 }
 
-function updateZoomText(){
-
-  document.getElementById("zoomText").textContent=
-    Math.round(camera.zoom*100)+"%";
+function applyCamera(){
+ document.getElementById("world").setAttribute(
+  "transform",
+  `translate(${camera.x} ${camera.y}) scale(${camera.zoom})`
+ );
+ document.getElementById("zoomLabel").textContent=Math.round(camera.zoom*100)+"%";
 }
 
-/*
-  Zoom around a specific screen point.
-
-  This is the important part that makes CAD-style pinch/wheel
-  zoom feel natural.
-*/
-function zoomAt(factor,sx,sy){
-
-  const before=cameraToWorld(sx,sy);
-
-  camera.zoom=clamp(
-    camera.zoom*factor,
-    .20,
-    4
-  );
-
-  const after=worldToCamera(
-    before.x,
-    before.y
-  );
-
-  camera.x+=sx-after.x;
-  camera.y+=sy-after.y;
-
-  updateZoomText();
-  render();
+function zoomAt(sx,sy,factor){
+ const before=cameraToWorld(sx,sy);
+ camera.zoom=clamp(camera.zoom*factor,.15,4);
+ const after=worldToScreen(before.x,before.y);
+ const r=document.getElementById("svg").getBoundingClientRect();
+ camera.x+=sx-r.left-after.x;
+ camera.y+=sy-r.top-after.y;
+ applyCamera();
 }
 
-function zoomBy(factor){
-
-  zoomAt(
-    factor,
-    canvasWrap.clientWidth/2,
-    canvasWrap.clientHeight/2
-  );
+function zoomIn(){
+ const r=document.getElementById("workspace").getBoundingClientRect();
+ zoomAt(r.left+r.width/2,r.top+r.height/2,1.18);
 }
 
-/*
-  Fit the complete circuit into the viewport.
-*/
-function fitView(){
-
-  if(!components.length){
-    resetView();
-    return;
-  }
-
-  let minX=Infinity;
-  let minY=Infinity;
-  let maxX=-Infinity;
-  let maxY=-Infinity;
-
-  components.forEach(c=>{
-
-    minX=Math.min(minX,c.x);
-    minY=Math.min(minY,c.y);
-
-    maxX=Math.max(maxX,c.x+c.w);
-    maxY=Math.max(maxY,c.y+c.h);
-
-  });
-
-  const width=maxX-minX;
-  const height=maxY-minY;
-
-  const vw=canvasWrap.clientWidth;
-  const vh=canvasWrap.clientHeight;
-
-  const padding=90;
-
-  camera.zoom=clamp(
-    Math.min(
-      (vw-padding*2)/Math.max(width,1),
-      (vh-padding*2)/Math.max(height,1)
-    ),
-    .20,
-    2
-  );
-
-  camera.x=
-    vw/2-
-    ((minX+maxX)/2)*camera.zoom;
-
-  camera.y=
-    vh/2-
-    ((minY+maxY)/2)*camera.zoom;
-
-  updateZoomText();
-  render();
-
-  toast("Circuit fitted");
+function zoomOut(){
+ const r=document.getElementById("workspace").getBoundingClientRect();
+ zoomAt(r.left+r.width/2,r.top+r.height/2,.847);
 }
 
-/*
-  Reset to a normal engineering workspace.
-*/
 function resetView(){
-
-  camera.zoom=1;
-  camera.x=canvasWrap.clientWidth/2-500;
-  camera.y=canvasWrap.clientHeight/2-300;
-
-  updateZoomText();
-  render();
-
-  toast("View reset");
+ camera={x:0,y:0,zoom:1};
+ applyCamera();
 }
 
-/* =========================================================
-   COMPONENT HIT TEST
-   ========================================================= */
+function fitView(){
+ if(!components.length){
+  resetView();
+  return;
+ }
 
-function componentHit(x,y){
+ let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;
 
-  for(let i=components.length-1;i>=0;i--){
+ components.forEach(c=>{
+  minX=Math.min(minX,c.x-110);
+  maxX=Math.max(maxX,c.x+110);
+  minY=Math.min(minY,c.y-90);
+  maxY=Math.max(maxY,c.y+90);
+ });
 
-    const c=components[i];
+ const r=document.getElementById("workspace").getBoundingClientRect();
+ const bw=Math.max(200,maxX-minX);
+ const bh=Math.max(160,maxY-minY);
 
-    if(
-      x>=c.x &&
-      x<=c.x+c.w &&
-      y>=c.y &&
-      y<=c.y+c.h
-    ){
-      return c;
-    }
-  }
+ const z=Math.min(
+  (r.width-100)/bw,
+  (r.height-100)/bh,
+  2
+ );
 
-  return null;
+ camera.zoom=clamp(z,.2,2);
+
+ const cx=(minX+maxX)/2;
+ const cy=(minY+maxY)/2;
+
+ camera.x=r.width/2-cx*camera.zoom;
+ camera.y=r.height/2-cy*camera.zoom;
+
+ applyCamera();
 }
 
-/* =========================================================
-   DESKTOP + MOBILE POINTER ENGINE
-   ========================================================= */
-
-/*
-  THIS IS THE MAIN FIX.
-
-  Empty canvas:
-    pan
-
-  Component:
-    move
-
-  Port:
-    connect
-
-  Multi-touch:
-    camera navigation
-
-  This means the canvas is no longer fighting the user.
-*/
-
-canvas.addEventListener("pointerdown",function(e){
-
-  e.preventDefault();
-
-  const rect=canvas.getBoundingClientRect();
-
-  const sx=e.clientX-rect.left;
-  const sy=e.clientY-rect.top;
-
-  /*
-    Ignore individual pointer interaction while
-    multiple touches are active.
-  */
-
-  const worldPos=cameraToWorld(sx,sy);
-
-  const port=portHit(
-    worldPos.x,
-    worldPos.y
-  );
-
-  if(port){
-
-    handlePort(port.c,port.p);
-
-    return;
-  }
-
-  const c=componentHit(
-    worldPos.x,
-    worldPos.y
-  );
-
-  if(c){
-
-    selectedId=c.id;
-
-    renderInspector();
-
-    interaction={
-      type:"component",
-      id:c.id,
-      pointerId:e.pointerId,
-      startX:e.clientX,
-      startY:e.clientY,
-      originalX:c.x,
-      originalY:c.y,
-      moved:false
-    };
-
-    try{
-      canvas.setPointerCapture(e.pointerId);
-    }catch(_){}
-
-    render();
-
-    return;
-  }
-
-  /*
-    Empty canvas = PAN
-  */
-
-  interaction={
-    type:"pan",
-    pointerId:e.pointerId,
-    startX:e.clientX,
-    startY:e.clientY,
-    originalCameraX:camera.x,
-    originalCameraY:camera.y
-  };
-
-  canvas.classList.add("dragging");
-
-  try{
-    canvas.setPointerCapture(e.pointerId);
-  }catch(_){}
-
-});
-
-canvas.addEventListener("pointermove",function(e){
-
-  if(!interaction)return;
-
-  e.preventDefault();
-
-  if(interaction.type==="component"){
-
-    const c=getComponent(interaction.id);
-
-    if(!c)return;
-
-    const dx=e.clientX-interaction.startX;
-    const dy=e.clientY-interaction.startY;
-
-    if(Math.abs(dx)>3||Math.abs(dy)>3){
-      interaction.moved=true;
-    }
-
-    /*
-      IMPORTANT:
-      component movement is divided by zoom,
-      so the component follows the finger/mouse
-      correctly regardless of zoom level.
-    */
-
-    c.x=
-      interaction.originalX+
-      dx/camera.zoom;
-
-    c.y=
-      interaction.originalY+
-      dy/camera.zoom;
-
-    render();
-
-    return;
-  }
-
-  if(interaction.type==="pan"){
-
-    camera.x=
-      interaction.originalCameraX+
-      (e.clientX-interaction.startX);
-
-    camera.y=
-      interaction.originalCameraY+
-      (e.clientY-interaction.startY);
-
-    render();
-  }
-
-});
-
-canvas.addEventListener("pointerup",function(e){
-
-  if(!interaction)return;
-
-  if(interaction.type==="component" &&
-     interaction.moved){
-
-    pushHistory();
-  }
-
-  interaction=null;
-
-  canvas.classList.remove("dragging");
-
-  try{
-    canvas.releasePointerCapture(e.pointerId);
-  }catch(_){}
-});
-
-canvas.addEventListener("pointercancel",function(){
-
-  interaction=null;
-
-  canvas.classList.remove("dragging");
-});
-
-/*
-  Mouse wheel / trackpad zoom.
-*/
-canvas.addEventListener("wheel",function(e){
-
-  e.preventDefault();
-
-  const r=canvas.getBoundingClientRect();
-
-  const sx=e.clientX-r.left;
-  const sy=e.clientY-r.top;
-
-  zoomAt(
-    e.deltaY<0?1.12:.89,
-    sx,
-    sy
-  );
-
-},{passive:false});
-
-/* =========================================================
-   TRUE TOUCH CAMERA
-   ========================================================= */
-
-function touchDistance(a,b){
-
-  const dx=a.clientX-b.clientX;
-  const dy=a.clientY-b.clientY;
-
-  return Math.sqrt(dx*dx+dy*dy);
+/* ---------- component creation ---------- */
+
+function addComponent(type,x=null,y=null){
+ const d=defaults[type];
+ if(!d)return;
+
+ const r=document.getElementById("workspace").getBoundingClientRect();
+
+ if(x===null||y===null){
+  const p=cameraToWorld(r.left+r.width/2,r.top+r.height/2);
+  x=p.x;
+  y=p.y;
+ }
+
+ const c={
+  id:uid(),
+  type,
+  name:d.name,
+  x:Math.round(x/20)*20,
+  y:Math.round(y/20)*20,
+  ports:deepClone(d.ports)
+ };
+
+ Object.keys(d).forEach(k=>{
+  if(k!=="name"&&k!=="ports")c[k]=deepClone(d[k]);
+ });
+
+ c.sim={
+  pressure:0,
+  flow:0,
+  force:0,
+  speed:0,
+  rpm:0
+ };
+
+ components.push(c);
+ selected=c.id;
+ saveState();
+ render();
+ updateInspector();
 }
 
-function touchCenter(a,b){
-
-  return{
-    x:(a.clientX+b.clientX)/2,
-    y:(a.clientY+b.clientY)/2
-  };
+function deleteSelected(){
+ if(!selected)return;
+ wires=wires.filter(w=>w.from.c!==selected&&w.to.c!==selected);
+ components=components.filter(c=>c.id!==selected);
+ selected=null;
+ saveState();
+ render();
+ updateInspector();
 }
 
-canvas.addEventListener("touchstart",function(e){
+function duplicateSelected(){
+ const c=componentById(selected);
+ if(!c)return;
 
-  if(e.touches.length!==2)return;
-
-  e.preventDefault();
-
-  const a=e.touches[0];
-  const b=e.touches[1];
-
-  lastTouchDistance=touchDistance(a,b);
-  lastTouchCenter=touchCenter(a,b);
-
-  interaction={
-    type:"touchCamera"
-  };
-
-},{passive:false});
-
-canvas.addEventListener("touchmove",function(e){
-
-  if(e.touches.length!==2)return;
-
-  e.preventDefault();
-
-  const a=e.touches[0];
-  const b=e.touches[1];
-
-  const distance=touchDistance(a,b);
-  const center=touchCenter(a,b);
-
-  /*
-    Two-finger pan.
-  */
-
-  if(lastTouchCenter){
-
-    camera.x+=
-      center.x-lastTouchCenter.x;
-
-    camera.y+=
-      center.y-lastTouchCenter.y;
-  }
-
-  /*
-    Pinch zoom.
-
-    Zoom is centred on the midpoint of
-    the two fingers.
-  */
-
-  if(lastTouchDistance>0){
-
-    const factor=
-      distance/lastTouchDistance;
-
-    const rect=canvas.getBoundingClientRect();
-
-    zoomAt(
-      factor,
-      center.x-rect.left,
-      center.y-rect.top
-    );
-  }
-
-  lastTouchDistance=distance;
-  lastTouchCenter=center;
-
-},{passive:false});
-
-canvas.addEventListener("touchend",function(e){
-
-  if(e.touches.length<2){
-
-    lastTouchDistance=0;
-    lastTouchCenter=null;
-
-    if(interaction?.type==="touchCamera"){
-      interaction=null;
-    }
-  }
-
-},{passive:false});
-
-/* =========================================================
-   CONNECTION UI
-   ========================================================= */
-
-function handlePort(c,p){
-
-  if(!connectFrom){
-
-    connectFrom={
-      c:c.id,
-      p
-    };
-
-    toast(
-      `Port ${p} selected — choose another port`
-    );
-
-    render();
-
-    return;
-  }
-
-  if(
-    connectFrom.c===c.id &&
-    connectFrom.p===p
-  ){
-
-    connectFrom=null;
-
-    render();
-
-    return;
-  }
-
-  const first=getComponent(
-    connectFrom.c
-  );
-
-  pushHistory();
-
-  const success=createWireRaw(
-    first,
-    connectFrom.p,
-    c,
-    p
-  );
-
-  connectFrom=null;
-
-  toast(
-    success
-      ?"Hydraulic connection created"
-      :"Connection already exists"
-  );
-
-  render();
+ const n=deepClone(c);
+ n.id=uid();
+ n.x+=80;
+ n.y+=60;
+ n.name=c.name+" Copy";
+ components.push(n);
+ selected=n.id;
+ saveState();
+ render();
+ updateInspector();
 }
 
-function connectMode(){
+/* ---------- rendering ---------- */
 
-  connectFrom=null;
-
-  toast(
-    "Tap a port, then tap another port"
-  );
-}
-
-/* =========================================================
-   RENDERING
-   ========================================================= */
-
-function pressureColor(p){
-
-  if(p<5)return"#53657c";
-  if(p<50)return"#34d399";
-  if(p<120)return"#38a8ff";
-  if(p<200)return"#fbbf24";
-  return"#fb5b67";
-}
-
-function wirePath(w){
-
-  const a=getComponent(w.a.c);
-  const b=getComponent(w.b.c);
-
-  if(!a||!b)return"";
-
-  const p1=portPosition(a,w.a.p);
-  const p2=portPosition(b,w.b.p);
-
-  const dx=Math.abs(
-    p2.x-p1.x
-  );
-
-  if(Math.abs(p2.y-p1.y)<20){
-
-    return`
-      M ${p1.x} ${p1.y}
-      L ${p2.x} ${p2.y}
-    `;
-  }
-
-  const bend=Math.max(
-    40,
-    dx*.45
-  );
-
-  return`
-    M ${p1.x} ${p1.y}
-    C ${p1.x+bend} ${p1.y},
-      ${p2.x-bend} ${p2.y},
-      ${p2.x} ${p2.y}
-  `;
+function portColor(p){
+ if(p.pressure>=180)return "#ef4444";
+ if(p.flow>0.1)return "#22c55e";
+ if(p.pressure>1)return "#3b82f6";
+ return "#718096";
 }
 
 function render(){
+ const world=document.getElementById("world");
+ world.innerHTML="";
 
-  /*
-    CAMERA TRANSFORM.
+ renderWires(world);
 
-    This is what allows the world to be moved
-    independently of the browser viewport.
-  */
+ components.forEach(renderComponent);
 
-  world.setAttribute(
-    "transform",
-    `translate(${camera.x},${camera.y}) scale(${camera.zoom})`
-  );
+ applyCamera();
 
-  renderWires();
-
-  components.forEach(renderComponent);
-
-  updateStatus();
+ document.getElementById("selectionLabel").textContent=
+  selected ? (componentById(selected)?.name||"Selected") : "No selection";
 }
 
-function renderWires(){
+function renderWires(world){
+ wires.forEach((w,i)=>{
+  const a=componentById(w.from.c);
+  const b=componentById(w.to.c);
+  if(!a||!b)return;
 
-  world.querySelectorAll(".wire").forEach(
-    e=>e.remove()
-  );
+  const pa=getPort(a,w.from.p);
+  const pb=getPort(b,w.to.p);
+  if(!pa||!pb)return;
 
-  wires.forEach(w=>{
+  const A=portWorld(a,pa);
+  const B=portWorld(b,pb);
 
-    const path=wirePath(w);
+  const dx=Math.abs(B.x-A.x);
+  const mid=(A.x+B.x)/2;
 
-    if(!path)return;
+  let d;
 
-    const g=document.createElementNS(
-      SVG_NS,
-      "g"
-    );
+  if(dx>60){
+   d=`M ${A.x} ${A.y} C ${A.x+dx*.35} ${A.y}, ${B.x-dx*.35} ${B.y}, ${B.x} ${B.y}`;
+  }else{
+   const my=(A.y+B.y)/2;
+   d=`M ${A.x} ${A.y} L ${A.x+35} ${A.y} L ${A.x+35} ${my} L ${B.x-35} ${my} L ${B.x-35} ${B.y} L ${B.x} ${B.y}`;
+  }
 
-    g.setAttribute(
-      "class",
-      "wire"
-    );
+  const g=document.createElementNS(SVG_NS,"g");
 
-    const base=document.createElementNS(
-      SVG_NS,
-      "path"
-    );
+  const sim=w.sim||{pressure:0,flow:0};
 
-    base.setAttribute("d",path);
-    base.setAttribute(
-      "stroke",
-      "#162236"
-    );
-    base.setAttribute(
-      "stroke-width",
-      running?8:7
-    );
-    base.setAttribute(
-      "fill","none"
-    );
-    base.setAttribute(
-      "stroke-linecap","round"
-    );
+  let stroke="#52627a";
 
-    g.appendChild(base);
+  if(running){
+   if(sim.pressure>=180)stroke="#ef4444";
+   else if(sim.flow>.1)stroke="#22c55e";
+   else if(sim.pressure>1)stroke="#3b82f6";
+  }
 
-    const line=document.createElementNS(
-      SVG_NS,
-      "path"
-    );
+  const path=document.createElementNS(SVG_NS,"path");
+  path.setAttribute("d",d);
+  path.setAttribute("fill","none");
+  path.setAttribute("stroke",stroke);
+  path.setAttribute("stroke-width",running?4:3);
+  path.setAttribute("stroke-linecap","round");
 
-    line.setAttribute(
-      "d",
-      path
-    );
+  if(running&&sim.flow>.1){
+   path.setAttribute("stroke-dasharray","10 8");
+   path.style.animation="flowDash 0.8s linear infinite";
+  }
 
-    line.setAttribute(
-      "fill",
-      "none"
-    );
+  g.appendChild(path);
 
-    line.setAttribute(
-      "stroke",
-      running
-        ?pressureColor(w.pressure||0)
-        :"#627791"
-    );
+  if(running){
+   const t=document.createElementNS(SVG_NS,"text");
+   t.setAttribute("x",mid);
+   t.setAttribute("y",(A.y+B.y)/2-8);
+   t.setAttribute("fill","#aebbd0");
+   t.setAttribute("font-size","10");
+   t.setAttribute("text-anchor","middle");
+   t.textContent=`${fmt(sim.pressure,1)} bar • ${fmt(sim.flow,1)} L/min`;
+   g.appendChild(t);
+  }
 
-    line.setAttribute(
-      "stroke-width",
-      running
-        ?Math.min(
-          8,
-          3+Math.abs(w.flow||0)/35
-        )
-        :4
-    );
+  world.appendChild(g);
+ });
 
-    line.setAttribute(
-      "stroke-linecap",
-      "round"
-    );
+ const style=document.createElementNS(SVG_NS,"style");
+ style.textContent=`
+ @keyframes flowDash{
+ from{stroke-dashoffset:18}
+ to{stroke-dashoffset:0}
+ }`;
+ world.appendChild(style);
+}
 
-    if(running&&Math.abs(w.flow||0)>.2){
+function createText(parent,x,y,text,size=12,fill="#e7edf7",anchor="middle",weight="600"){
+ const t=document.createElementNS(SVG_NS,"text");
+ t.setAttribute("x",x);
+ t.setAttribute("y",y);
+ t.setAttribute("fill",fill);
+ t.setAttribute("font-size",size);
+ t.setAttribute("text-anchor",anchor);
+ t.setAttribute("font-weight",weight);
+ t.setAttribute("font-family","Arial,sans-serif");
+ t.textContent=text;
+ parent.appendChild(t);
+ return t;
+}
 
-      line.setAttribute(
-        "stroke-dasharray",
-        "12 10"
-      );
+function createRect(parent,x,y,w,h,attrs={}){
+ const e=document.createElementNS(SVG_NS,"rect");
+ e.setAttribute("x",x);
+ e.setAttribute("y",y);
+ e.setAttribute("width",w);
+ e.setAttribute("height",h);
+ Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));
+ parent.appendChild(e);
+ return e;
+}
 
-      line.style.animation=
-        "hydFlow .65s linear infinite";
-    }
-
-    g.appendChild(line);
-
-    /*
-      Invisible hit target.
-
-      Makes wires easy to select on iPhone.
-    */
-
-    const hit=document.createElementNS(
-      SVG_NS,
-      "path"
-    );
-
-    hit.setAttribute(
-      "d",
-      path
-    );
-
-    hit.setAttribute(
-      "stroke",
-      "transparent"
-    );
-
-    hit.setAttribute(
-      "stroke-width",
-      "20"
-    );
-
-    hit.setAttribute(
-      "fill",
-      "none"
-    );
-
-    hit.addEventListener(
-      "dblclick",
-      e=>{
-        e.stopPropagation();
-        deleteWire(w.id);
-      }
-    );
-
-    g.appendChild(hit);
-
-    if(running){
-
-      const a=getComponent(w.a.c);
-      const b=getComponent(w.b.c);
-
-      if(a&&b){
-
-        const p1=portPosition(a,w.a.p);
-        const p2=portPosition(b,w.b.p);
-
-        const mx=(p1.x+p2.x)/2;
-        const my=(p1.y+p2.y)/2;
-
-        const label=document.createElementNS(
-          SVG_NS,
-          "text"
-        );
-
-        label.setAttribute("x",mx);
-        label.setAttribute("y",my-8);
-        label.setAttribute(
-          "fill",
-          pressureColor(w.pressure||0)
-        );
-        label.setAttribute(
-          "font-size",
-          "9"
-        );
-        label.setAttribute(
-          "text-anchor",
-          "middle"
-        );
-
-        label.textContent=
-          `${fmt(w.pressure)} bar • ${fmt(Math.abs(w.flow))} L/min`;
-
-        g.appendChild(label);
-      }
-    }
-
-    world.appendChild(g);
-  });
+function createLine(parent,x1,y1,x2,y2,attrs={}){
+ const e=document.createElementNS(SVG_NS,"line");
+ e.setAttribute("x1",x1);
+ e.setAttribute("y1",y1);
+ e.setAttribute("x2",x2);
+ e.setAttribute("y2",y2);
+ Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));
+ parent.appendChild(e);
+ return e;
 }
 
 function renderComponent(c){
+ const world=document.getElementById("world");
 
-  /*
-    Remove old version.
-  */
+ const g=document.createElementNS(SVG_NS,"g");
+ g.setAttribute("transform",`translate(${c.x} ${c.y})`);
+ g.dataset.id=c.id;
 
-  const old=document.getElementById(
-    "component_"+c.id
+ const selectedStyle=selected===c.id;
+
+ const hit=document.createElementNS(SVG_NS,"rect");
+ hit.setAttribute("x",-90);
+ hit.setAttribute("y",-65);
+ hit.setAttribute("width",180);
+ hit.setAttribute("height",130);
+ hit.setAttribute("fill",selectedStyle?"#1d4ed822":"transparent");
+ hit.setAttribute("stroke",selectedStyle?"#3b82f6":"transparent");
+ hit.setAttribute("stroke-width","2");
+ hit.setAttribute("rx","6");
+ g.appendChild(hit);
+
+ drawSymbol(g,c);
+
+ c.ports.forEach(p=>{
+  const circle=document.createElementNS(SVG_NS,"circle");
+  circle.setAttribute("cx",p.x);
+  circle.setAttribute("cy",p.y);
+  circle.setAttribute("r",selected===c.id?6:5);
+  circle.setAttribute("fill",portColor(p));
+  circle.setAttribute("stroke","#e7edf7");
+  circle.setAttribute("stroke-width","1.5");
+  circle.dataset.component=c.id;
+  circle.dataset.port=p.id;
+  g.appendChild(circle);
+
+  createText(
+   g,
+   p.x,
+   p.y-9,
+   p.id,
+   9,
+   "#8fa0b7",
+   "middle",
+   "700"
   );
+ });
 
-  if(old)old.remove();
+ createText(g,0,78,c.name,11,"#dbe5f2","middle","700");
 
-  const g=document.createElementNS(
-    SVG_NS,
-    "g"
-  );
-
-  g.setAttribute(
-    "id",
-    "component_"+c.id
-  );
-
-  g.setAttribute(
-    "transform",
-    `translate(${c.x},${c.y})`
-  );
-
-  const selected=
-    c.id===selectedId;
-
-  const rect=document.createElementNS(
-    SVG_NS,
-    "rect"
-  );
-
-  rect.setAttribute(
-    "width",
-    c.w
-  );
-
-  rect.setAttribute(
-    "height",
-    c.h
-  );
-
-  rect.setAttribute(
-    "rx",
-    9
-  );
-
-  rect.setAttribute(
-    "fill",
-    selected
-      ?"#153654"
-      :"#101a29"
-  );
-
-  rect.setAttribute(
-    "stroke",
-    selected
-      ?"#38a8ff"
-      :"#30435d"
-  );
-
-  rect.setAttribute(
-    "stroke-width",
-    selected?2.5:1.5
-  );
-
-  g.appendChild(rect);
-
-  drawSymbol(g,c);
-
-  const title=document.createElementNS(
-    SVG_NS,
-    "text"
-  );
-
-  title.setAttribute(
-    "x",
-    c.w/2
-  );
-
-  title.setAttribute(
-    "y",
-    c.h-8
-  );
-
-  title.setAttribute(
-    "text-anchor",
-    "middle"
-  );
-
-  title.setAttribute(
-    "font-size",
-    "9"
-  );
-
-  title.setAttribute(
-    "fill",
-    "#a8b9ce"
-  );
-
-  title.textContent=
-    typeInfo(c).name;
-
-  g.appendChild(title);
-
-  /*
-    Runtime badge.
-  */
-
-  if(running){
-
-    const badge=document.createElementNS(
-      SVG_NS,
-      "text"
-    );
-
-    badge.setAttribute(
-      "x",
-      7
-    );
-
-    badge.setAttribute(
-      "y",
-      13
-    );
-
-    badge.setAttribute(
-      "font-size",
-      "9"
-    );
-
-    badge.setAttribute(
-      "font-weight",
-      "700"
-    );
-
-    badge.setAttribute(
-      "fill",
-      c.runtime.fault
-        ?"#fb5b67"
-        :"#34d399"
-    );
-
-    if(c.type==="cylinder"){
-
-      badge.textContent=
-        `${fmt(c.runtime.position,0)} mm`;
-
-    }else if(c.type==="motor"){
-
-      badge.textContent=
-        `${fmt(c.runtime.rpm,0)} rpm`;
-
-    }else if(c.type==="gauge"){
-
-      badge.textContent=
-        `${fmt(c.runtime.pressure||0)} bar`;
-
-    }else{
-
-      badge.textContent=
-        c.runtime.fault
-          ?"FAULT"
-          :"LIVE";
-    }
-
-    g.appendChild(badge);
-  }
-
-  /*
-    Ports.
-  */
-
-  typeInfo(c).ports.forEach(
-    ([name])=>{
-
-      const p=portPosition(
-        c,
-        name
-      );
-
-      const lx=p.x-c.x;
-      const ly=p.y-c.y;
-
-      const circle=document.createElementNS(
-        SVG_NS,
-        "circle"
-      );
-
-      circle.setAttribute(
-        "cx",
-        lx
-      );
-
-      circle.setAttribute(
-        "cy",
-        ly
-      );
-
-      const selectedPort=
-        connectFrom&&
-        connectFrom.c===c.id&&
-        connectFrom.p===name;
-
-      circle.setAttribute(
-        "r",
-        selectedPort?8:6
-      );
-
-      circle.setAttribute(
-        "fill",
-        selectedPort
-          ?"white"
-          :pressureColor(
-            c.runtime.pressures[name]||0
-          )
-      );
-
-      circle.setAttribute(
-        "stroke",
-        "#050b13"
-      );
-
-      circle.setAttribute(
-        "stroke-width",
-        "2"
-      );
-
-      g.appendChild(circle);
-
-      const txt=document.createElementNS(
-        SVG_NS,
-        "text"
-      );
-
-      txt.setAttribute(
-        "x",
-        lx
-      );
-
-      txt.setAttribute(
-        "y",
-        ly-9
-      );
-
-      txt.setAttribute(
-        "font-size",
-        "8"
-      );
-
-      txt.setAttribute(
-        "text-anchor",
-        "middle"
-      );
-
-      txt.setAttribute(
-        "fill",
-        "#91a5c0"
-      );
-
-      txt.textContent=name;
-
-      g.appendChild(txt);
-    }
-  );
-
-  /*
-    Cylinder rod.
-  */
-
+ if(running){
   if(c.type==="cylinder"){
-
-    const ratio=
-      clamp(
-        c.runtime.position/
-        Math.max(c.props.stroke,1),
-        0,
-        1
-      );
-
-    const rodTravel=
-      (c.w-45)*ratio;
-
-    const rod=document.createElementNS(
-      SVG_NS,
-      "line"
-    );
-
-    rod.setAttribute(
-      "x1",
-      c.w/2
-    );
-
-    rod.setAttribute(
-      "x2",
-      c.w/2+rodTravel
-    );
-
-    rod.setAttribute(
-      "y1",
-      c.h/2
-    );
-
-    rod.setAttribute(
-      "y2",
-      c.h/2
-    );
-
-    rod.setAttribute(
-      "stroke",
-      "#d0d9e5"
-    );
-
-    rod.setAttribute(
-      "stroke-width",
-      "7"
-    );
-
-    g.appendChild(rod);
+   createText(g,0,-72,`${fmt(c.sim.pressureA||0)} / ${fmt(c.sim.pressureB||0)} bar`,9,"#9fb0c7");
+  }else if(c.type==="motor"){
+   createText(g,0,-72,`${fmt(c.sim.rpm||0,0)} RPM`,9,"#9fb0c7");
+  }else if(c.type==="pump"||c.type==="variablePump"){
+   createText(g,0,-72,`${fmt(c.sim.flow||0,1)} L/min`,9,"#9fb0c7");
   }
+ }
 
-  /*
-    Valve status.
-  */
-
-  if(
-    c.type==="valve43"||
-    c.type==="valve42"
-  ){
-
-    const text=document.createElementNS(
-      SVG_NS,
-      "text"
-    );
-
-    text.setAttribute(
-      "x",
-      c.w/2
-    );
-
-    text.setAttribute(
-      "y",
-      "28"
-    );
-
-    text.setAttribute(
-      "text-anchor",
-      "middle"
-    );
-
-    text.setAttribute(
-      "font-size",
-      "12"
-    );
-
-    text.setAttribute(
-      "font-weight",
-      "700"
-    );
-
-    text.setAttribute(
-      "fill",
-      "#69d6ff"
-    );
-
-    text.textContent=
-      String(
-        c.props.position
-      ).toUpperCase();
-
-    g.appendChild(text);
-  }
-
-  if(c.type==="proportional"){
-
-    const text=document.createElementNS(
-      SVG_NS,
-      "text"
-    );
-
-    text.setAttribute(
-      "x",
-      c.w/2
-    );
-
-    text.setAttribute(
-      "y",
-      "28"
-    );
-
-    text.setAttribute(
-      "text-anchor",
-      "middle"
-    );
-
-    text.setAttribute(
-      "font-size",
-      "12"
-    );
-
-    text.setAttribute(
-      "font-weight",
-      "700"
-    );
-
-    text.setAttribute(
-      "fill",
-      "#69d6ff"
-    );
-
-    text.textContent=
-      `${c.props.command}%`;
-
-    g.appendChild(text);
-  }
-
-  /*
-    Component pointer behaviour is handled by
-    the SVG root hit testing system.
-  */
-
-  world.appendChild(g);
+ world.appendChild(g);
 }
 
 function drawSymbol(g,c){
 
-  const stroke="#b9c9dc";
+ const stroke="#dbe5f2";
+ const thin={stroke,fill:"none","stroke-width":2};
 
-  function line(
-    x1,y1,x2,y2,
-    width=2
-  ){
+ if(c.type==="tank"){
+  createLine(g,-40,20,40,20,thin);
+  createLine(g,-35,20,-35,0,thin);
+  createLine(g,35,20,35,0,thin);
+  createLine(g,-30,5,30,5,{stroke:"#3b82f6","stroke-width":2});
+  createLine(g,-25,10,25,10,{stroke:"#3b82f6","stroke-width":2});
+  createText(g,0,-12,"TANK",10,stroke);
+ }
 
-    const e=document.createElementNS(
-      SVG_NS,
-      "line"
-    );
+ else if(c.type==="pump"||c.type==="variablePump"){
+  const circ=document.createElementNS(SVG_NS,"circle");
+  circ.setAttribute("cx",0);circ.setAttribute("cy",0);circ.setAttribute("r",30);
+  circ.setAttribute("fill","#101a2a");
+  circ.setAttribute("stroke",stroke);circ.setAttribute("stroke-width","2");
+  g.appendChild(circ);
+  createLine(g,-12,12,13,-13,{stroke,width:2});
+  createLine(g,13,-13,7,-11,{stroke,"stroke-width":2});
+  createLine(g,13,-13,12,-6,{stroke,"stroke-width":2});
+  if(c.type==="variablePump"){
+   createLine(g,-24,-28,24,28,{stroke:"#8b5cf6","stroke-width":2});
+  }
+ }
 
-    e.setAttribute("x1",x1);
-    e.setAttribute("y1",y1);
-    e.setAttribute("x2",x2);
-    e.setAttribute("y2",y2);
+ else if(c.type==="accumulator"){
+  createLine(g,0,-45,0,-20,thin);
+  createRect(g,-30,-20,60,45,{fill:"#101a2a",stroke,"stroke-width":2,rx:5});
+  createLine(g,-25,0,25,0,{stroke:"#8b5cf6","stroke-width":2});
+  createLine(g,-30,25,30,25,thin);
+  createText(g,0,8,"GAS",9,"#8b5cf6");
+ }
 
-    e.setAttribute(
-      "stroke",
-      stroke
-    );
+ else if(c.type==="valve43"||c.type==="valve42"||c.type==="proportional"){
+  const boxes=c.type==="valve43"?3:2;
+  const w=45;
+  const start=-(boxes*w)/2;
 
-    e.setAttribute(
-      "stroke-width",
-      width
-    );
-
-    g.appendChild(e);
+  for(let i=0;i<boxes;i++){
+   createRect(g,start+i*w,-40,w,80,{
+    fill:"#101a2a",
+    stroke,
+    "stroke-width":2
+   });
   }
 
-  function path(d){
-
-    const e=document.createElementNS(
-      SVG_NS,
-      "path"
-    );
-
-    e.setAttribute(
-      "d",
-      d
-    );
-
-    e.setAttribute(
-      "fill",
-      "none"
-    );
-
-    e.setAttribute(
-      "stroke",
-      stroke
-    );
-
-    e.setAttribute(
-      "stroke-width",
-      "2"
-    );
-
-    g.appendChild(e);
+  if(c.type==="valve43"){
+   createText(g,start+w/2,5,"P→A",8,stroke);
+   createText(g,start+w+w/2,5,c.centre||"closed",7,"#8fa0b7");
+   createText(g,start+2*w+w/2,5,"B→T",8,stroke);
+  }else{
+   createText(g,-22,5,"P→A",8,stroke);
+   createText(g,22,5,"P→B",8,stroke);
   }
 
-  if(c.type==="tank"){
+  if(c.type==="proportional"){
+   createLine(g,-35,-52,35,-52,{stroke:"#8b5cf6","stroke-width":2});
+   createText(g,0,-56,`${Math.round(c.command||0)}%`,8,"#8b5cf6");
+  }
+ }
 
-    line(25,23,75,23,3);
+ else if(
+  c.type==="relief"||
+  c.type==="reducing"||
+  c.type==="sequence"||
+  c.type==="counterbalance"
+ ){
+  createLine(g,-45,0,-20,0,thin);
+  createLine(g,20,0,45,0,thin);
 
-    path(
-      "M30 23 V43 Q50 54 70 43 V23"
-    );
+  const p=document.createElementNS(SVG_NS,"path");
+  p.setAttribute("d","M-20 18 L0 -18 L20 18 Z");
+  p.setAttribute("fill","#101a2a");
+  p.setAttribute("stroke",stroke);
+  p.setAttribute("stroke-width","2");
+  g.appendChild(p);
 
-    return;
+  createText(g,0,5,
+   c.type==="relief"?"RV":
+   c.type==="reducing"?"PR":
+   c.type==="sequence"?"SQ":"CB",
+   9,stroke
+  );
+
+  createText(g,0,-48,`${fmt(c.setting,0)} bar`,8,"#8fa0b7");
+ }
+
+ else if(c.type==="check"){
+  createLine(g,-45,0,45,0,thin);
+  const p=document.createElementNS(SVG_NS,"path");
+  p.setAttribute("d","M-15 -18 L15 0 L-15 18 Z");
+  p.setAttribute("fill","#101a2a");
+  p.setAttribute("stroke",stroke);
+  p.setAttribute("stroke-width","2");
+  g.appendChild(p);
+  createLine(g,15,-22,15,22,thin);
+ }
+
+ else if(c.type==="flowControl"||c.type==="throttleCheck"){
+  createLine(g,-45,0,-20,0,thin);
+  createLine(g,20,0,45,0,thin);
+  createRect(g,-20,-18,40,36,{fill:"#101a2a",stroke,"stroke-width":2});
+  createLine(g,-16,-15,16,15,{stroke:"#f59e0b","stroke-width":2});
+  if(c.type==="throttleCheck"){
+   createLine(g,-16,15,16,-15,{stroke:"#3b82f6","stroke-width":2});
+  }
+ }
+
+ else if(c.type==="filter"){
+  createLine(g,-45,0,-20,0,thin);
+  createLine(g,20,0,45,0,thin);
+  const p=document.createElementNS(SVG_NS,"path");
+  p.setAttribute("d","M-20 -20 L20 -20 L0 20 Z");
+  p.setAttribute("fill","#101a2a");
+  p.setAttribute("stroke",stroke);
+  p.setAttribute("stroke-width","2");
+  g.appendChild(p);
+  createText(g,0,0,"F",10,stroke);
+ }
+
+ else if(c.type==="cylinder"){
+  createRect(g,-20,-42,80,84,{fill:"#101a2a",stroke,"stroke-width":2,rx:4});
+  createLine(g,60,0,82,0,{stroke,"stroke-width":3});
+  createLine(g,82,0,82,0,{stroke,"stroke-width":6});
+  createLine(g,-5,-30,-5,30,{stroke:"#8fa0b7","stroke-width":2});
+  createLine(g,0,0,35,0,{stroke:"#3b82f6","stroke-width":2});
+  createText(g,20,5,"CYL",9,stroke);
+ }
+
+ else if(c.type==="motor"){
+  const circ=document.createElementNS(SVG_NS,"circle");
+  circ.setAttribute("cx",0);circ.setAttribute("cy",0);circ.setAttribute("r",30);
+  circ.setAttribute("fill","#101a2a");
+  circ.setAttribute("stroke",stroke);
+  circ.setAttribute("stroke-width","2");
+  g.appendChild(circ);
+  createText(g,0,5,"M",15,stroke);
+  createText(g,0,-38,"↻",15,"#3b82f6");
+ }
+
+ else if(c.type==="gauge"){
+  const circ=document.createElementNS(SVG_NS,"circle");
+  circ.setAttribute("cx",0);circ.setAttribute("cy",-5);circ.setAttribute("r",28);
+  circ.setAttribute("fill","#101a2a");
+  circ.setAttribute("stroke",stroke);
+  circ.setAttribute("stroke-width","2");
+  g.appendChild(circ);
+  createLine(g,0,-5,15,-18,{stroke,"stroke-width":2});
+  createText(g,0,2,`${fmt(c.sim?.pressure||0,0)}`,9,stroke);
+ }
+
+ else if(c.type==="flowmeter"){
+  createRect(g,-30,-25,60,50,{fill:"#101a2a",stroke,"stroke-width":2,rx:4});
+  createText(g,0,5,`${fmt(c.sim?.flow||0,0)}`,10,stroke);
+  createText(g,0,-10,"L/min",7,"#8fa0b7");
+ }
+}
+
+/* ---------- pointer navigation ---------- */
+
+const svg=document.getElementById("svg");
+
+svg.addEventListener("pointerdown",e=>{
+ if(e.pointerType==="mouse"&&e.button!==0)return;
+
+ svg.setPointerCapture(e.pointerId);
+ activePointers.set(e.pointerId,{
+  x:e.clientX,
+  y:e.clientY
+ });
+
+ const target=e.target;
+
+ if(activePointers.size>=2){
+  pointerMode="pinch";
+
+  const pts=[...activePointers.values()];
+  const mid={
+   x:(pts[0].x+pts[1].x)/2,
+   y:(pts[0].y+pts[1].y)/2
+  };
+
+  const dist=Math.hypot(
+   pts[0].x-pts[1].x,
+   pts[0].y-pts[1].y
+  );
+
+  pinchData={
+   distance:dist,
+   zoom:camera.zoom,
+   mid,
+   world:cameraToWorld(mid.x,mid.y)
+  };
+
+  dragData=null;
+  return;
+ }
+
+ const port=target.closest?.("circle[data-component][data-port]");
+
+ if(port){
+  connectingPort={
+   c:port.dataset.component,
+   p:port.dataset.port
+  };
+  pointerMode="connect";
+  render();
+  return;
+ }
+
+ const group=target.closest?.("g[data-id]");
+
+ if(group){
+  const c=componentById(group.dataset.id);
+  if(c){
+   selected=c.id;
+
+   const w=cameraToWorld(e.clientX,e.clientY);
+
+   pointerMode="component";
+
+   dragData={
+    id:c.id,
+    offsetX:w.x-c.x,
+    offsetY:w.y-c.y,
+    before:deepClone({components,wires})
+   };
+
+   render();
+   updateInspector();
+   return;
+  }
+ }
+
+ pointerMode="pan";
+
+ dragData={
+  x:e.clientX,
+  y:e.clientY,
+  camX:camera.x,
+  camY:camera.y
+ };
+});
+
+svg.addEventListener("pointermove",e=>{
+ if(!activePointers.has(e.pointerId))return;
+
+ activePointers.set(e.pointerId,{
+  x:e.clientX,
+  y:e.clientY
+ });
+
+ if(pointerMode==="pinch"&&activePointers.size>=2){
+  const pts=[...activePointers.values()];
+
+  const mid={
+   x:(pts[0].x+pts[1].x)/2,
+   y:(pts[0].y+pts[1].y)/2
+  };
+
+  const dist=Math.hypot(
+   pts[0].x-pts[1].x,
+   pts[0].y-pts[1].y
+  );
+
+  if(pinchData){
+   const factor=dist/pinchData.distance;
+   const oldZoom=camera.zoom;
+   camera.zoom=clamp(pinchData.zoom*factor,.15,4);
+
+   const r=svg.getBoundingClientRect();
+   const world=pinchData.world;
+
+   camera.x=mid.x-r.left-world.x*camera.zoom;
+   camera.y=mid.y-r.top-world.y*camera.zoom;
+
+   applyCamera();
   }
 
-  if(
-    c.type==="pump"||
-    c.type==="variablePump"
-  ){
+  return;
+ }
 
-    const circle=
-      document.createElementNS(
-        SVG_NS,
-        "circle"
-      );
+ if(activePointers.size>1)return;
 
-    circle.setAttribute(
-      "cx",
-      c.w/2
-    );
+ if(pointerMode==="pan"&&dragData){
+  camera.x=dragData.camX+(e.clientX-dragData.x);
+  camera.y=dragData.camY+(e.clientY-dragData.y);
+  applyCamera();
+ }
 
-    circle.setAttribute(
-      "cy",
-      "35"
-    );
+ if(pointerMode==="component"&&dragData){
+  const c=componentById(dragData.id);
+  if(!c)return;
 
-    circle.setAttribute(
-      "r",
-      "19"
-    );
+  const w=cameraToWorld(e.clientX,e.clientY);
 
-    circle.setAttribute(
-      "fill",
-      "#101a2a"
-    );
+  c.x=Math.round((w.x-dragData.offsetX)/20)*20;
+  c.y=Math.round((w.y-dragData.offsetY)/20)*20;
 
-    circle.setAttribute(
-      "stroke",
-      stroke
-    );
+  render();
+  updateInspector();
+ }
+});
 
-    circle.setAttribute(
-      "stroke-width",
-      "2"
-    );
+svg.addEventListener("pointerup",e=>{
+ activePointers.delete(e.pointerId);
 
-    g.appendChild(circle);
+ if(pointerMode==="connect"){
+  const target=e.target.closest?.("circle[data-component][data-port]");
 
-    path(
-      `M${c.w/2-9} 35
-       L${c.w/2+8} 35
-       M${c.w/2+1} 28
-       L${c.w/2+9} 35
-       L${c.w/2+1} 42`
-    );
+  if(target&&connectingPort){
+   const dest={
+    c:target.dataset.component,
+    p:target.dataset.port
+   };
 
-    if(c.type==="variablePump"){
+   if(dest.c!==connectingPort.c||dest.p!==connectingPort.p){
+    connectPorts(connectingPort,dest);
+   }
+  }
 
-      line(
-        c.w/2-20,
-        53,
-        c.w/2+20,
-        17
-      );
+  connectingPort=null;
+  pointerMode=null;
+  render();
+  return;
+ }
+
+ if(pointerMode==="component"&&dragData){
+  saveState();
+ }
+
+ if(activePointers.size===0){
+  pointerMode=null;
+  dragData=null;
+  pinchData=null;
+ }
+});
+
+svg.addEventListener("pointercancel",e=>{
+ activePointers.delete(e.pointerId);
+
+ if(activePointers.size===0){
+  pointerMode=null;
+  dragData=null;
+  pinchData=null;
+  connectingPort=null;
+ }
+});
+
+svg.addEventListener("wheel",e=>{
+ e.preventDefault();
+ zoomAt(e.clientX,e.clientY,e.deltaY<0?1.1:.91);
+},{passive:false});
+
+svg.addEventListener("pointermove",e=>{
+ const p=cameraToWorld(e.clientX,e.clientY);
+ document.getElementById("coord").textContent=
+ `X ${Math.round(p.x)} • Y ${Math.round(p.y)}`;
+});
+
+/* ---------- connections ---------- */
+
+function connectPorts(a,b){
+ const duplicate=wires.some(w=>
+  (w.from.c===a.c&&w.from.p===a.p&&w.to.c===b.c&&w.to.p===b.p)||
+  (w.from.c===b.c&&w.from.p===b.p&&w.to.c===a.c&&w.to.p===a.p)
+ );
+
+ if(duplicate)return;
+
+ wires.push({
+  id:"w"+Date.now(),
+  from:a,
+  to:b,
+  sim:{pressure:0,flow:0}
+ });
+
+ saveState();
+ render();
+}
+
+/* ---------- simulation ---------- */
+
+function resetSimulationValues(){
+ components.forEach(c=>{
+  c.sim={
+   pressure:0,
+   flow:0,
+   force:0,
+   speed:0,
+   rpm:0,
+   pressureA:0,
+   pressureB:0
+  };
+
+  c.ports.forEach(p=>{
+   p.pressure=0;
+   p.flow=0;
+  });
+ });
+
+ wires.forEach(w=>{
+  w.sim={pressure:0,flow:0};
+ });
+}
+
+function toggleSimulation(){
+ running=!running;
+
+ const btn=document.getElementById("runBtn");
+ const mob=document.getElementById("mobileRun");
+
+ if(running){
+  btn.textContent="■ Stop";
+  btn.classList.remove("run");
+  btn.classList.add("stop");
+  mob.textContent="■";
+
+  document.getElementById("status").textContent="Running";
+  document.getElementById("simulationLabel").textContent="Simulation running";
+
+  runSimulation();
+
+  clearInterval(simulationTimer);
+  simulationTimer=setInterval(runSimulation,120);
+ }else{
+  btn.textContent="▶ Run";
+  btn.classList.remove("stop");
+  btn.classList.add("run");
+  mob.textContent="▶";
+
+  document.getElementById("status").textContent="Stopped";
+  document.getElementById("simulationLabel").textContent="Simulation stopped";
+
+  clearInterval(simulationTimer);
+  resetSimulationValues();
+  render();
+  updateInspector();
+ }
+}
+
+function runSimulation(){
+ resetSimulationValues();
+
+ const tanks=components.filter(c=>c.type==="tank");
+ const pumps=components.filter(c=>c.type==="pump"||c.type==="variablePump");
+
+ if(!tanks.length){
+  document.getElementById("status").textContent="⚠ No reservoir";
+  render();
+  return;
+ }
+
+ pumps.forEach(p=>{
+  let q=p.displacement*p.rpm/1000*p.efficiency;
+
+  if(p.type==="variablePump"){
+   q*=clamp(p.swash/100,0,1);
+  }
+
+  p.sim.flow=q;
+  p.sim.pressure=p.type==="variablePump"?p.compensator:p.pressureLimit;
+
+  p.ports.find(x=>x.id==="OUT").pressure=p.sim.pressure;
+  p.ports.find(x=>x.id==="OUT").flow=q;
+ });
+
+ /* Build connected groups */
+ const adjacency=new Map();
+
+ components.forEach(c=>adjacency.set(c.id,[]));
+
+ wires.forEach(w=>{
+  if(!adjacency.has(w.from.c)||!adjacency.has(w.to.c))return;
+
+  adjacency.get(w.from.c).push(w.to.c);
+  adjacency.get(w.to.c).push(w.from.c);
+ });
+
+ /* Basic network propagation */
+ const visited=new Set();
+
+ components.forEach(start=>{
+  if(visited.has(start.id))return;
+
+  const group=[];
+  const queue=[start.id];
+  visited.add(start.id);
+
+  while(queue.length){
+   const id=queue.shift();
+   group.push(componentById(id));
+
+   (adjacency.get(id)||[]).forEach(n=>{
+    if(!visited.has(n)){
+     visited.add(n);
+     queue.push(n);
     }
-
-    return;
+   });
   }
 
-  if(c.type==="accumulator"){
+  solveGroup(group);
+ });
 
-    const circle=
-      document.createElementNS(
-        SVG_NS,
-        "circle"
-      );
+ updateWires();
+ render();
+ updateInspector();
+}
 
-    circle.setAttribute(
-      "cx",
-      c.w/2
-    );
+function solveGroup(group){
 
-    circle.setAttribute(
-      "cy",
-      35
-    );
+ const pump=group.find(c=>c.type==="pump"||c.type==="variablePump");
+ const tank=group.find(c=>c.type==="tank");
 
-    circle.setAttribute(
-      "r",
-      20
-    );
+ if(!pump)return;
 
-    circle.setAttribute(
-      "fill",
-      "#101a2a"
-    );
+ let flow=pump.sim.flow;
+ let pressure=pump.sim.pressure;
 
-    circle.setAttribute(
-      "stroke",
-      stroke
-    );
+ const relief=group.find(c=>c.type==="relief");
 
-    circle.setAttribute(
-      "stroke-width",
-      2
-    );
+ if(relief){
+  if(pressure>relief.setting){
+   pressure=relief.setting;
+   relief.sim.flow=Math.min(flow,relief.flowCapacity);
+  }else{
+   relief.sim.flow=0;
+  }
+  relief.sim.pressure=pressure;
+  relief.ports[0].pressure=pressure;
+ }
 
-    g.appendChild(circle);
+ const reducing=group.find(c=>c.type==="reducing");
+ if(reducing){
+  pressure=Math.min(pressure,reducing.setting);
+  reducing.sim.pressure=pressure;
+ }
 
-    line(
-      c.w/2-10,
-      35,
-      c.w/2+10,
-      35
-    );
+ const cylinder=group.find(c=>c.type==="cylinder");
 
-    line(
-      c.w/2,
-      25,
-      c.w/2,
-      45
-    );
+ if(cylinder){
 
-    return;
+  let valve=group.find(c=>
+   c.type==="valve43"||
+   c.type==="valve42"||
+   c.type==="proportional"
+  );
+
+  let mode="closed";
+  let command=100;
+
+  if(valve){
+   if(valve.type==="proportional"){
+    command=clamp(valve.command,0,100);
+
+    if(command<5)mode="closed";
+    else if(command>=50)mode="extend";
+    else mode="retract";
+   }else{
+    mode=valve.position||"extend";
+   }
   }
 
-  if(c.type==="cylinder"){
+  const areaA=Math.PI*Math.pow(cylinder.bore/1000,2)/4;
+  const areaB=areaA-Math.PI*Math.pow(cylinder.rod/1000,2)/4;
 
-    line(20,35,120,35,4);
-    line(35,24,35,46,3);
-    line(80,20,80,50,4);
-    line(80,35,125,35,6);
+  const required=
+   (cylinder.load+cylinder.friction)/
+   Math.max(areaA,1e-9)/
+   100000;
 
-    return;
+  if(mode==="extend"){
+   cylinder.sim.pressureA=Math.max(required,pressure);
+   cylinder.sim.pressureB=0;
+
+   let available=flow;
+
+   const fc=group.find(c=>c.type==="flowControl");
+
+   if(fc){
+    available=Math.min(
+     available,
+     fc.maxFlow*fc.opening/100
+    );
+   }
+
+   if(valve?.type==="proportional"){
+    available*=command/100;
+   }
+
+   const speed=(available/60000)/areaA*1000;
+
+   cylinder.sim.speed=Math.min(
+    cylinder.maxSpeed,
+    speed
+   );
+
+   cylinder.position=clamp(
+    cylinder.position+cylinder.sim.speed*.002,
+    0,
+    cylinder.stroke
+   );
+
+   cylinder.sim.force=cylinder.sim.pressureA*100000*areaA;
+
+  }else if(mode==="retract"){
+
+   cylinder.sim.pressureB=Math.max(required,pressure);
+   cylinder.sim.pressureA=0;
+
+   let available=flow;
+
+   const fc=group.find(c=>c.type==="flowControl");
+
+   if(fc){
+    available=Math.min(
+     available,
+     fc.maxFlow*fc.opening/100
+    );
+   }
+
+   const speed=(available/60000)/areaB*1000;
+
+   cylinder.sim.speed=Math.min(
+    cylinder.maxSpeed,
+    speed
+   );
+
+   cylinder.position=clamp(
+    cylinder.position-cylinder.sim.speed*.002,
+    0,
+    cylinder.stroke
+   );
+
+   cylinder.sim.force=cylinder.sim.pressureB*100000*areaB;
+  }else{
+   cylinder.sim.speed=0;
   }
 
-  if(c.type==="motor"){
+  cylinder.sim.pressure=
+   Math.max(
+    cylinder.sim.pressureA,
+    cylinder.sim.pressureB
+   );
 
-    const circle=
-      document.createElementNS(
-        SVG_NS,
-        "circle"
-      );
+  cylinder.ports.find(p=>p.id==="A").pressure=cylinder.sim.pressureA;
+  cylinder.ports.find(p=>p.id==="B").pressure=cylinder.sim.pressureB;
+ }
 
-    circle.setAttribute(
-      "cx",
-      c.w/2
-    );
+ const motor=group.find(c=>c.type==="motor");
 
-    circle.setAttribute(
-      "cy",
-      35
-    );
+ if(motor){
 
-    circle.setAttribute(
-      "r",
-      21
-    );
+  const rpm=
+   flow*1000/
+   Math.max(motor.displacement,1);
 
-    circle.setAttribute(
-      "fill",
-      "#101a2a"
-    );
+  motor.sim.rpm=Math.min(
+   rpm*motor.efficiency,
+   motor.speedLimit
+  );
 
-    circle.setAttribute(
-      "stroke",
-      stroke
-    );
+  motor.sim.pressure=pressure;
 
-    circle.setAttribute(
-      "stroke-width",
-      2
-    );
+  motor.ports[0].pressure=pressure;
+  motor.ports[1].pressure=0;
 
-    g.appendChild(circle);
+  motor.sim.torque=
+   pressure*100000*
+   (motor.displacement/1000000)/
+   (2*Math.PI)*
+   motor.efficiency;
+ }
 
-    path(
-      `M${c.w/2-10} 40
-       Q${c.w/2} 20
-       ${c.w/2+10} 40`
-    );
-
-    return;
-  }
-
+ group.forEach(c=>{
   if(
-    c.type==="valve43"||
-    c.type==="valve42"||
-    c.type==="proportional"
+   c.type==="check"||
+   c.type==="filter"||
+   c.type==="flowControl"||
+   c.type==="throttleCheck"||
+   c.type==="sequence"||
+   c.type==="counterbalance"||
+   c.type==="gauge"||
+   c.type==="flowmeter"
   ){
-
-    const n=
-      c.type==="valve43"?3:2;
-
-    const bw=
-      (c.w-30)/n;
-
-    for(let i=0;i<n;i++){
-
-      const x=
-        15+i*bw;
-
-      const r=
-        document.createElementNS(
-          SVG_NS,
-          "rect"
-        );
-
-      r.setAttribute(
-        "x",
-        x
-      );
-
-      r.setAttribute(
-        "y",
-        15
-      );
-
-      r.setAttribute(
-        "width",
-        bw
-      );
-
-      r.setAttribute(
-        "height",
-        40
-      );
-
-      r.setAttribute(
-        "fill",
-        "#0b1422"
-      );
-
-      r.setAttribute(
-        "stroke",
-        stroke
-      );
-
-      g.appendChild(r);
-
-      if(i===0){
-
-        line(
-          x+8,
-          35,
-          x+bw-8,
-          35
-        );
-
-        path(
-          `M${x+bw/2-5} 30
-           L${x+bw/2+5} 35
-           L${x+bw/2-5} 40`
-        );
-      }
-    }
-
-    return;
+   c.sim.pressure=pressure;
+   c.sim.flow=flow;
+   c.ports.forEach(p=>p.pressure=pressure);
   }
 
-  if(
-    c.type==="relief"||
-    c.type==="reducing"||
-    c.type==="sequence"||
-    c.type==="counterbalance"
-  ){
-
-    path(
-      `M35 48
-       L${c.w/2} 18
-       L${c.w-35} 48 Z`
-    );
-
-    line(
-      c.w/2,
-      18,
-      c.w/2,
-      50
-    );
-
-    line(
-      38,
-      55,
-      c.w-38,
-      55
-    );
-
-    return;
+  if(c.type==="flowControl"){
+   c.sim.flow=Math.min(
+    flow,
+    c.maxFlow*c.opening/100
+   );
   }
 
-  if(c.type==="check"){
-
-    path(
-      "M35 22 L35 48 M35 22 L70 35 L35 48"
-    );
-
-    line(
-      70,
-      35,
-      95,
-      35
-    );
-
-    return;
-  }
-
-  if(
-    c.type==="flowControl"||
-    c.type==="throttleCheck"
-  ){
-
-    path(
-      "M30 20 L85 50 M85 20 L30 50"
-    );
-
-    line(
-      20,
-      35,
-      100,
-      35
-    );
-
-    return;
+  if(c.type==="throttleCheck"){
+   c.sim.flow=Math.min(
+    flow,
+    c.maxFlow*c.opening/100
+   );
   }
 
   if(c.type==="filter"){
+   c.sim.pressure=Math.max(0,pressure-c.restriction);
+  }
 
-    path(
-      "M25 20 L95 20
-       L65 35
-       L65 50
-       L55 50
-       L55 35 Z"
-    );
-
-    return;
+  if(c.type==="counterbalance"){
+   c.sim.pressure=Math.min(
+    pressure,
+    c.setting
+   );
   }
 
   if(c.type==="gauge"){
-
-    const circle=
-      document.createElementNS(
-        SVG_NS,
-        "circle"
-      );
-
-    circle.setAttribute(
-      "cx",
-      c.w/2
-    );
-
-    circle.setAttribute(
-      "cy",
-      35
-    );
-
-    circle.setAttribute(
-      "r",
-      22
-    );
-
-    circle.setAttribute(
-      "fill",
-      "#101a2a"
-    );
-
-    circle.setAttribute(
-      "stroke",
-      stroke
-    );
-
-    circle.setAttribute(
-      "stroke-width",
-      2
-    );
-
-    g.appendChild(circle);
-
-    line(
-      c.w/2,
-      35,
-      c.w/2+12,
-      26
-    );
-
-    return;
+   c.sim.pressure=pressure;
+   c.ports[0].pressure=pressure;
   }
 
   if(c.type==="flowmeter"){
-
-    path(
-      "M30 45 L45 25 L60 45 L75 25 L90 45"
-    );
-
-    return;
+   c.sim.flow=flow;
   }
+ });
+
+ if(tank){
+  tank.sim.pressure=0;
+  tank.sim.flow=flow;
+  tank.ports[0].pressure=0;
+  tank.ports[0].flow=flow;
+ }
 }
 
-/* =========================================================
-   DELETE / SELECT
-   ========================================================= */
+function updateWires(){
 
-function deleteSelected(){
+ wires.forEach(w=>{
+  const a=componentById(w.from.c);
+  const b=componentById(w.to.c);
 
-  if(!selectedId)return;
+  if(!a||!b)return;
 
-  pushHistory();
+  const pa=getPort(a,w.from.p);
+  const pb=getPort(b,w.to.p);
 
-  wires=wires.filter(
-    w=>
-      w.a.c!==selectedId &&
-      w.b.c!==selectedId
+  const pressures=[
+   Number(pa?.pressure||0),
+   Number(pb?.pressure||0)
+  ];
+
+  const flow=Math.max(
+   Number(pa?.flow||0),
+   Number(pb?.flow||0)
   );
 
-  components=components.filter(
-    c=>c.id!==selectedId
-  );
+  w.sim.pressure=Math.max(...pressures);
+  w.sim.flow=flow;
 
-  selectedId=null;
-
-  render();
-  renderInspector();
-
-  toast("Component deleted");
+  pa.flow=flow;
+  pb.flow=flow;
+ });
 }
 
-function deleteWire(id){
+/* ---------- inspector ---------- */
 
-  pushHistory();
+function updateInspector(){
+ const el=document.getElementById("inspectorContent");
 
-  wires=wires.filter(
-    w=>w.id!==id
-  );
+ if(!selected){
+  el.innerHTML=
+  `<div class="emptyInspector">
+   Select a component to edit its properties.
+   <br><br>
+   Drag components around the drawing area and connect ports.
+  </div>`;
+  return;
+ }
 
-  render();
+ const c=componentById(selected);
 
-  toast("Connection deleted");
+ if(!c){
+  el.innerHTML=`<div class="emptyInspector">Nothing selected.</div>`;
+  return;
+ }
+
+ let html=`
+ <div class="inspectorInner">
+
+ <div class="propGroup">
+ <div class="propTitle">Component</div>
+
+ <div class="field">
+ <label>Name</label>
+ <input id="prop_name" value="${esc(c.name)}">
+ </div>
+
+ <div class="field">
+ <label>X position</label>
+ <input id="prop_x" type="number" value="${c.x}">
+ </div>
+
+ <div class="field">
+ <label>Y position</label>
+ <input id="prop_y" type="number" value="${c.y}">
+ </div>
+
+ <div class="propButtons">
+ <button class="actionBtn primary" onclick="applyProperties()">Apply</button>
+ <button class="actionBtn" onclick="duplicateSelected()">Duplicate</button>
+ </div>
+
+ <div class="propButtons">
+ <button class="actionBtn danger" onclick="deleteSelected()">Delete</button>
+ <button class="actionBtn" onclick="disconnectSelected()">Disconnect</button>
+ </div>
+ </div>
+ `;
+
+ html+=componentProperties(c);
+
+ if(running){
+  html+=simulationProperties(c);
+ }
+
+ html+=`
+ </div>
+ `;
+
+ el.innerHTML=html;
 }
 
-function select(id){
+function componentProperties(c){
 
-  selectedId=id;
+ let h=`<div class="propGroup"><div class="propTitle">Parameters</div>`;
 
-  render();
-  renderInspector();
-}
-
-/* =========================================================
-   HYDRAULIC SIMULATION
-   ========================================================= */
-
-function pumpFlow(c){
-
-  let efficiency=
-    Number(c.props.efficiency)||.9;
-
-  if(faultOn(c,"pumpWear")){
-    efficiency*=.55;
-  }
-
-  if(faultOn(c,"pumpCavitation")){
-    efficiency*=.45;
-  }
-
-  let displacement=
-    Number(c.props.displacement)||0;
-
-  if(c.type==="variablePump"){
-
-    displacement*=
-      clamp(
-        Number(c.props.swash)||0,
-        0,
-        100
-      )/100;
-  }
-
-  return Math.max(
-    0,
-    displacement*
-    (Number(c.props.rpm)||0)/
-    1000*
-    efficiency
-  );
-}
-
-function faultOn(c,key){
-
-  return !!(
-    c.runtimeFaults &&
-    c.runtimeFaults[key]
-  );
-}
-
-function simulate(){
-
-  state.warnings=[];
-
-  const pumps=
-    components.filter(
-      c=>
-        c.type==="pump"||
-        c.type==="variablePump"
-    );
-
-  if(!pumps.length){
-    state.warnings.push(
-      "No pump in circuit"
-    );
-  }
-
-  if(
-    !components.some(
-      c=>c.type==="tank"
-    )
-  ){
-    state.warnings.push(
-      "No reservoir in circuit"
-    );
-  }
-
-  let flow=0;
-
-  pumps.forEach(
-    p=>{
-      flow+=pumpFlow(p);
-    }
-  );
-
-  if(
-    components.some(
-      c=>faultOn(c,"lowReservoir")
-    )
-  ){
-    flow*=.6;
-
-    state.warnings.push(
-      "Low reservoir / inlet starvation"
-    );
-  }
-
-  if(
-    components.some(
-      c=>faultOn(c,"pumpCavitation")
-    )
-  ){
-    state.warnings.push(
-      "Pump cavitation detected"
-    );
-  }
-
-  if(
-    components.some(
-      c=>faultOn(c,"pumpWear")
-    )
-  ){
-    state.warnings.push(
-      "Pump wear: reduced volumetric efficiency"
-    );
-  }
-
-  let pressure=0;
-
-  components.forEach(c=>{
-
-    if(c.type==="cylinder"){
-
-      const aa=
-        areaBore(
-          Number(c.props.bore)||100
-        );
-
-      const ab=
-        areaRod(
-          Number(c.props.bore)||100,
-          Number(c.props.rod)||50
-        );
-
-      const load=
-        Number(c.props.load)||0;
-
-      const friction=
-        Number(c.props.friction)||0;
-
-      const required=
-        (load+friction)/
-        Math.max(aa*10,1);
-
-      if(required>pressure){
-        pressure=required;
-      }
-    }
-
-    if(c.type==="motor"){
-
-      const tq=
-        Number(c.props.loadTorque)||100;
-
-      const disp=
-        Number(c.props.displacement)||80;
-
-      const required=
-        tq*2*Math.PI/
-        Math.max(
-          disp/1e6*1e5,
-          1
-        );
-
-      pressure=Math.max(
-        pressure,
-        required/100
-      );
-    }
-  });
-
-  const reliefs=
-    components.filter(
-      c=>c.type==="relief"
-    );
-
-  if(reliefs.length){
-
-    const setting=
-      Math.min(
-        ...reliefs.map(
-          r=>Number(r.props.setting)||210
-        )
-      );
-
-    pressure=
-      Math.min(
-        pressure,
-        setting+5
-      );
-  }else{
-
-    pressure=
-      Math.min(
-        pressure,
-        300
-      );
-  }
-
-  if(
-    components.some(
-      c=>faultOn(c,"reliefFault")
-    )
-  ){
-    pressure+=40;
-
-    state.warnings.push(
-      "Relief valve fault"
-    );
-  }
-
-  if(
-    components.some(
-      c=>faultOn(c,"blockedFilter")
-    )
-  ){
-    pressure+=35;
-
-    state.warnings.push(
-      "Blocked filter: high pressure drop"
-    );
-  }
-
-  if(
-    components.some(
-      c=>faultOn(c,"hoseRestriction")
-    )
-  ){
-    pressure+=20;
-
-    state.warnings.push(
-      "Hose restriction detected"
-    );
-  }
-
-  pressure=Math.max(
-    0,
-    pressure
-  );
-
-  state.systemPressure=pressure;
-  state.supplyFlow=flow;
-
-  /*
-    Component pressure states.
-  */
-
-  components.forEach(c=>{
-
-    c.runtime.pressures={};
-    c.runtime.fault=
-      Object.values(
-        c.runtimeFaults||{}
-      ).some(Boolean);
-
-    if(c.type==="tank"){
-
-      c.runtime.pressures.T=0;
-    }
-
-    if(
-      c.type==="pump"||
-      c.type==="variablePump"
-    ){
-
-      c.runtime.pressures.IN=0;
-      c.runtime.pressures.OUT=pressure;
-    }
-
-    if(c.type==="gauge"){
-
-      c.runtime.pressure=pressure;
-      c.runtime.pressures.P=pressure;
-    }
-
-    if(c.type==="relief"){
-
-      c.runtime.pressures.IN=pressure;
-      c.runtime.pressures.OUT=0;
-
-      const setting=
-        Number(c.props.setting)||210;
-
-      c.runtime.open=
-        pressure>=setting;
-
-      c.runtime.flow=
-        c.runtime.open
-          ?flow
-          :0;
-    }
-
-    if(c.type==="reducing"){
-
-      c.runtime.pressures.IN=pressure;
-
-      c.runtime.pressures.OUT=
-        Math.min(
-          pressure,
-          Number(c.props.setting)||120
-        );
-    }
-
-    if(c.type==="sequence"){
-
-      c.runtime.pressures.IN=pressure;
-
-      c.runtime.pressures.OUT=
-        pressure>=
-        Number(c.props.setting)||100
-          ?pressure
-          :0;
-    }
-
-    if(c.type==="counterbalance"){
-
-      c.runtime.pressures.IN=pressure;
-      c.runtime.pressures.OUT=pressure;
-      c.runtime.pressures.PILOT=pressure;
-    }
-
-    if(
-      c.type==="valve43"||
-      c.type==="valve42"
-    ){
-
-      const pos=
-        c.props.position;
-
-      if(pos==="extend"){
-
-        c.runtime.pressures={
-          P:pressure,
-          T:0,
-          A:pressure,
-          B:0
-        };
-
-      }else if(pos==="retract"){
-
-        c.runtime.pressures={
-          P:pressure,
-          T:0,
-          A:0,
-          B:pressure
-        };
-
-      }else{
-
-        c.runtime.pressures={
-          P:pressure,
-          T:0,
-          A:0,
-          B:0
-        };
-      }
-    }
-
-    if(c.type==="proportional"){
-
-      const command=
-        Number(c.props.command)||0;
-
-      if(command>55){
-
-        c.runtime.pressures={
-          P:pressure,
-          T:0,
-          A:pressure,
-          B:0
-        };
-
-      }else if(command<45){
-
-        c.runtime.pressures={
-          P:pressure,
-          T:0,
-          A:0,
-          B:pressure
-        };
-
-      }else{
-
-        c.runtime.pressures={
-          P:pressure,
-          T:0,
-          A:0,
-          B:0
-        };
-      }
-    }
-
-    if(
-      c.type==="flowControl"||
-      c.type==="throttleCheck"
-    ){
-
-      c.runtime.pressures.IN=pressure;
-      c.runtime.pressures.OUT=
-        Math.max(
-          0,
-          pressure-
-          (100-
-            Number(c.props.opening||100)
-          )/100*
-          Number(c.props.restriction||2)
-        );
-
-      c.runtime.flow=
-        Math.min(
-          flow,
-          Number(c.props.maxFlow)||80
-        )*
-        Number(c.props.opening||100)/100;
-    }
-
-    if(c.type==="filter"){
-
-      const restriction=
-        faultOn(c,"blockedFilter")
-          ?35
-          :Number(c.props.restriction)||.3;
-
-      c.runtime.pressures.IN=pressure;
-      c.runtime.pressures.OUT=
-        Math.max(
-          0,
-          pressure-restriction
-        );
-    }
-
-    if(c.type==="check"){
-
-      c.runtime.pressures.IN=pressure;
-      c.runtime.pressures.OUT=
-        Math.max(
-          0,
-          pressure-
-          Number(c.props.cracking||.5)
-        );
-    }
-
-    if(c.type==="flowmeter"){
-
-      c.runtime.pressures.IN=pressure;
-      c.runtime.pressures.OUT=pressure;
-      c.runtime.flow=
-        Math.min(
-          flow,
-          Number(c.props.range)||200
-        );
-    }
-
-    if(c.type==="accumulator"){
-
-      c.runtime.pressures.P=
-        Math.min(
-          pressure,
-          Number(c.props.maxPressure)||250
-        );
-    }
-
-    if(c.type==="cylinder"){
-
-      let pa=0;
-      let pb=0;
-
-      const valve=
-        connectedValveToCylinder(c);
-
-      if(valve){
-
-        if(
-          valve.type==="proportional"
-        ){
-
-          if(
-            Number(
-              valve.props.command
-            )>55
-          ){
-            pa=pressure;
-            pb=0;
-          }else if(
-            Number(
-              valve.props.command
-            )<45
-          ){
-            pa=0;
-            pb=pressure;
-          }
-
-        }else{
-
-          if(
-            valve.props.position==="extend"
-          ){
-            pa=pressure;
-            pb=0;
-          }
-
-          if(
-            valve.props.position==="retract"
-          ){
-            pa=0;
-            pb=pressure;
-          }
-        }
-      }
-
-      c.runtime.pressures.A=pa;
-      c.runtime.pressures.B=pb;
-
-      const aa=
-        areaBore(
-          Number(c.props.bore)||100
-        );
-
-      const ab=
-        areaRod(
-          Number(c.props.bore)||100,
-          Number(c.props.rod)||50
-        );
-
-      const load=
-        Number(c.props.load)||0;
-
-      const friction=
-        Number(c.props.friction)||0;
-
-      const force=
-        pa*aa*10-
-        pb*ab*10-
-        load;
-
-      c.runtime.force=force;
-
-      let speed=0;
-
-      if(pa>pb){
-
-        speed=
-          flow/
-          60000/
-          Math.max(aa,1)*
-          1000;
-
-      }else if(pb>pa){
-
-        speed=
-          -flow/
-          60000/
-          Math.max(ab,1)*
-          1000;
-      }
-
-      speed=
-        clamp(
-          speed,
-          -(Number(c.props.maxSpeed)||300),
-          Number(c.props.maxSpeed)||300
-        );
-
-      if(
-        Math.abs(force)<
-        friction
-      ){
-        speed*=.15;
-      }
-
-      if(
-        Number(c.props.leakage)>0||
-        faultOn(c,"cylinderLeakage")
-      ){
-
-        speed*=
-          .5;
-
-        state.warnings.push(
-          "Cylinder internal leakage"
-        );
-      }
-
-      c.runtime.speed=speed;
-
-      if(running){
-
-        c.runtime.position+=
-          speed*state.dt;
-
-        c.runtime.position=
-          clamp(
-            c.runtime.position,
-            0,
-            Number(c.props.stroke)||500
-          );
-      }else{
-
-        c.runtime.position=
-          Number(c.props.position)||0;
-      }
-    }
-
-    if(c.type==="motor"){
-
-      const dp=
-        Math.max(
-          0,
-          (c.runtime.pressures.A||pressure)-
-          (c.runtime.pressures.B||0)
-        );
-
-      const disp=
-        Number(c.props.displacement)||80;
-
-      const eff=
-        Number(c.props.efficiency)||.9;
-
-      c.runtime.torque=
-        dp*
-        100000*
-        (disp/1e6)/
-        (2*Math.PI)*
-        eff;
-
-      c.runtime.rpm=
-        clamp(
-          flow*1000/disp*eff,
-          0,
-          Number(c.props.speedLimit)||2500
-        );
-
-      c.runtime.pressures.A=pressure;
-      c.runtime.pressures.B=0;
-    }
-
-  });
-
-  /*
-    Wire states.
-  */
-
-  wires.forEach(w=>{
-
-    const a=getComponent(w.a.c);
-    const b=getComponent(w.b.c);
-
-    if(!a||!b)return;
-
-    const pa=
-      a.runtime.pressures[w.a.p]||0;
-
-    const pb=
-      b.runtime.pressures[w.b.p]||0;
-
-    const dp=pa-pb;
-
-    let q=0;
-
-    if(Math.abs(dp)>.05){
-
-      q=
-        Math.sign(dp)*
-        Math.min(
-          flow,
-          Math.sqrt(
-            Math.abs(dp)
-          )*5
-        );
-    }
-
-    if(
-      faultOn(a,"hoseRestriction")||
-      faultOn(b,"hoseRestriction")
-    ){
-      q*=.35;
-    }
-
-    w.flow=q;
-
-    w.pressure=
-      Math.max(
-        pa,
-        pb
-      );
-
-    w.direction=
-      q>0?1:q<0?-1:0;
-  });
-
-  state.returnFlow=
-    Math.max(
-      0,
-      flow*.2
-    );
-
-  state.warnings=
-    [...new Set(state.warnings)];
-}
-
-function connectedValveToCylinder(c){
-
-  for(const w of wires){
-
-    if(w.a.c===c.id){
-
-      const other=
-        getComponent(w.b.c);
-
-      if(
-        other &&
-        (
-          other.type==="valve43"||
-          other.type==="valve42"||
-          other.type==="proportional"
-        )
-      ){
-        return other;
-      }
-    }
-
-    if(w.b.c===c.id){
-
-      const other=
-        getComponent(w.a.c);
-
-      if(
-        other &&
-        (
-          other.type==="valve43"||
-          other.type==="valve42"||
-          other.type==="proportional"
-        )
-      ){
-        return other;
-      }
-    }
-  }
-
-  return null;
-}
-
-/* =========================================================
-   SIMULATION CONTROLS
-   ========================================================= */
-
-function toggleSimulation(){
-
-  running=!running;
-
-  const status=
-    document.getElementById("status");
-
-  const btn=
-    document.getElementById("runBtn");
-
-  const mobile=
-    document.getElementById("mobileRun");
-
-  if(running){
-
-    status.textContent="RUNNING";
-    status.classList.add("running");
-
-    btn.textContent="■ Stop";
-    mobile.textContent="■";
-
-    let last=performance.now();
-
-    timer=setInterval(()=>{
-
-      const now=performance.now();
-
-      state.dt=
-        Math.min(
-          .05,
-          (now-last)/1000
-        );
-
-      last=now;
-
-      state.time+=state.dt;
-
-      simulate();
-
-      render();
-
-      renderInspector();
-
-    },50);
-
-    toast("Simulation running");
-
-  }else{
-
-    clearInterval(timer);
-
-    status.textContent="STOPPED";
-    status.classList.remove("running");
-
-    btn.textContent="▶ Run";
-    mobile.textContent="▶";
-
-    simulate();
-    render();
-    renderInspector();
-
-    toast("Simulation stopped");
-  }
-}
-
-/* =========================================================
-   INSPECTOR
-   ========================================================= */
-
-function renderInspector(){
-
-  const box=
-    document.getElementById(
-      "inspectorContent"
-    );
-
-  const c=
-    getComponent(selectedId);
-
-  if(!c){
-
-    box.innerHTML=
-      monitorHtml();
-
-    return;
-  }
-
-  let html=`
-
-    <div class="section">
-
-      <h4>
-        ${escapeHtml(typeInfo(c).name)}
-      </h4>
-
-      <button
-        class="danger"
-        style="width:100%"
-        onclick="deleteSelected()"
-      >
-        Delete Component
-      </button>
-
-    </div>
-
-  `;
-
-  html+=propertiesHtml(c);
-  html+=runtimeHtml(c);
-  html+=faultHtml(c);
-
-  box.innerHTML=html;
-}
-
-function inputField(
-  c,
-  key,
-  label,
-  type="number"
-){
-
-  return`
-
-    <div class="field">
-
-      <label>
-        ${label}
-      </label>
-
-      <input
-        type="${type}"
-        value="${escapeHtml(c.props[key])}"
-        onchange="
-          setProp(
-            '${c.id}',
-            '${key}',
-            this.value
-          )
-        "
-      >
-
-    </div>
-
-  `;
-}
-
-function rangeField(
-  c,
-  key,
-  label,
-  min,
-  max,
-  unit=""
-){
-
-  return`
-
-    <div class="field">
-
-      <label>
-        ${label}:
-        <b id="range_${c.id}_${key}">
-          ${c.props[key]}
-        </b>${unit}
-      </label>
-
-      <input
-        type="range"
-        min="${min}"
-        max="${max}"
-        step="1"
-        value="${c.props[key]}"
-        oninput="
-          setPropLive(
-            '${c.id}',
-            '${key}',
-            this.value
-          )
-        "
-      >
-
-    </div>
-
-  `;
-}
-
-function selectField(
-  c,
-  key,
-  label,
-  values
-){
-
-  return`
-
-    <div class="field">
-
-      <label>
-        ${label}
-      </label>
-
-      <select
-        onchange="
-          setProp(
-            '${c.id}',
-            '${key}',
-            this.value
-          )
-        "
-      >
-
-        ${values.map(
-          v=>`
-            <option
-              value="${v}"
-              ${String(c.props[key])===String(v)
-                ?"selected"
-                :""}
-            >
-              ${v}
-            </option>
-          `
-        ).join("")}
-
-      </select>
-
-    </div>
-
-  `;
-}
-
-function propertiesHtml(c){
-
-  let h=
-    `<div class="section">
-       <h4>Properties</h4>`;
-
-  switch(c.type){
-
-    case"tank":
-
-      h+=inputField(
-        c,
-        "volume",
-        "Reservoir volume (L)"
-      );
-
-      h+=inputField(
-        c,
-        "level",
-        "Fluid level (%)"
-      );
-
-      h+=inputField(
-        c,
-        "temperature",
-        "Temperature (°C)"
-      );
-
-      break;
-
-    case"pump":
-
-      h+=inputField(
-        c,
-        "displacement",
-        "Displacement (cc/rev)"
-      );
-
-      h+=inputField(
-        c,
-        "rpm",
-        "Speed (rpm)"
-      );
-
-      h+=inputField(
-        c,
-        "efficiency",
-        "Efficiency"
-      );
-
-      break;
-
-    case"variablePump":
-
-      h+=inputField(
-        c,
-        "displacement",
-        "Maximum displacement (cc/rev)"
-      );
-
-      h+=inputField(
-        c,
-        "rpm",
-        "Speed (rpm)"
-      );
-
-      h+=inputField(
-        c,
-        "efficiency",
-        "Efficiency"
-      );
-
-      h+=rangeField(
-        c,
-        "swash",
-        "Swash / displacement",
-        0,
-        100,
-        "%"
-      );
-
-      h+=inputField(
-        c,
-        "compensator",
-        "Compensator pressure (bar)"
-      );
-
-      break;
-
-    case"valve43":
-
-      h+=selectField(
-        c,
-        "position",
-        "Position",
-        [
-          "extend",
-          "neutral",
-          "retract"
-        ]
-      );
-
-      h+=selectField(
-        c,
-        "centre",
-        "Centre condition",
-        [
-          "closed",
-          "float",
-          "tandem",
-          "open"
-        ]
-      );
-
-      h+=inputField(
-        c,
-        "flowRating",
-        "Flow rating (L/min)"
-      );
-
-      break;
-
-    case"valve42":
-
-      h+=selectField(
-        c,
-        "position",
-        "Position",
-        [
-          "extend",
-          "retract"
-        ]
-      );
-
-      h+=inputField(
-        c,
-        "flowRating",
-        "Flow rating (L/min)"
-      );
-
-      break;
-
-    case"proportional":
-
-      h+=rangeField(
-        c,
-        "command",
-        "Command",
-        0,
-        100,
-        "%"
-      );
-
-      h+=inputField(
-        c,
-        "flowRating",
-        "Flow rating (L/min)"
-      );
-
-      break;
-
-    case"relief":
-
-      h+=inputField(
-        c,
-        "setting",
-        "Pressure setting (bar)"
-      );
-
-      h+=inputField(
-        c,
-        "cracking",
-        "Cracking ratio"
-      );
-
-      h+=inputField(
-        c,
-        "flowCapacity",
-        "Flow capacity (L/min)"
-      );
-
-      break;
-
-    case"reducing":
-
-      h+=inputField(
-        c,
-        "setting",
-        "Reduced pressure (bar)"
-      );
-
-      break;
-
-    case"sequence":
-
-      h+=inputField(
-        c,
-        "setting",
-        "Sequence pressure (bar)"
-      );
-
-      break;
-
-    case"counterbalance":
-
-      h+=inputField(
-        c,
-        "setting",
-        "Counterbalance setting (bar)"
-      );
-
-      h+=inputField(
-        c,
-        "pilotRatio",
-        "Pilot ratio"
-      );
-
-      break;
-
-    case"check":
-
-      h+=inputField(
-        c,
-        "cracking",
-        "Cracking pressure (bar)"
-      );
-
-      break;
-
-    case"flowControl":
-    case"throttleCheck":
-
-      h+=rangeField(
-        c,
-        "opening",
-        "Opening",
-        0,
-        100,
-        "%"
-      );
-
-      h+=inputField(
-        c,
-        "maxFlow",
-        "Maximum flow (L/min)"
-      );
-
-      h+=selectField(
-        c,
-        "mode",
-        "Mode",
-        [
-          "meter-in",
-          "meter-out"
-        ]
-      );
-
-      break;
-
-    case"filter":
-
-      h+=inputField(
-        c,
-        "rating",
-        "Pressure rating (bar)"
-      );
-
-      h+=inputField(
-        c,
-        "restriction",
-        "Restriction (bar)"
-      );
-
-      break;
-
-    case"cylinder":
-
-      h+=inputField(
-        c,
-        "bore",
-        "Bore (mm)"
-      );
-
-      h+=inputField(
-        c,
-        "rod",
-        "Rod diameter (mm)"
-      );
-
-      h+=inputField(
-        c,
-        "stroke",
-        "Stroke (mm)"
-      );
-
-      h+=inputField(
-        c,
-        "load",
-        "Load (N)"
-      );
-
-      h+=inputField(
-        c,
-        "friction",
-        "Friction (N)"
-      );
-
-      h+=inputField(
-        c,
-        "position",
-        "Starting position (mm)"
-      );
-
-      h+=inputField(
-        c,
-        "maxSpeed",
-        "Maximum speed (mm/s)"
-      );
-
-      h+=inputField(
-        c,
-        "leakage",
-        "Leakage (%)"
-      );
-
-      break;
-
-    case"motor":
-
-      h+=inputField(
-        c,
-        "displacement",
-        "Displacement (cc/rev)"
-      );
-
-      h+=inputField(
-        c,
-        "loadTorque",
-        "Load torque (Nm)"
-      );
-
-      h+=inputField(
-        c,
-        "speedLimit",
-        "Speed limit (rpm)"
-      );
-
-      h+=inputField(
-        c,
-        "efficiency",
-        "Efficiency"
-      );
-
-      break;
-  }
-
-  h+=`</div>`;
-
-  return h;
-}
-
-function runtimeHtml(c){
-
-  let h=`
-
-    <div class="section">
-
-      <h4>Live Values</h4>
-
-      <div class="metric-grid">
-
-  `;
-
-  Object.entries(
-    c.runtime.pressures||{}
-  ).forEach(
-    ([p,v])=>{
-
-      h+=`
-
-        <div class="metric">
-
-          <div class="v ${
-            v>200
-              ?"bad"
-              :v>120
-                ?"warn"
-                :"info"
-          }">
-
-            ${fmt(v)} bar
-
-          </div>
-
-          <div class="l">
-            PORT ${p}
-          </div>
-
-        </div>
-
-      `;
-    }
-  );
-
-  if(c.type==="cylinder"){
-
-    h+=`
-
-      <div class="metric">
-        <div class="v">
-          ${fmt(c.runtime.position,1)} mm
-        </div>
-        <div class="l">POSITION</div>
-      </div>
-
-      <div class="metric">
-        <div class="v">
-          ${fmt(c.runtime.speed,1)} mm/s
-        </div>
-        <div class="l">SPEED</div>
-      </div>
-
-      <div class="metric">
-        <div class="v">
-          ${fmt(c.runtime.force,0)} N
-        </div>
-        <div class="l">FORCE</div>
-      </div>
-
-    `;
-  }
-
-  if(c.type==="motor"){
-
-    h+=`
-
-      <div class="metric">
-        <div class="v">
-          ${fmt(c.runtime.rpm,0)}
-        </div>
-        <div class="l">RPM</div>
-      </div>
-
-      <div class="metric">
-        <div class="v">
-          ${fmt(c.runtime.torque,1)} Nm
-        </div>
-        <div class="l">TORQUE</div>
-      </div>
-
-    `;
-  }
-
-  if(c.runtime.flow!==undefined){
-
-    h+=`
-
-      <div class="metric">
-
-        <div class="v">
-          ${fmt(c.runtime.flow,1)}
-        </div>
-
-        <div class="l">
-          FLOW L/MIN
-        </div>
-
-      </div>
-
-    `;
-  }
-
+ const add=(key,label,unit="",step="any")=>{
   h+=`
+  <div class="field">
+  <label>${label}${unit?" ("+unit+")":""}</label>
+  <input id="prop_${key}" type="number" step="${step}" value="${c[key]??0}">
+  </div>`;
+ };
 
-      </div>
+ switch(c.type){
 
-    </div>
+ case"tank":
+  add("volume","Tank volume","L");
+  add("level","Fluid level","%");
+  break;
 
-  `;
+ case"pump":
+  add("displacement","Displacement","cc/rev");
+  add("rpm","Speed","RPM");
+  add("efficiency","Efficiency","%","0.01");
+  add("pressureLimit","Pressure limit","bar");
+  break;
 
-  return h;
-}
+ case"variablePump":
+  add("displacement","Displacement","cc/rev");
+  add("rpm","Speed","RPM");
+  add("swash","Swash","%");
+  add("efficiency","Efficiency","%","0.01");
+  add("compensator","Compensator","bar");
+  break;
 
-function faultHtml(c){
+ case"accumulator":
+  add("volume","Volume","L");
+  add("precharge","Precharge","bar");
+  add("maxPressure","Maximum pressure","bar");
+  add("gasIndex","Gas exponent","","0.01");
+  break;
 
-  const faults={
-    pump:[
-      ["pumpWear","Pump wear"],
-      ["pumpCavitation","Pump cavitation"],
-      ["lowReservoir","Low reservoir"]
-    ],
-
-    variablePump:[
-      ["pumpWear","Pump wear"],
-      ["pumpCavitation","Pump cavitation"],
-      ["lowReservoir","Low reservoir"]
-    ],
-
-    filter:[
-      ["blockedFilter","Blocked filter"]
-    ],
-
-    cylinder:[
-      ["cylinderLeakage","Cylinder internal leakage"]
-    ],
-
-    valve43:[
-      ["valveStuck","Valve stuck"]
-    ],
-
-    valve42:[
-      ["valveStuck","Valve stuck"]
-    ],
-
-    proportional:[
-      ["valveStuck","Valve stuck"]
-    ],
-
-    relief:[
-      ["reliefFault","Relief valve fault"]
-    ],
-
-    flowControl:[
-      ["hoseRestriction","Hose restriction"]
-    ],
-
-    throttleCheck:[
-      ["hoseRestriction","Hose restriction"]
-    ]
-  };
-
-  const list=faults[c.type];
-
-  if(!list)return"";
-
-  let h=`
-
-    <div class="section">
-
-      <h4>Fault Injection</h4>
-
-  `;
-
-  list.forEach(
-    ([key,label])=>{
-
-      const on=
-        faultOn(c,key);
-
-      h+=`
-
-        <button
-          style="width:100%;margin-bottom:5px"
-          class="${on?"danger":""}"
-          onclick="
-            toggleFault(
-              '${c.id}',
-              '${key}'
-            )
-          "
-        >
-
-          ${on
-            ?"⚠ Disable "
-            :"Enable "}
-
-          ${label}
-
-        </button>
-
-      `;
-    }
-  );
-
+ case"valve43":
   h+=`
+  <div class="field">
+  <label>Position</label>
+  <select id="prop_position">
+  <option value="extend">Extend</option>
+  <option value="retract">Retract</option>
+  <option value="neutral">Neutral</option>
+  </select>
+  </div>
+  <div class="field">
+  <label>Centre condition</label>
+  <select id="prop_centre">
+  <option value="closed">Closed</option>
+  <option value="open">Open</option>
+  <option value="tandem">Tandem</option>
+  <option value="float">Float</option>
+  </select>
+  </div>`;
+  break;
 
-      <div class="help">
-        Faults are deliberately exaggerated
-        for hydraulic troubleshooting training.
-      </div>
-
-    </div>
-
-  `;
-
-  return h;
-}
-
-function monitorHtml(){
-
-  let h=`
-
-    <div class="section">
-
-      <h4>System Monitor</h4>
-
-      <div class="metric-grid">
-
-        <div class="metric">
-          <div class="v info">
-            ${fmt(state.systemPressure)} bar
-          </div>
-          <div class="l">
-            SYSTEM PRESSURE
-          </div>
-        </div>
-
-        <div class="metric">
-          <div class="v">
-            ${fmt(state.supplyFlow)} L/min
-          </div>
-          <div class="l">
-            PUMP FLOW
-          </div>
-        </div>
-
-        <div class="metric">
-          <div class="v">
-            ${components.length}
-          </div>
-          <div class="l">
-            COMPONENTS
-          </div>
-        </div>
-
-        <div class="metric">
-          <div class="v">
-            ${wires.length}
-          </div>
-          <div class="l">
-            CONNECTIONS
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-
-  `;
-
+ case"valve42":
   h+=`
+  <div class="field">
+  <label>Position</label>
+  <select id="prop_position">
+  <option value="extend">Extend</option>
+  <option value="retract">Retract</option>
+  </select>
+  </div>`;
+  break;
 
-    <div class="section">
+ case"proportional":
+  add("command","Command","%");
+  h+=`
+  <div class="field">
+  <label>Centre condition</label>
+  <select id="prop_centre">
+  <option value="closed">Closed</option>
+  <option value="open">Open</option>
+  </select>
+  </div>`;
+  break;
 
-      <h4>Diagnostics</h4>
+ case"relief":
+  add("setting","Relief setting","bar");
+  add("cracking","Cracking ratio","","0.01");
+  add("flowCapacity","Flow capacity","L/min");
+  break;
 
-      ${
-        state.warnings.length
-          ?state.warnings.map(
-            x=>`
-              <div
-                class="warn"
-                style="font-size:11px;padding:4px 0"
-              >
-                ⚠ ${escapeHtml(x)}
-              </div>
-            `
-          ).join("")
-          :`
-            <div class="good" style="font-size:11px">
-              ✓ No active warnings
-            </div>
-          `
-      }
+ case"reducing":
+  add("setting","Reduced pressure","bar");
+  add("flowCapacity","Flow capacity","L/min");
+  break;
 
-    </div>
+ case"sequence":
+  add("setting","Sequence setting","bar");
+  add("flowCapacity","Flow capacity","L/min");
+  break;
 
-  `;
+ case"counterbalance":
+  add("setting","Setting","bar");
+  add("pilotRatio","Pilot ratio","","0.1");
+  add("flowCapacity","Flow capacity","L/min");
+  break;
 
-  return h;
+ case"check":
+  add("cracking","Cracking pressure","bar");
+  add("flowCapacity","Flow capacity","L/min");
+  break;
+
+ case"flowControl":
+  add("opening","Opening","%");
+  add("maxFlow","Maximum flow","L/min");
+  add("restriction","Restriction","bar");
+  h+=`
+  <div class="field">
+  <label>Mode</label>
+  <select id="prop_mode">
+  <option value="meter-in">Meter-in</option>
+  <option value="meter-out">Meter-out</option>
+  </select>
+  </div>`;
+  break;
+
+ case"throttleCheck":
+  add("opening","Opening","%");
+  add("maxFlow","Maximum flow","L/min");
+  add("restriction","Restriction","bar");
+  break;
+
+ case"filter":
+  add("rating","Pressure rating","bar");
+  add("restriction","Pressure drop","bar");
+  break;
+
+ case"cylinder":
+  add("bore","Bore","mm");
+  add("rod","Rod","mm");
+  add("stroke","Stroke","mm");
+  add("load","Load","N");
+  add("friction","Friction","N");
+  add("position","Position","mm");
+  add("maxSpeed","Maximum speed","mm/s");
+  add("leakage","Leakage","L/min");
+  break;
+
+ case"motor":
+  add("displacement","Displacement","cc/rev");
+  add("loadTorque","Load torque","Nm");
+  add("speedLimit","Speed limit","RPM");
+  add("efficiency","Efficiency","%","0.01");
+  break;
+
+ case"gauge":
+  add("range","Gauge range","bar");
+  break;
+
+ case"flowmeter":
+  add("range","Flow range","L/min");
+  break;
+ }
+
+ h+=`</div>`;
+ return h;
 }
 
-/* =========================================================
-   PROPERTY CHANGES
-   ========================================================= */
+function simulationProperties(c){
 
-function setProp(id,key,value){
+ let h=`<div class="propGroup">
+ <div class="propTitle">Live Simulation</div>`;
 
-  const c=getComponent(id);
+ h+=metric("Pressure",fmt(c.sim.pressure,1)+" bar");
+ h+=metric("Flow",fmt(c.sim.flow,1)+" L/min");
 
-  if(!c)return;
+ if(c.type==="cylinder"){
+  h+=metric("Position",fmt(c.position,1)+" mm");
+  h+=metric("Speed",fmt(c.sim.speed,1)+" mm/s");
+  h+=metric("Force",fmt(c.sim.force,0)+" N");
+  h+=metric("A pressure",fmt(c.sim.pressureA,1)+" bar");
+  h+=metric("B pressure",fmt(c.sim.pressureB,1)+" bar");
+ }
 
-  pushHistory();
+ if(c.type==="motor"){
+  h+=metric("Speed",fmt(c.sim.rpm,0)+" RPM");
+  h+=metric("Torque",fmt(c.sim.torque,1)+" Nm");
+ }
 
-  if(
-    typeof c.props[key]==="number"
-  ){
-    c.props[key]=Number(value);
-  }else{
-    c.props[key]=value;
-  }
+ if(c.type==="pump"||c.type==="variablePump"){
+  h+=metric("Delivered flow",fmt(c.sim.flow,1)+" L/min");
+  h+=metric("Outlet pressure",fmt(c.sim.pressure,1)+" bar");
+ }
 
-  if(
-    key==="position"&&
-    c.type==="cylinder"
-  ){
-    c.runtime.position=
-      Number(value);
-  }
+ h+=`</div>`;
 
-  if(running){
-    simulate();
-  }
-
-  render();
-  renderInspector();
+ return h;
 }
 
-function setPropLive(id,key,value){
-
-  const c=getComponent(id);
-
-  if(!c)return;
-
-  if(
-    typeof c.props[key]==="number"
-  ){
-    c.props[key]=Number(value);
-  }else{
-    c.props[key]=value;
-  }
-
-  const label=
-    document.getElementById(
-      `range_${id}_${key}`
-    );
-
-  if(label){
-    label.textContent=value;
-  }
-
-  if(running){
-    simulate();
-  }
-
-  render();
-  renderInspector();
+function metric(a,b){
+ return `<div class="metric"><span>${a}</span><strong>${b}</strong></div>`;
 }
 
-function toggleFault(id,key){
+function applyProperties(){
+ const c=componentById(selected);
+ if(!c)return;
 
-  const c=getComponent(id);
+ const old=deepClone(c);
 
-  if(!c)return;
+ c.name=document.getElementById("prop_name")?.value||c.name;
 
-  pushHistory();
+ if(document.getElementById("prop_x"))c.x=Number(document.getElementById("prop_x").value);
+ if(document.getElementById("prop_y"))c.y=Number(document.getElementById("prop_y").value);
 
-  c.runtimeFaults??={};
+ Object.keys(c).forEach(k=>{
+  const el=document.getElementById("prop_"+k);
+  if(el&&el.type==="number")c[k]=Number(el.value);
+ });
 
-  c.runtimeFaults[key]=
-    !c.runtimeFaults[key];
+ ["position","centre","mode"].forEach(k=>{
+  const el=document.getElementById("prop_"+k);
+  if(el)c[k]=el.value;
+ });
 
-  simulate();
-  render();
-  renderInspector();
+ saveState();
+ render();
+ updateInspector();
 }
 
-/* =========================================================
-   STATUS
-   ========================================================= */
-
-function updateStatus(){
-
-  document.getElementById(
-    "liveText"
-  ).textContent=
-    `${components.length} components • `+
-    `${wires.length} connections • `+
-    `${fmt(state.systemPressure)} bar • `+
-    `${fmt(state.supplyFlow)} L/min`;
-
-  document.getElementById(
-    "statusText"
-  ).textContent=
-    state.warnings.length
-      ?state.warnings[0]
-      :running
-        ?"Simulation running"
-        :"Ready";
+function disconnectSelected(){
+ if(!selected)return;
+ wires=wires.filter(w=>w.from.c!==selected&&w.to.c!==selected);
+ saveState();
+ render();
 }
 
-/* =========================================================
-   EXAMPLES
-   ========================================================= */
+/* ---------- examples ---------- */
+
+function openExamples(){
+
+ showModal("Example Circuits",`
+ <div class="notice good">
+ Select an example. The current circuit will be replaced.
+ </div>
+
+ <div class="exampleGrid">
+
+ <div class="exampleCard" onclick="loadExample('basic')">
+ <b>Basic Cylinder Circuit</b>
+ <span>Pump → 4/3 valve → cylinder → tank with relief valve.</span>
+ </div>
+
+ <div class="exampleCard" onclick="loadExample('meterin')">
+ <b>Meter-In Speed Control</b>
+ <span>Flow control regulates cylinder extension speed.</span>
+ </div>
+
+ <div class="exampleCard" onclick="loadExample('meterout')">
+ <b>Meter-Out Speed Control</b>
+ <span>Return flow is restricted for controlled movement.</span>
+ </div>
+
+ <div class="exampleCard" onclick="loadExample('counterbalance')">
+ <b>Counterbalance Circuit</b>
+ <span>Load holding and controlled lowering.</span>
+ </div>
+
+ <div class="exampleCard" onclick="loadExample('motor')">
+ <b>Hydraulic Motor</b>
+ <span>Pump, relief, directional valve and motor.</span>
+ </div>
+
+ <div class="exampleCard" onclick="loadExample('accumulator')">
+ <b>Accumulator Circuit</b>
+ <span>Pump charging an accumulator with pressure control.</span>
+ </div>
+
+ </div>
+ `);
+}
 
 function clearCircuit(){
-
-  components=[];
-  wires=[];
-  selectedId=null;
-  connectFrom=null;
+ components=[];
+ wires=[];
+ selected=null;
+ nextId=1;
+ resetSimulationValues();
 }
 
-function W(a,p,b,q){
+function place(type,x,y){
+ addComponent(type,x,y);
+}
 
-  createWireRaw(
-    a,
-    p,
-    b,
-    q
-  );
+function wire(a,ap,b,bp){
+ wires.push({
+  id:"w"+Date.now()+Math.random(),
+  from:{c:a,p:ap},
+  to:{c:b,p:bp},
+  sim:{pressure:0,flow:0}
+ });
 }
 
 function buildExample(name){
 
-  clearCircuit();
+ clearCircuit();
 
-  function C(type,x,y){
-    return makeComponent(
-      type,
-      x,
-      y
-    );
-  }
+ if(name==="basic"){
 
-  if(name==="basic"){
+  place("tank",100,300);
+  place("pump",260,300);
+  place("relief",430,220);
+  place("valve43",500,300);
+  place("cylinder",760,300);
 
-    const t=C(
-      "tank",
-      50,
-      250
-    );
+  const t=components[0],p=components[1],r=components[2],v=components[3],c=components[4];
 
-    const p=C(
-      "pump",
-      220,
-      220
-    );
+  wire(t.id,"T",p.id,"IN");
+  wire(p.id,"OUT",v.id,"P");
+  wire(v.id,"A",c.id,"A");
+  wire(c.id,"B",v.id,"B");
+  wire(v.id,"T",t.id,"T");
+  wire(p.id,"OUT",r.id,"P");
+  wire(r.id,"T",t.id,"T");
+ }
 
-    const v=C(
-      "valve43",
-      410,
-      190
-    );
+ if(name==="meterin"){
 
-    const cy=C(
-      "cylinder",
-      650,
-      210
-    );
+  place("tank",100,300);
+  place("pump",260,300);
+  place("relief",420,210);
+  place("flowControl",520,300);
+  place("valve43",650,300);
+  place("cylinder",900,300);
 
-    const r=C(
-      "relief",
-      410,
-      370
-    );
+  const [t,p,r,f,v,c]=components;
 
-    const g=C(
-      "gauge",
-      300,
-      90
-    );
+  wire(t.id,"T",p.id,"IN");
+  wire(p.id,"OUT",f.id,"IN");
+  wire(f.id,"OUT",v.id,"P");
+  wire(v.id,"A",c.id,"A");
+  wire(c.id,"B",v.id,"B");
+  wire(v.id,"T",t.id,"T");
+  wire(p.id,"OUT",r.id,"P");
+  wire(r.id,"T",t.id,"T");
 
-    W(t,"T",p,"IN");
-    W(p,"OUT",v,"P");
-    W(v,"A",cy,"A");
-    W(cy,"B",v,"B");
-    W(v,"T",t,"T");
+  f.opening=50;
+ }
 
-    W(p,"OUT",r,"IN");
-    W(r,"OUT",t,"T");
+ if(name==="meterout"){
 
-    W(p,"OUT",g,"P");
+  place("tank",100,300);
+  place("pump",260,300);
+  place("valve43",480,300);
+  place("flowControl",680,350);
+  place("cylinder",900,300);
+  place("relief",450,180);
 
-    v.props.position="extend";
-    r.props.setting=210;
-  }
+  const [t,p,v,f,c,r]=components;
 
-  if(name==="meterin"){
+  wire(t.id,"T",p.id,"IN");
+  wire(p.id,"OUT",v.id,"P");
+  wire(v.id,"A",c.id,"A");
+  wire(c.id,"B",f.id,"IN");
+  wire(f.id,"OUT",v.id,"B");
+  wire(v.id,"T",t.id,"T");
+  wire(p.id,"OUT",r.id,"P");
+  wire(r.id,"T",t.id,"T");
 
-    const t=C("tank",40,280);
-    const p=C("variablePump",200,240);
-    const v=C("valve43",390,210);
-    const f=C("flowControl",570,180);
-    const cy=C("cylinder",760,210);
-    const r=C("relief",390,390);
+  f.opening=45;
+  f.mode="meter-out";
+ }
 
-    W(t,"T",p,"IN");
-    W(p,"OUT",v,"P");
-    W(v,"A",f,"IN");
-    W(f,"OUT",cy,"A");
-    W(cy,"B",v,"B");
-    W(v,"T",t,"T");
+ if(name==="counterbalance"){
 
-    W(p,"OUT",r,"IN");
-    W(r,"OUT",t,"T");
+  place("tank",100,320);
+  place("pump",260,320);
+  place("relief",420,220);
+  place("valve43",520,320);
+  place("counterbalance",700,390);
+  place("cylinder",900,300);
 
-    f.props.opening=60;
-    v.props.position="extend";
-    p.props.swash=70;
-  }
+  const [t,p,r,v,cb,c]=components;
 
-  if(name==="meterout"){
+  wire(t.id,"T",p.id,"IN");
+  wire(p.id,"OUT",v.id,"P");
+  wire(v.id,"A",c.id,"A");
+  wire(c.id,"B",cb.id,"IN");
+  wire(cb.id,"OUT",v.id,"B");
+  wire(v.id,"T",t.id,"T");
+  wire(p.id,"OUT",r.id,"P");
+  wire(r.id,"T",t.id,"T");
 
-    const t=C("tank",40,280);
-    const p=C("pump",200,240);
-    const v=C("valve43",390,210);
-    const f=C("flowControl",600,285);
-    const cy=C("cylinder",780,210);
-    const r=C("relief",390,390);
+  cb.setting=100;
+ }
 
-    W(t,"T",p,"IN");
-    W(p,"OUT",v,"P");
-    W(v,"A",cy,"A");
-    W(cy,"B",f,"IN");
-    W(f,"OUT",v,"B");
-    W(v,"T",t,"T");
+ if(name==="motor"){
 
-    W(p,"OUT",r,"IN");
-    W(r,"OUT",t,"T");
+  place("tank",100,300);
+  place("pump",260,300);
+  place("relief",420,200);
+  place("valve43",540,300);
+  place("motor",780,300);
 
-    f.props.mode="meter-out";
-    f.props.opening=65;
-    v.props.position="extend";
-  }
+  const [t,p,r,v,m]=components;
 
-  if(name==="counterbalance"){
+  wire(t.id,"T",p.id,"IN");
+  wire(p.id,"OUT",v.id,"P");
+  wire(v.id,"A",m.id,"A");
+  wire(m.id,"B",v.id,"B");
+  wire(v.id,"T",t.id,"T");
+  wire(p.id,"OUT",r.id,"P");
+  wire(r.id,"T",t.id,"T");
+ }
 
-    const t=C("tank",50,290);
-    const p=C("pump",200,250);
-    const v=C("valve43",390,210);
-    const cb=C("counterbalance",590,300);
-    const cy=C("cylinder",760,210);
-    const r=C("relief",390,410);
+ if(name==="accumulator"){
 
-    W(t,"T",p,"IN");
-    W(p,"OUT",v,"P");
-    W(v,"A",cy,"A");
-    W(cy,"B",cb,"IN");
-    W(cb,"OUT",v,"B");
-    W(v,"T",t,"T");
+  place("tank",100,300);
+  place("pump",270,300);
+  place("relief",430,200);
+  place("accumulator",570,180);
+  place("valve43",650,320);
+  place("cylinder",900,320);
 
-    W(p,"OUT",r,"IN");
-    W(r,"OUT",t,"T");
+  const [t,p,r,a,v,c]=components;
 
-    W(v,"A",cb,"PILOT");
+  wire(t.id,"T",p.id,"IN");
+  wire(p.id,"OUT",v.id,"P");
+  wire(p.id,"OUT",r.id,"P");
+  wire(r.id,"T",t.id,"T");
+  wire(p.id,"OUT",a.id,"P");
+  wire(v.id,"A",c.id,"A");
+  wire(c.id,"B",v.id,"B");
+  wire(v.id,"T",t.id,"T");
+ }
 
-    cb.props.setting=100;
-    v.props.position="retract";
-  }
-
-  if(name==="motor"){
-
-    const t=C("tank",50,280);
-    const p=C("variablePump",210,240);
-    const v=C("valve43",410,210);
-    const m=C("motor",650,220);
-    const r=C("relief",410,390);
-    const g=C("gauge",310,100);
-
-    W(t,"T",p,"IN");
-    W(p,"OUT",v,"P");
-    W(v,"A",m,"A");
-    W(m,"B",v,"B");
-    W(v,"T",t,"T");
-
-    W(p,"OUT",r,"IN");
-    W(r,"OUT",t,"T");
-
-    W(p,"OUT",g,"P");
-
-    p.props.swash=60;
-    v.props.position="extend";
-    m.props.loadTorque=80;
-  }
-
-  if(name==="reducing"){
-
-    const t=C("tank",50,280);
-    const p=C("pump",200,240);
-    const red=C("reducing",420,210);
-    const cy=C("cylinder",650,210);
-    const r=C("relief",380,390);
-    const g=C("gauge",560,100);
-
-    W(t,"T",p,"IN");
-    W(p,"OUT",red,"IN");
-    W(red,"OUT",cy,"A");
-
-    W(p,"OUT",r,"IN");
-    W(r,"OUT",t,"T");
-
-    W(red,"OUT",g,"P");
-
-    red.props.setting=120;
-  }
-
-  if(name==="accumulator"){
-
-    const t=C("tank",50,290);
-    const p=C("variablePump",210,250);
-    const a=C("accumulator",420,110);
-    const v=C("valve43",430,260);
-    const cy=C("cylinder",700,220);
-    const r=C("relief",430,410);
-
-    W(t,"T",p,"IN");
-    W(p,"OUT",v,"P");
-    W(v,"A",cy,"A");
-    W(cy,"B",v,"B");
-    W(v,"T",t,"T");
-
-    W(p,"OUT",a,"P");
-
-    W(p,"OUT",r,"IN");
-    W(r,"OUT",t,"T");
-
-    v.props.position="extend";
-    p.props.swash=65;
-  }
-
-  history=[];
-  future=[];
-
-  fitView();
-
-  simulate();
-  render();
-  renderInspector();
-
-  closeModal();
-
-  toast(
-    "Example loaded"
-  );
+ fitView();
+ saveState();
+ render();
+ updateInspector();
 }
 
-function showExamples(){
-
-  showModal(
-    "Example Circuits",
-    `
-
-      <div class="examples">
-
-        <button
-          class="example"
-          onclick="buildExample('basic')"
-        >
-          <strong>
-            Basic Cylinder
-          </strong>
-          <small>
-            Pump → 4/3 valve → cylinder →
-            return with relief.
-          </small>
-        </button>
-
-        <button
-          class="example"
-          onclick="buildExample('meterin')"
-        >
-          <strong>
-            Meter-In
-          </strong>
-          <small>
-            Flow control limits incoming flow.
-          </small>
-        </button>
-
-        <button
-          class="example"
-          onclick="buildExample('meterout')"
-        >
-          <strong>
-            Meter-Out
-          </strong>
-          <small>
-            Flow control regulates return flow.
-          </small>
-        </button>
-
-        <button
-          class="example"
-          onclick="buildExample('counterbalance')"
-        >
-          <strong>
-            Counterbalance
-          </strong>
-          <small>
-            Load-control circuit.
-          </small>
-        </button>
-
-        <button
-          class="example"
-          onclick="buildExample('motor')"
-        >
-          <strong>
-            Hydraulic Motor
-          </strong>
-          <small>
-            Variable pump driving hydraulic motor.
-          </small>
-        </button>
-
-        <button
-          class="example"
-          onclick="buildExample('reducing')"
-        >
-          <strong>
-            Pressure Reducing
-          </strong>
-          <small>
-            Reduced pressure branch.
-          </small>
-        </button>
-
-        <button
-          class="example"
-          onclick="buildExample('accumulator')"
-        >
-          <strong>
-            Accumulator
-          </strong>
-          <small>
-            Pump pressure accumulator circuit.
-          </small>
-        </button>
-
-      </div>
-
-    `
-  );
+function loadExample(name){
+ closeModal();
+ buildExample(name);
 }
 
-/* =========================================================
-   SAVE / LOAD
-   ========================================================= */
+/* ---------- new/save/load ---------- */
+
+function newCircuit(){
+ if(!confirm("Start a new hydraulic circuit?"))return;
+ clearCircuit();
+ camera={x:0,y:0,zoom:1};
+ saveState();
+ render();
+ updateInspector();
+}
 
 function saveCircuit(){
 
-  localStorage.setItem(
-    "hydraulicStudioCircuit",
-    JSON.stringify({
-      app:"Hydraulic Studio",
-      version:2,
-      components,
-      wires,
-      idCounter
-    })
-  );
+ const blob=new Blob([
+  JSON.stringify({
+   version:5,
+   components,
+   wires
+  },null,2)
+ ],{type:"application/json"});
 
-  toast(
-    "Circuit saved on this device"
-  );
+ const a=document.createElement("a");
+ a.href=URL.createObjectURL(blob);
+ a.download="hydraulic-studio-circuit.json";
+ a.click();
+ URL.revokeObjectURL(a.href);
 }
 
 function loadCircuit(){
+ const input=document.createElement("input");
+ input.type="file";
+ input.accept=".json,application/json";
 
-  const raw=
-    localStorage.getItem(
-      "hydraulicStudioCircuit"
-    );
+ input.onchange=e=>{
+  const file=e.target.files[0];
+  if(!file)return;
 
-  if(!raw){
+  const r=new FileReader();
 
-    showModal(
-      "Load Circuit",
-      `<div class="help">
-        No saved circuit found.
-      </div>`
-    );
+  r.onload=()=>{
+   try{
+    const data=JSON.parse(r.result);
 
-    return;
-  }
+    if(!Array.isArray(data.components)||!Array.isArray(data.wires)){
+     throw new Error("Invalid circuit");
+    }
 
-  try{
+    components=data.components;
+    wires=data.wires;
+    nextId=components.length+1;
+    selected=null;
 
-    const data=
-      JSON.parse(raw);
-
-    components=
-      data.components||[];
-
-    wires=
-      data.wires||[];
-
-    idCounter=
-      data.idCounter||1;
-
-    components.forEach(
-      c=>{
-        c.runtime??={
-          pressures:{},
-          flows:{},
-          position:c.props?.position||0,
-          speed:0,
-          rpm:0,
-          torque:0,
-          force:0
-        };
-
-        c.runtimeFaults??={};
-      }
-    );
-
-    closeModal();
-
-    simulate();
-    fitView();
+    saveState();
     render();
-    renderInspector();
+    updateInspector();
+    fitView();
 
-    toast(
-      "Circuit loaded"
-    );
-
-  }catch(e){
-
-    toast(
-      "Could not load circuit"
-    );
-  }
-}
-
-/* =========================================================
-   NEW CIRCUIT
-   ========================================================= */
-
-function newCircuit(){
-
-  if(
-    components.length &&
-    !confirm(
-      "Start a new circuit?"
-    )
-  ){
-    return;
-  }
-
-  pushHistory();
-
-  clearCircuit();
-
-  camera.zoom=1;
-  camera.x=canvasWrap.clientWidth/2;
-  camera.y=canvasWrap.clientHeight/2;
-
-  render();
-  renderInspector();
-
-  toast(
-    "New circuit"
-  );
-}
-
-/* =========================================================
-   VALIDATION
-   ========================================================= */
-
-function validateCircuit(show=true){
-
-  const errors=[];
-  const warnings=[];
-
-  const tanks=
-    components.filter(
-      c=>c.type==="tank"
-    );
-
-  const pumps=
-    components.filter(
-      c=>
-        c.type==="pump"||
-        c.type==="variablePump"
-    );
-
-  if(!tanks.length){
-    errors.push(
-      "No reservoir present"
-    );
-  }
-
-  if(!pumps.length){
-    errors.push(
-      "No pump present"
-    );
-  }
-
-  components.forEach(c=>{
-
-    const connected=new Set();
-
-    wires.forEach(w=>{
-
-      if(w.a.c===c.id){
-        connected.add(w.a.p);
-      }
-
-      if(w.b.c===c.id){
-        connected.add(w.b.p);
-      }
-    });
-
-    typeInfo(c).ports.forEach(
-      ([p])=>{
-
-        if(
-          !connected.has(p) &&
-          c.type!=="gauge"
-        ){
-
-          warnings.push(
-            `${typeInfo(c).name}: ${p} not connected`
-          );
-        }
-      }
-    );
-  });
-
-  if(show){
-
-    showModal(
-      "Circuit Validation",
-      `
-
-        <div class="section">
-
-          <h4>Errors</h4>
-
-          ${
-            errors.length
-              ?errors.map(
-                e=>`
-                  <div
-                    class="bad"
-                    style="padding:4px"
-                  >
-                    ✕ ${escapeHtml(e)}
-                  </div>
-                `
-              ).join("")
-              :`
-                <div class="good">
-                  ✓ No critical errors
-                </div>
-              `
-          }
-
-        </div>
-
-        <div class="section">
-
-          <h4>Warnings</h4>
-
-          ${
-            warnings.length
-              ?warnings.map(
-                e=>`
-                  <div
-                    class="warn"
-                    style="padding:4px"
-                  >
-                    ⚠ ${escapeHtml(e)}
-                  </div>
-                `
-              ).join("")
-              :`
-                <div class="good">
-                  ✓ No connection warnings
-                </div>
-              `
-          }
-
-        </div>
-
-        <div class="section">
-
-          <h4>Engineering note</h4>
-
-          <div class="help">
-
-            The simulator is a quasi-steady
-            engineering approximation intended
-            for learning, circuit development and
-            troubleshooting.
-
-            It is not a certified replacement for
-            professional hydraulic design software.
-
-          </div>
-
-        </div>
-
-      `
-    );
-  }
-
-  return{
-    errors,
-    warnings
+   }catch(err){
+    alert("That file is not a valid Hydraulic Studio circuit.");
+   }
   };
+
+  r.readAsText(file);
+ };
+
+ input.click();
 }
 
-/* =========================================================
-   MOBILE UI
-   ========================================================= */
+/* ---------- schematic drawings ---------- */
 
-function closeMobilePanels(){
+function openDrawings(){
+ showModal("Circuit Schematic Drawings",`
+ <div class="notice good">
+ Hydraulic Studio can generate two drawing styles from the same circuit.
+ </div>
 
-  document
-    .getElementById("library")
-    .classList.remove(
-      "mobile-show"
-    );
+ <div class="drawTabs">
+ <button class="drawTab active" id="tabIso" onclick="showDrawing('iso')">ISO / Fluid Power</button>
+ <button class="drawTab" id="tabBlock" onclick="showDrawing('block')">Functional Block</button>
+ </div>
 
-  document
-    .getElementById("inspector")
-    .classList.remove(
-      "mobile-show"
-    );
+ <div id="drawingArea" class="schematic"></div>
+
+ <div style="display:flex;gap:7px;margin-top:10px">
+ <button class="actionBtn primary" onclick="downloadDrawing()">Export SVG</button>
+ <button class="actionBtn" onclick="printDrawing()">Print Drawing</button>
+ </div>
+ `);
+
+ showDrawing("iso");
 }
 
-function mobileLibrary(){
+let currentDrawing="iso";
 
-  closeMobilePanels();
+function showDrawing(type){
+ currentDrawing=type;
 
-  document
-    .getElementById("library")
-    .classList.add(
-      "mobile-show"
-    );
+ document.getElementById("tabIso")?.classList.toggle("active",type==="iso");
+ document.getElementById("tabBlock")?.classList.toggle("active",type==="block");
 
-  setMobileNav(
-    "navLibrary"
+ const area=document.getElementById("drawingArea");
+ if(!area)return;
+
+ area.innerHTML="";
+
+ const svg=document.createElementNS(SVG_NS,"svg");
+ svg.setAttribute("viewBox","0 0 1200 700");
+ svg.setAttribute("xmlns",SVG_NS);
+
+ svg.innerHTML=`
+ <rect width="1200" height="700" fill="white"/>
+ <text x="40" y="40" font-family="Arial" font-size="22" font-weight="700" fill="#111827">
+ Hydraulic Studio — ${type==="iso"?"Hydraulic Schematic":"Functional Block Diagram"}
+ </text>
+ <text x="40" y="62" font-family="Arial" font-size="11" fill="#64748b">
+ Generated ${new Date().toLocaleString("en-AU")}
+ </text>
+ `;
+
+ if(type==="iso"){
+  renderIsoDrawing(svg);
+ }else{
+  renderBlockDrawing(svg);
+ }
+
+ area.appendChild(svg);
+}
+
+function drawSvgText(svg,x,y,text,size=12,bold=false){
+ const t=document.createElementNS(SVG_NS,"text");
+ t.setAttribute("x",x);
+ t.setAttribute("y",y);
+ t.setAttribute("font-family","Arial,sans-serif");
+ t.setAttribute("font-size",size);
+ t.setAttribute("fill","#111827");
+ t.setAttribute("font-weight",bold?"700":"400");
+ t.textContent=text;
+ svg.appendChild(t);
+}
+
+function renderIsoDrawing(svg){
+
+ if(!components.length){
+  drawSvgText(svg,450,350,"No circuit components",18,false);
+  return;
+ }
+
+ const minX=Math.min(...components.map(c=>c.x));
+ const maxX=Math.max(...components.map(c=>c.x));
+ const minY=Math.min(...components.map(c=>c.y));
+ const maxY=Math.max(...components.map(c=>c.y));
+
+ const sx=x=>100+(x-minX)/Math.max(1,maxX-minX)*1000;
+ const sy=y=>150+(y-minY)/Math.max(1,maxY-minY)*420;
+
+ const pos=new Map();
+
+ components.forEach(c=>{
+  pos.set(c.id,{
+   x:sx(c.x),
+   y:sy(c.y)
+  });
+ });
+
+ wires.forEach(w=>{
+  const a=componentById(w.from.c);
+  const b=componentById(w.to.c);
+  if(!a||!b)return;
+
+  const pa=getPort(a,w.from.p);
+  const pb=getPort(b,w.to.p);
+  if(!pa||!pb)return;
+
+  const A=portWorld(a,pa);
+  const B=portWorld(b,pb);
+
+  const x1=sx(A.x);
+  const y1=sy(A.y);
+  const x2=sx(B.x);
+  const y2=sy(B.y);
+
+  const line=document.createElementNS(SVG_NS,"path");
+
+  const mid=(x1+x2)/2;
+
+  line.setAttribute("d",`M${x1},${y1} C${mid},${y1} ${mid},${y2} ${x2},${y2}`);
+  line.setAttribute("fill","none");
+  line.setAttribute("stroke","#111827");
+  line.setAttribute("stroke-width","3");
+
+  svg.appendChild(line);
+ });
+
+ components.forEach(c=>{
+  const p=pos.get(c.id);
+
+  const g=document.createElementNS(SVG_NS,"g");
+
+  const rect=document.createElementNS(SVG_NS,"rect");
+  rect.setAttribute("x",p.x-48);
+  rect.setAttribute("y",p.y-28);
+  rect.setAttribute("width",96);
+  rect.setAttribute("height",56);
+  rect.setAttribute("rx",4);
+  rect.setAttribute("fill","white");
+  rect.setAttribute("stroke","#111827");
+  rect.setAttribute("stroke-width","2");
+  g.appendChild(rect);
+
+  drawSvgText(g,p.x-38,p.y-7,schematicShortName(c),11,true);
+
+  drawSvgText(
+   g,
+   p.x-38,
+   p.y+13,
+   c.type==="cylinder"?
+    `${Math.round(c.bore)} / ${Math.round(c.rod)} mm`:
+   c.type==="pump"||c.type==="variablePump"?
+    `${Math.round(c.displacement)} cc/rev`:
+   "",
+   8
   );
+
+  svg.appendChild(g);
+ });
 }
 
-function mobileCircuit(){
-
-  closeMobilePanels();
-
-  setMobileNav(null);
+function schematicShortName(c){
+ const map={
+  tank:"TANK",
+  pump:"PUMP",
+  variablePump:"VAR PUMP",
+  accumulator:"ACC",
+  valve43:"4/3 DCV",
+  valve42:"4/2 DCV",
+  proportional:"PROP DCV",
+  relief:"RELIEF",
+  reducing:"REDUCING",
+  sequence:"SEQUENCE",
+  counterbalance:"COUNTERBAL",
+  check:"CHECK",
+  flowControl:"FLOW CTRL",
+  throttleCheck:"THROTTLE",
+  filter:"FILTER",
+  cylinder:"CYLINDER",
+  motor:"MOTOR",
+  gauge:"GAUGE",
+  flowmeter:"FLOWMETER"
+ };
+ return map[c.type]||c.name;
 }
 
-function showMonitor(){
+function renderBlockDrawing(svg){
 
-  closeMobilePanels();
+ if(!components.length){
+  drawSvgText(svg,450,350,"No circuit components",18);
+  return;
+ }
 
-  document
-    .getElementById("inspector")
-    .classList.add(
-      "mobile-show"
-    );
+ const cols=4;
+ const gapX=260;
+ const gapY=140;
 
-  selectedId=null;
+ components.forEach((c,i)=>{
+  const col=i%cols;
+  const row=Math.floor(i/cols);
 
-  renderInspector();
+  c._drawX=110+col*gapX;
+  c._drawY=170+row*gapY;
+ });
 
-  setMobileNav(null);
-}
+ wires.forEach(w=>{
+  const a=componentById(w.from.c);
+  const b=componentById(w.to.c);
+  if(!a||!b)return;
 
-function showProperties(){
+  const line=document.createElementNS(SVG_NS,"path");
 
-  closeMobilePanels();
+  const x1=a._drawX+80;
+  const y1=a._drawY;
+  const x2=b._drawX-80;
+  const y2=b._drawY;
 
-  document
-    .getElementById("inspector")
-    .classList.add(
-      "mobile-show"
-    );
+  const mid=(x1+x2)/2;
 
-  renderInspector();
+  line.setAttribute(
+   "d",
+   `M${x1},${y1} C${mid},${y1} ${mid},${y2} ${x2},${y2}`
+  );
 
-  setMobileNav(null);
-}
+  line.setAttribute("fill","none");
+  line.setAttribute("stroke","#2563eb");
+  line.setAttribute("stroke-width","3");
+  line.setAttribute("marker-end","url(#arrowBlue)");
 
-function setMobileNav(id){
+  svg.appendChild(line);
+ });
 
-  document
-    .querySelectorAll(
-      ".mobile-nav button"
-    )
-    .forEach(
-      b=>b.classList.remove(
-        "active"
-      )
-    );
+ components.forEach(c=>{
+  const g=document.createElementNS(SVG_NS,"g");
 
-  if(id){
+  const rect=document.createElementNS(SVG_NS,"rect");
 
-    document
-      .getElementById(id)
-      ?.classList.add(
-        "active"
-      );
+  rect.setAttribute("x",c._drawX-80);
+  rect.setAttribute("y",c._drawY-35);
+  rect.setAttribute("width",160);
+  rect.setAttribute("height",70);
+  rect.setAttribute("rx",9);
+  rect.setAttribute("fill","#f8fafc");
+  rect.setAttribute("stroke","#1e293b");
+  rect.setAttribute("stroke-width","2");
+
+  g.appendChild(rect);
+
+  drawSvgText(
+   g,
+   c._drawX-65,
+   c._drawY-5,
+   schematicShortName(c),
+   12,
+   true
+  );
+
+  let info="";
+
+  if(c.type==="pump"||c.type==="variablePump"){
+   info=`${c.displacement} cc/rev @ ${c.rpm} RPM`;
   }
+
+  if(c.type==="cylinder"){
+   info=`Bore ${c.bore} mm • Stroke ${c.stroke} mm`;
+  }
+
+  if(c.type==="motor"){
+   info=`${c.displacement} cc/rev`;
+  }
+
+  if(c.type==="relief"){
+   info=`Setting ${c.setting} bar`;
+  }
+
+  drawSvgText(g,c._drawX-65,c._drawY+18,info,9,false);
+
+  svg.appendChild(g);
+ });
 }
 
-/* =========================================================
-   MODAL
-   ========================================================= */
+/* ---------- drawing export ---------- */
 
-function showModal(
-  title,
-  body
-){
+function drawingSvgString(){
 
-  document.getElementById(
-    "modalTitle"
-  ).textContent=title;
+ const area=document.getElementById("drawingArea");
+ const svg=area?.querySelector("svg");
 
-  document.getElementById(
-    "modalBody"
-  ).innerHTML=body;
+ if(!svg)return"";
 
-  document
-    .getElementById("modal")
-    .classList.add("show");
+ const clone=svg.cloneNode(true);
+
+ return new XMLSerializer().serializeToString(clone);
+}
+
+function downloadDrawing(){
+
+ const data=drawingSvgString();
+
+ if(!data){
+  alert("Open the schematic drawing first.");
+  return;
+ }
+
+ const blob=new Blob([data],{
+  type:"image/svg+xml;charset=utf-8"
+ });
+
+ const a=document.createElement("a");
+ a.href=URL.createObjectURL(blob);
+ a.download=
+  currentDrawing==="iso"?
+  "hydraulic-schematic-ISO.svg":
+  "hydraulic-functional-block.svg";
+
+ a.click();
+
+ URL.revokeObjectURL(a.href);
+}
+
+function printDrawing(){
+
+ const data=drawingSvgString();
+
+ if(!data)return;
+
+ const w=window.open("","_blank");
+
+ if(!w){
+  alert("Allow pop-ups to print the drawing.");
+  return;
+ }
+
+ w.document.write(`
+ <!doctype html>
+ <html>
+ <head>
+ <title>Hydraulic Studio Schematic</title>
+ <style>
+ body{margin:0;padding:20px;background:white}
+ svg{width:100%;height:auto}
+ </style>
+ </head>
+ <body>${data}</body>
+ </html>
+ `);
+
+ w.document.close();
+
+ setTimeout(()=>{
+  w.focus();
+  w.print();
+ },300);
+}
+
+/* ---------- modal ---------- */
+
+function showModal(title,body){
+ document.getElementById("modalTitle").textContent=title;
+ document.getElementById("modalBody").innerHTML=body;
+ document.getElementById("modal").classList.add("show");
 }
 
 function closeModal(){
-
-  document
-    .getElementById("modal")
-    .classList.remove(
-      "show"
-    );
+ document.getElementById("modal").classList.remove("show");
 }
 
-/* =========================================================
-   TOAST
-   ========================================================= */
+document.getElementById("modal").addEventListener("pointerdown",e=>{
+ if(e.target.id==="modal")closeModal();
+});
 
-function toast(message){
+/* ---------- mobile component menu ---------- */
 
-  const t=
-    document.getElementById(
-      "toast"
-    );
+function openMobileComponents(){
 
-  t.textContent=message;
+ showModal("Add Component",`
+ <div class="notice">
+ Tap a component to place it in the centre of the circuit.
+ </div>
 
-  t.classList.add("show");
+ <div class="exampleGrid">
 
-  clearTimeout(
-    toast.timer
-  );
+ ${Object.entries(componentInfo).map(([type,info])=>`
+ <div class="exampleCard" onclick="closeModal();addComponent('${type}')">
+ <b>${esc(defaults[type].name)}</b>
+ <span>${esc(info[1])}</span>
+ </div>
+ `).join("")}
 
-  toast.timer=
-    setTimeout(
-      ()=>{
-        t.classList.remove(
-          "show"
-        );
-      },
-      1800
-    );
+ </div>
+ `);
 }
 
-/* =========================================================
-   KEYBOARD
-   ========================================================= */
+/* ---------- keyboard ---------- */
 
-document.addEventListener(
-  "keydown",
-  function(e){
+document.addEventListener("keydown",e=>{
 
-    const tag=
-      document.activeElement?.tagName;
+ const tag=e.target.tagName;
 
-    if(
-      (
-        e.key==="Delete"||
-        e.key==="Backspace"
-      ) &&
-      tag!=="INPUT" &&
-      tag!=="TEXTAREA" &&
-      tag!=="SELECT"
-    ){
+ if(tag==="INPUT"||tag==="SELECT"||tag==="TEXTAREA")return;
 
-      e.preventDefault();
+ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="z"){
+  e.preventDefault();
+  undo();
+ }
 
-      deleteSelected();
-    }
+ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="y"){
+  e.preventDefault();
+  redo();
+ }
 
-    if(
-      (e.ctrlKey||e.metaKey) &&
-      e.key.toLowerCase()==="z"
-    ){
+ if(e.key==="Delete"||e.key==="Backspace"){
+  deleteSelected();
+ }
 
-      e.preventDefault();
+ if(e.key===" "){
+  e.preventDefault();
+  toggleSimulation();
+ }
 
-      undo();
-    }
+ if(e.key==="+"){
+  zoomIn();
+ }
 
-    if(
-      (e.ctrlKey||e.metaKey) &&
-      e.key.toLowerCase()==="y"
-    ){
+ if(e.key==="-"){
+  zoomOut();
+ }
 
-      e.preventDefault();
+ if(e.key.toLowerCase()==="f"){
+  fitView();
+ }
+});
 
-      redo();
-    }
+/* ---------- startup ---------- */
 
-    if(
-      e.code==="Space" &&
-      tag!=="INPUT" &&
-      tag!=="TEXTAREA"
-    ){
+function initialise(){
 
-      e.preventDefault();
+ const saved=localStorage.getItem(STORAGE);
 
-      toggleSimulation();
-    }
+ if(saved){
+  try{
+   const data=JSON.parse(saved);
 
-    if(e.key==="Escape"){
+   if(Array.isArray(data.components)&&Array.isArray(data.wires)){
+    components=data.components;
+    wires=data.wires;
+   }
+  }catch(e){}
+ }
 
-      connectFrom=null;
+ if(!components.length){
+  buildExample("basic");
+  history=[];
+  historyIndex=-1;
+  saveState();
+ }else{
+  saveState();
+ }
 
-      closeModal();
-
-      render();
-    }
-
-  }
-);
-
-/* =========================================================
-   RESIZE
-   ========================================================= */
-
-window.addEventListener(
-  "resize",
-  ()=>{
-    render();
-  }
-);
-
-/* =========================================================
-   START
-   ========================================================= */
-
-const animationStyle=
-  document.createElement(
-    "style"
-  );
-
-animationStyle.textContent=`
-
-@keyframes hydFlow{
-
-  from{
-    stroke-dashoffset:0;
-  }
-
-  to{
-    stroke-dashoffset:-22;
-  }
-
+ render();
+ updateInspector();
+ fitView();
 }
 
-`;
+window.addEventListener("resize",()=>{
+ render();
+});
 
-document.head.appendChild(
-  animationStyle
-);
-
-/*
-  Start with a useful circuit.
-*/
-
-buildExample("basic");
-
-history=[];
-future=[];
-
-selectedId=null;
-
-render();
-renderInspector();
+initialise();
 
 </script>
 
 </body>
 </html>
+```
