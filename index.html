@@ -1,791 +1,638 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#0b1020">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Hydraulic Studio">
-<meta name="mobile-web-app-capable" content="yes">
 
 <title>Hydraulic Studio</title>
 
 <style>
-:root{
-  --bg:#0b1020;
-  --panel:#111827;
-  --panel2:#172033;
-  --panel3:#1d2940;
-  --line:#2b3954;
-  --text:#eef4ff;
-  --muted:#94a3b8;
-  --accent:#4f8cff;
-  --accent2:#6ea8ff;
-  --green:#35d07f;
-  --yellow:#f5c451;
-  --red:#ff5d6c;
-  --orange:#ff9b4a;
-  --shadow:0 10px 30px rgba(0,0,0,.28);
-}
-
 *{
   box-sizing:border-box;
   -webkit-tap-highlight-color:transparent;
 }
 
 html,body{
+  margin:0;
   width:100%;
   height:100%;
-  margin:0;
   overflow:hidden;
-  background:var(--bg);
-  color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  background:#080d18;
+  color:#e7edf7;
 }
 
-button,input,select{
+button,
+input,
+select{
   font:inherit;
 }
 
 button{
-  color:var(--text);
+  cursor:pointer;
+  color:inherit;
 }
 
-#app{
+.app{
   width:100%;
   height:100%;
-  display:grid;
-  grid-template-rows:58px 1fr 28px;
+  display:flex;
+  flex-direction:column;
 }
 
-/* TOP BAR */
+/* =========================================================
+   DESKTOP
+========================================================= */
 
-#topbar{
+.desktopTop{
+  height:58px;
+  min-height:58px;
   display:flex;
   align-items:center;
   gap:10px;
   padding:8px 12px;
-  background:#0d1425;
-  border-bottom:1px solid var(--line);
-  z-index:50;
+  background:#111827;
+  border-bottom:1px solid #263247;
+  z-index:20;
 }
 
 .brand{
+  font-weight:800;
+  font-size:17px;
+  margin-right:8px;
+  white-space:nowrap;
+}
+
+.brand span{
+  color:#38bdf8;
+}
+
+.toolbar{
   display:flex;
-  align-items:center;
-  gap:10px;
-  min-width:190px;
-}
-
-.logo{
-  width:36px;
-  height:36px;
-  border-radius:10px;
-  background:linear-gradient(135deg,#377dff,#6e5bff);
-  display:grid;
-  place-items:center;
-  font-size:20px;
-  font-weight:900;
-  box-shadow:0 5px 20px rgba(55,125,255,.3);
-}
-
-.brandText strong{
-  display:block;
-  font-size:15px;
-}
-
-.brandText span{
-  color:var(--muted);
-  font-size:10px;
-}
-
-.topActions{
-  display:flex;
-  align-items:center;
   gap:6px;
-  margin-left:auto;
+  flex-wrap:wrap;
 }
 
 .btn{
-  border:1px solid var(--line);
-  background:var(--panel);
-  border-radius:8px;
-  padding:8px 11px;
-  cursor:pointer;
   min-height:38px;
-  font-size:12px;
+  padding:8px 12px;
+  border:1px solid #334155;
+  border-radius:8px;
+  background:#172033;
 }
 
 .btn:hover{
-  background:var(--panel3);
+  background:#1e293b;
 }
 
 .btn.primary{
-  background:var(--accent);
-  border-color:var(--accent);
-  font-weight:700;
-}
-
-.btn.success{
-  background:#123c2b;
-  border-color:#1c6c49;
+  background:#0ea5e9;
+  border-color:#38bdf8;
+  color:#00121c;
+  font-weight:800;
 }
 
 .btn.danger{
-  background:#421b24;
-  border-color:#70313c;
+  background:#35151b;
+  border-color:#7f1d1d;
 }
 
-.iconBtn{
-  width:40px;
-  height:40px;
-  padding:0;
-  display:grid;
-  place-items:center;
-  font-size:18px;
+.btn.success{
+  background:#123524;
+  border-color:#166534;
 }
 
-#main{
+.workspace{
+  flex:1;
   min-height:0;
   display:grid;
-  grid-template-columns:230px minmax(0,1fr) 300px;
+  grid-template-columns:235px 1fr 290px;
 }
 
-/* DESKTOP LIBRARY */
-
-#library{
-  min-width:0;
-  background:var(--panel);
-  border-right:1px solid var(--line);
+.library{
   overflow:auto;
+  background:#0f172a;
+  border-right:1px solid #263247;
   padding:10px;
 }
 
 .panelTitle{
-  color:var(--muted);
-  font-size:10px;
-  font-weight:800;
-  letter-spacing:1px;
+  font-size:12px;
   text-transform:uppercase;
-  margin:5px 4px 9px;
-}
-
-.search{
-  width:100%;
-  background:#0c1322;
-  border:1px solid var(--line);
-  color:var(--text);
-  padding:10px;
-  border-radius:8px;
-  outline:none;
-  margin-bottom:10px;
-}
-
-.category{
-  margin-bottom:14px;
-}
-
-.categoryTitle{
-  color:#cbd5e1;
-  font-size:11px;
-  font-weight:800;
+  letter-spacing:.12em;
+  color:#94a3b8;
   margin:8px 4px;
 }
 
-.componentItem{
-  display:flex;
-  align-items:center;
-  gap:9px;
-  width:100%;
-  padding:8px;
-  margin:4px 0;
-  border:1px solid transparent;
-  background:#141d2e;
-  border-radius:8px;
-  cursor:pointer;
-  text-align:left;
+.componentGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:7px;
 }
 
-.componentItem:hover{
-  border-color:var(--accent);
-  background:#19263d;
+.componentBtn{
+  min-height:62px;
+  padding:7px;
+  border-radius:9px;
+  border:1px solid #334155;
+  background:#151e2f;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+}
+
+.componentBtn:hover{
+  border-color:#38bdf8;
+  background:#1a263a;
 }
 
 .componentIcon{
-  width:34px;
-  height:34px;
-  border-radius:7px;
-  background:#0c1424;
-  display:grid;
-  place-items:center;
-  font-size:17px;
-  flex:none;
+  font-size:22px;
 }
 
-.componentInfo strong{
-  display:block;
+.componentName{
   font-size:11px;
+  text-align:center;
+  color:#dbe5f2;
 }
 
-.componentInfo span{
-  display:block;
-  color:var(--muted);
-  font-size:9px;
-  margin-top:2px;
-}
-
-/* WORKSPACE */
-
-#workspace{
+.canvasWrap{
   position:relative;
   min-width:0;
   min-height:0;
   overflow:hidden;
-  background:#0a1020;
-  touch-action:none;
+  background:
+    linear-gradient(#172033 1px,transparent 1px),
+    linear-gradient(90deg,#172033 1px,transparent 1px),
+    #0b1020;
+  background-size:20px 20px;
 }
 
-#canvas{
+#svg{
   width:100%;
   height:100%;
   display:block;
   touch-action:none;
+  user-select:none;
 }
 
-.gridLine{
-  stroke:#172238;
-  stroke-width:1;
+.inspector{
+  overflow:auto;
+  background:#0f172a;
+  border-left:1px solid #263247;
+  padding:12px;
 }
 
-.gridMajor{
-  stroke:#202d47;
-  stroke-width:1;
+.statusBar{
+  height:30px;
+  min-height:30px;
+  padding:6px 12px;
+  background:#0b1220;
+  border-top:1px solid #263247;
+  font-size:11px;
+  color:#94a3b8;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 }
 
-.componentBody{
-  fill:#131e31;
-  stroke:#71809b;
-  stroke-width:2;
+/* =========================================================
+   MOBILE HEADER
+========================================================= */
+
+.mobileTop{
+  display:none;
 }
 
-.componentSelected{
-  stroke:var(--accent);
-  stroke-width:3;
+.mobileNav{
+  display:none;
 }
 
-.componentFault{
-  stroke:var(--red);
-  stroke-width:3;
-}
-
-.componentText{
-  fill:#eef4ff;
-  font-size:12px;
-  font-weight:700;
-  pointer-events:none;
-}
-
-.componentSub{
-  fill:#8ea0ba;
-  font-size:9px;
-  pointer-events:none;
-}
-
-.port{
-  fill:#0a1020;
-  stroke:#dbeafe;
-  stroke-width:2;
-}
-
-.port.connected{
-  fill:var(--green);
-  stroke:#d9ffe9;
-}
-
-.port.connecting{
-  fill:var(--yellow);
-  stroke:white;
-  stroke-width:3;
-}
+/* =========================================================
+   SVG
+========================================================= */
 
 .wire{
   fill:none;
-  stroke:#7890b5;
-  stroke-width:3;
+  stroke:#38bdf8;
+  stroke-width:4;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  pointer-events:stroke;
+}
+
+.wire.return{
+  stroke:#64748b;
 }
 
 .wire.active{
-  stroke:var(--green);
+  stroke:#22c55e;
+  stroke-width:5;
+}
+
+.wire.flow{
+  stroke-dasharray:12 9;
+  animation:flowAnim .7s linear infinite;
+}
+
+@keyframes flowAnim{
+  to{stroke-dashoffset:-21}
+}
+
+.component{
+  cursor:grab;
+}
+
+.component.selected .body{
+  stroke:#facc15;
+  stroke-width:3;
+}
+
+.body{
+  fill:#162033;
+  stroke:#64748b;
+  stroke-width:2;
+}
+
+.component text{
+  pointer-events:none;
+  user-select:none;
+}
+
+.label{
+  fill:#f8fafc;
+  font-size:13px;
+  font-weight:700;
+}
+
+.subLabel{
+  fill:#94a3b8;
+  font-size:10px;
+}
+
+.port{
+  fill:#0b1020;
+  stroke:#38bdf8;
+  stroke-width:2;
+  cursor:pointer;
+}
+
+.port:hover{
+  fill:#38bdf8;
+}
+
+.port.connecting{
+  fill:#facc15;
+  stroke:#fff;
+  stroke-width:3;
 }
 
 .flowDot{
-  fill:#54d8ff;
+  fill:#22c55e;
 }
 
-#workspaceTools{
-  position:absolute;
-  left:12px;
-  top:12px;
-  display:flex;
-  gap:6px;
-  z-index:10;
-}
+/* =========================================================
+   INSPECTOR
+========================================================= */
 
-.workspaceTool{
-  width:42px;
-  height:42px;
-  border:1px solid var(--line);
-  border-radius:9px;
-  background:rgba(17,24,39,.94);
-  display:grid;
-  place-items:center;
-  font-size:17px;
-  box-shadow:var(--shadow);
-}
-
-#connectionHint{
-  position:absolute;
-  top:12px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#473b13;
-  border:1px solid #806d21;
-  color:#fff0a8;
-  border-radius:999px;
-  padding:8px 14px;
-  font-size:11px;
-  display:none;
-  z-index:20;
-}
-
-#connectionHint.show{
-  display:block;
-}
-
-/* RIGHT PANEL */
-
-#inspector{
-  background:var(--panel);
-  border-left:1px solid var(--line);
-  overflow:auto;
-  padding:10px;
-}
-
-.inspectorSection{
-  background:#141d2e;
-  border:1px solid var(--line);
-  border-radius:9px;
+.inspectorCard{
+  background:#151e2f;
+  border:1px solid #2c3a50;
+  border-radius:10px;
+  padding:11px;
   margin-bottom:10px;
-  overflow:hidden;
 }
 
-.inspectorHeader{
-  padding:10px;
-  border-bottom:1px solid var(--line);
-  font-size:11px;
-  font-weight:800;
-}
-
-.inspectorBody{
-  padding:10px;
+.inspector h3{
+  margin:0 0 10px;
+  font-size:15px;
 }
 
 .field{
-  margin-bottom:9px;
+  margin-bottom:10px;
 }
 
 .field label{
   display:block;
-  color:var(--muted);
-  font-size:10px;
-  margin-bottom:5px;
+  font-size:11px;
+  color:#94a3b8;
+  margin-bottom:4px;
 }
 
 .field input,
 .field select{
   width:100%;
-  background:#0c1322;
-  border:1px solid var(--line);
-  color:var(--text);
-  padding:9px;
-  border-radius:7px;
-  outline:none;
-}
-
-.field input[type="range"]{
-  padding:0;
-}
-
-.segmented{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:4px;
-}
-
-.segmented button{
-  border:1px solid var(--line);
-  background:#0c1322;
-  border-radius:7px;
   min-height:38px;
-  font-size:10px;
+  border:1px solid #334155;
+  border-radius:7px;
+  background:#0b1220;
+  color:#f8fafc;
+  padding:7px 9px;
 }
 
-.segmented button.active{
-  background:var(--accent);
-  border-color:var(--accent);
+.rangeRow{
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+
+.rangeRow input[type=range]{
+  flex:1;
+}
+
+.rangeValue{
+  width:60px;
+  text-align:right;
+  font-size:12px;
+}
+
+.bigSegment{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:7px;
+}
+
+.bigSegment button{
+  min-height:42px;
+  border-radius:8px;
+  border:1px solid #334155;
+  background:#101827;
+}
+
+.bigSegment button.active{
+  background:#075985;
+  border-color:#38bdf8;
 }
 
 .metricGrid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:6px;
+  gap:7px;
 }
 
 .metric{
-  background:#0c1322;
-  border:1px solid var(--line);
+  padding:10px;
+  background:#0b1220;
+  border:1px solid #263247;
   border-radius:8px;
-  padding:9px;
 }
 
-.metric span{
-  color:var(--muted);
+.metric small{
   display:block;
-  font-size:9px;
+  color:#94a3b8;
+  font-size:10px;
 }
 
 .metric strong{
   display:block;
   margin-top:3px;
-  font-size:16px;
+  font-size:18px;
 }
 
-.diag{
-  padding:8px;
-  border-radius:7px;
+.diagnostic{
+  padding:9px;
   margin-bottom:6px;
-  font-size:10px;
-  border:1px solid var(--line);
+  border-radius:8px;
+  font-size:12px;
+  border:1px solid #334155;
+  background:#0b1220;
 }
 
-.diag.good{
-  background:#102b20;
-  border-color:#1d6044;
+.diagnostic.warn{
+  border-color:#854d0e;
+  background:#29200c;
 }
 
-.diag.warn{
-  background:#322913;
-  border-color:#6c5622;
+.diagnostic.bad{
+  border-color:#7f1d1d;
+  background:#2a1116;
 }
 
-.diag.bad{
-  background:#351820;
-  border-color:#6c2a38;
+.diagnostic.good{
+  border-color:#166534;
+  background:#0c2518;
 }
 
-/* STATUS */
-
-#status{
-  background:#0d1425;
-  border-top:1px solid var(--line);
-  display:flex;
-  align-items:center;
-  gap:14px;
-  padding:0 10px;
-  color:var(--muted);
-  font-size:10px;
-}
-
-.statusItem{
-  display:flex;
-  gap:5px;
-  align-items:center;
-}
-
-.statusDot{
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:var(--green);
-}
-
-.statusDot.off{
-  background:#667085;
-}
-
-/* MOBILE */
-
-#mobileTop,
-#mobileNav,
-#mobileSheet{
-  display:none;
-}
+/* =========================================================
+   MOBILE
+========================================================= */
 
 @media(max-width:850px){
 
-  #app{
+  body{
+    overscroll-behavior:none;
+  }
+
+  .desktopTop{
+    display:none;
+  }
+
+  .workspace{
     display:block;
     position:relative;
     height:100%;
   }
 
-  #topbar,
-  #library,
-  #inspector,
-  #status{
+  .library,
+  .inspector,
+  .statusBar{
     display:none;
   }
 
-  #main{
-    display:block;
-    width:100%;
-    height:100%;
+  .canvasWrap{
+    position:absolute;
+    inset:0;
+    background:
+      linear-gradient(#182236 1px,transparent 1px),
+      linear-gradient(90deg,#182236 1px,transparent 1px),
+      #080d18;
+    background-size:25px 25px;
   }
 
-  #workspace{
+  #svg{
     width:100%;
     height:100%;
-    padding-top:58px;
-    padding-bottom:72px;
+    touch-action:none;
   }
 
-  #mobileTop{
+  .mobileTop{
     position:fixed;
     display:flex;
-    align-items:center;
-    top:0;
     left:0;
     right:0;
-    height:58px;
+    top:0;
+    height:64px;
     padding:
-      env(safe-area-inset-top)
+      calc(7px + env(safe-area-inset-top))
       10px
-      6px
+      7px
       10px;
-    box-sizing:content-box;
-    background:rgba(11,16,32,.96);
-    border-bottom:1px solid var(--line);
+    background:rgba(11,16,32,.94);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid #29364b;
     z-index:100;
-    backdrop-filter:blur(14px);
+    align-items:center;
+    justify-content:space-between;
   }
 
   .mobileBrand{
-    display:flex;
-    align-items:center;
-    gap:8px;
+    font-size:16px;
+    font-weight:800;
   }
 
-  .mobileLogo{
-    width:34px;
-    height:34px;
-    border-radius:9px;
-    display:grid;
-    place-items:center;
-    background:linear-gradient(135deg,#377dff,#6e5bff);
-    font-weight:900;
+  .mobileBrand span{
+    color:#38bdf8;
   }
 
-  .mobileBrand strong{
-    font-size:14px;
-  }
-
-  .mobileBrand small{
-    display:block;
-    color:var(--muted);
-    font-size:9px;
-  }
-
-  .mobileTopActions{
-    margin-left:auto;
+  .mobileTopRight{
     display:flex;
     gap:6px;
   }
 
-  .mobileTopBtn{
-    min-width:42px;
-    height:42px;
-    border-radius:10px;
-    border:1px solid var(--line);
-    background:var(--panel);
-    display:grid;
-    place-items:center;
-    font-size:16px;
-  }
-
-  #mobileRun{
-    background:#123c2b;
-    border-color:#1d6848;
-  }
-
-  #mobileRun.running{
-    background:#4b1d25;
-    border-color:#74323e;
-  }
-
-  #workspaceTools{
-    left:9px;
-    top:68px;
-  }
-
-  .workspaceTool{
-    width:44px;
-    height:44px;
+  .mobileTop button{
+    min-width:44px;
+    min-height:44px;
     border-radius:11px;
-    font-size:18px;
+    border:1px solid #334155;
+    background:#172033;
+    font-size:19px;
   }
 
-  #connectionHint{
-    top:68px;
-    max-width:calc(100% - 120px);
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
+  .mobileTop button.run{
+    background:#0ea5e9;
+    color:#00121c;
   }
 
-  #mobileNav{
+  .mobileNav{
     position:fixed;
     display:grid;
     grid-template-columns:repeat(5,1fr);
     left:0;
     right:0;
     bottom:0;
-    height:72px;
-    padding-bottom:env(safe-area-inset-bottom);
-    background:rgba(13,20,37,.98);
-    border-top:1px solid var(--line);
-    z-index:100;
+    min-height:72px;
+    padding:
+      5px
+      5px
+      calc(5px + env(safe-area-inset-bottom))
+      5px;
+    background:rgba(11,16,32,.97);
     backdrop-filter:blur(14px);
+    border-top:1px solid #29364b;
+    z-index:110;
   }
 
-  .mobileNavBtn{
+  .mobileNav button{
+    min-height:58px;
     border:0;
-    background:none;
-    color:var(--muted);
+    background:transparent;
+    color:#94a3b8;
+    border-radius:10px;
     display:flex;
     flex-direction:column;
-    justify-content:center;
     align-items:center;
-    gap:4px;
-    min-height:44px;
+    justify-content:center;
+    gap:2px;
+    font-size:11px;
   }
 
-  .mobileNavBtn span:first-child{
-    font-size:20px;
+  .mobileNav button span:first-child{
+    font-size:21px;
   }
 
-  .mobileNavBtn span:last-child{
-    font-size:9px;
+  .mobileNav button.active{
+    background:#16263a;
+    color:#38bdf8;
   }
 
-  .mobileNavBtn.active{
-    color:#fff;
-  }
-
-  .mobileNavBtn.active span:first-child{
-    transform:scale(1.08);
-  }
-
-  #mobileSheet{
+  .mobileSheet{
     position:fixed;
-    display:block;
+    z-index:105;
     left:0;
     right:0;
-    bottom:0;
-    height:auto;
-    max-height:78%;
-    background:#111827;
-    border-top:1px solid var(--line);
+    bottom:calc(72px + env(safe-area-inset-bottom));
+    max-height:72vh;
+    background:#0f172a;
+    border-top:1px solid #334155;
     border-radius:18px 18px 0 0;
-    z-index:90;
-    transform:translateY(105%);
+    box-shadow:0 -15px 50px rgba(0,0,0,.45);
+    transform:translateY(110%);
     transition:transform .22s ease;
-    box-shadow:0 -20px 50px rgba(0,0,0,.45);
-    overflow:hidden;
-    padding-bottom:env(safe-area-inset-bottom);
+    overflow:auto;
+    padding:14px 13px 20px;
+    touch-action:auto;
   }
 
-  #mobileSheet.open{
+  .mobileSheet.open{
     transform:translateY(0);
   }
 
   .sheetHandle{
     width:42px;
     height:5px;
-    border-radius:10px;
-    background:#4b5568;
-    margin:8px auto;
+    border-radius:99px;
+    background:#475569;
+    margin:0 auto 13px;
   }
 
   .sheetHeader{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:7px 14px 10px;
-    border-bottom:1px solid var(--line);
+    margin-bottom:12px;
   }
 
-  .sheetHeader strong{
-    font-size:14px;
+  .sheetHeader h2{
+    font-size:17px;
+    margin:0;
   }
 
-  .sheetClose{
-    width:38px;
-    height:38px;
-    border-radius:9px;
-    border:1px solid var(--line);
-    background:var(--panel2);
-  }
-
-  .sheetContent{
-    overflow:auto;
-    max-height:calc(78vh - 70px);
-    padding:12px;
-    -webkit-overflow-scrolling:touch;
-  }
-
-  .mobileComponentSearch{
-    margin-bottom:10px;
+  .closeSheet{
+    width:42px;
+    height:42px;
+    border-radius:10px;
+    border:1px solid #334155;
+    background:#172033;
   }
 
   .mobileComponentGrid{
     display:grid;
-    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-template-columns:repeat(3,1fr);
     gap:8px;
   }
 
   .mobileComponent{
-    min-height:70px;
-    border:1px solid var(--line);
+    min-height:76px;
+    border:1px solid #334155;
     border-radius:11px;
-    background:#172033;
-    padding:9px;
+    background:#151e2f;
+    color:#e7edf7;
     display:flex;
+    flex-direction:column;
     align-items:center;
-    gap:9px;
-    text-align:left;
+    justify-content:center;
+    gap:5px;
   }
 
   .mobileComponent:active{
-    transform:scale(.98);
+    transform:scale(.97);
+    border-color:#38bdf8;
   }
 
-  .mobileComponent .componentIcon{
-    width:42px;
-    height:42px;
-    font-size:21px;
+  .mobileComponent .ico{
+    font-size:25px;
   }
 
-  .mobileComponent strong{
-    display:block;
-    font-size:11px;
-  }
-
-  .mobileComponent small{
-    display:block;
-    color:var(--muted);
-    font-size:9px;
-    margin-top:3px;
+  .mobileComponent .nm{
+    font-size:10px;
+    text-align:center;
   }
 
   .mobileToolGrid{
@@ -794,27 +641,39 @@ button{
     gap:8px;
   }
 
-  .bigTool{
-    min-height:62px;
-    border:1px solid var(--line);
+  .mobileTool{
+    min-height:54px;
     border-radius:11px;
-    background:#172033;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:10px;
+    border:1px solid #334155;
+    background:#151e2f;
+    text-align:left;
+    padding:9px 12px;
   }
 
-  .bigTool b{
+  .mobileTool strong{
     display:block;
-    font-size:12px;
+    font-size:13px;
   }
 
-  .bigTool small{
-    color:var(--muted);
-    display:block;
-    margin-top:3px;
-    font-size:9px;
+  .mobileTool small{
+    color:#94a3b8;
+  }
+
+  .mobileRun{
+    width:100%;
+    min-height:65px;
+    border-radius:14px;
+    border:1px solid #38bdf8;
+    background:#0ea5e9;
+    color:#00121c;
+    font-size:19px;
+    font-weight:900;
+    margin-bottom:10px;
+  }
+
+  .mobileRun.pause{
+    background:#f59e0b;
+    border-color:#fbbf24;
   }
 
   .mobileMetrics{
@@ -824,408 +683,301 @@ button{
   }
 
   .mobileMetric{
-    padding:14px;
-    background:#0c1322;
-    border:1px solid var(--line);
-    border-radius:12px;
+    padding:12px;
+    border-radius:11px;
+    border:1px solid #2c3a50;
+    background:#151e2f;
   }
 
-  .mobileMetric span{
-    color:var(--muted);
+  .mobileMetric small{
+    color:#94a3b8;
+    display:block;
     font-size:10px;
   }
 
   .mobileMetric strong{
     display:block;
-    font-size:23px;
-    margin-top:5px;
+    font-size:21px;
+    margin-top:3px;
   }
 
-  .mobileMetric small{
-    color:var(--muted);
-  }
-
-  .mobileRun{
-    width:100%;
-    min-height:62px;
-    border-radius:13px;
-    border:1px solid #286e4e;
-    background:#123c2b;
-    font-size:17px;
-    font-weight:800;
-    margin-bottom:9px;
-  }
-
-  .mobileRun.running{
-    background:#481c25;
-    border-color:#783440;
-  }
-
-  .mobileReset{
-    width:100%;
-    min-height:50px;
-    border-radius:11px;
-    border:1px solid var(--line);
-    background:#172033;
-  }
-
-  .mobileField{
-    margin-bottom:13px;
-  }
-
-  .mobileField label{
-    display:block;
-    color:var(--muted);
-    font-size:11px;
-    margin-bottom:6px;
-  }
-
-  .mobileField input,
-  .mobileField select{
-    width:100%;
+  .mobileProperties .field input,
+  .mobileProperties .field select{
     min-height:48px;
-    background:#0c1322;
-    color:white;
-    border:1px solid var(--line);
-    border-radius:10px;
-    padding:10px 12px;
+    font-size:16px;
   }
 
-  .mobileField input[type=range]{
-    min-height:42px;
-    padding:0;
-  }
-
-  .mobileSegment{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:6px;
-  }
-
-  .mobileSegment button{
-    min-height:48px;
-    background:#0c1322;
-    border:1px solid var(--line);
-    border-radius:9px;
-    font-size:10px;
-    font-weight:700;
-  }
-
-  .mobileSegment button.active{
-    background:var(--accent);
-    border-color:var(--accent);
-  }
-
-  .mobileSection{
-    padding:12px;
-    border:1px solid var(--line);
-    border-radius:12px;
-    background:#141d2e;
-    margin-bottom:9px;
-  }
-
-  .mobileSectionTitle{
-    font-size:11px;
-    font-weight:800;
-    margin-bottom:10px;
-  }
-
-  .mobileDiag{
-    padding:10px;
-    border-radius:9px;
-    margin-bottom:7px;
-    font-size:10px;
-  }
-
-  .mobileDiag.good{
-    background:#102b20;
-    border:1px solid #1d6044;
-  }
-
-  .mobileDiag.warn{
-    background:#322913;
-    border:1px solid #6c5622;
-  }
-
-  .mobileDiag.bad{
-    background:#351820;
-    border:1px solid #6c2a38;
-  }
-
-  .mobileActionRow{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:8px;
-  }
-
-  .mobileActionRow button{
-    min-height:48px;
-    border-radius:10px;
-    border:1px solid var(--line);
-    background:#172033;
-  }
-
-  .emptyState{
-    color:var(--muted);
-    text-align:center;
-    padding:25px 10px;
+  .mobileProperties .field label{
     font-size:12px;
   }
 
-  /* bigger SVG ports on mobile */
-  .port{
-    stroke-width:3;
+  .mobileProperties input[type=range]{
+    width:100%;
+    height:36px;
   }
 
-  .componentText{
-    font-size:13px;
+  .mobileBigSegment{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:8px;
+  }
+
+  .mobileBigSegment button{
+    min-height:54px;
+    border-radius:11px;
+    border:1px solid #334155;
+    background:#101827;
+  }
+
+  .mobileBigSegment button.active{
+    background:#075985;
+    border-color:#38bdf8;
+  }
+
+  .connectionBanner{
+    position:fixed;
+    left:12px;
+    right:12px;
+    top:calc(70px + env(safe-area-inset-top));
+    z-index:102;
+    background:#854d0e;
+    border:1px solid #facc15;
+    border-radius:12px;
+    padding:11px 12px;
+    display:none;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    font-size:12px;
+  }
+
+  .connectionBanner.show{
+    display:flex;
+  }
+
+  .connectionBanner button{
+    min-height:40px;
+    border:1px solid #facc15;
+    background:#3a2b08;
+    border-radius:8px;
+    padding:5px 10px;
+  }
+
+  .mobileToast{
+    position:fixed;
+    left:50%;
+    transform:translateX(-50%) translateY(30px);
+    bottom:calc(82px + env(safe-area-inset-bottom));
+    z-index:150;
+    background:#111827;
+    border:1px solid #334155;
+    border-radius:12px;
+    padding:10px 14px;
+    font-size:12px;
+    opacity:0;
+    pointer-events:none;
+    transition:.2s;
+    max-width:90%;
+    text-align:center;
+  }
+
+  .mobileToast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+  }
+
+  .selectedBadge{
+    position:fixed;
+    left:10px;
+    top:calc(72px + env(safe-area-inset-top));
+    z-index:90;
+    background:rgba(15,23,42,.9);
+    border:1px solid #334155;
+    border-radius:9px;
+    padding:7px 10px;
+    font-size:11px;
+    color:#cbd5e1;
+    pointer-events:none;
   }
 }
 
 @media(max-width:390px){
   .mobileComponentGrid{
-    grid-template-columns:1fr;
+    grid-template-columns:repeat(2,1fr);
   }
 
-  .mobileTopBtn{
-    min-width:38px;
-  }
-
-  .mobileBrand strong{
-    font-size:13px;
+  .mobileNav button{
+    font-size:10px;
   }
 }
 
-/* TOAST */
+/* =========================================================
+   MODAL
+========================================================= */
 
-#toast{
-  position:fixed;
-  left:50%;
-  bottom:85px;
-  transform:translate(-50%,20px);
-  background:#172033;
-  border:1px solid var(--line);
-  border-radius:10px;
-  padding:10px 15px;
-  font-size:11px;
-  opacity:0;
-  pointer-events:none;
-  transition:.2s;
-  z-index:300;
-  box-shadow:var(--shadow);
-}
-
-#toast.show{
-  opacity:1;
-  transform:translate(-50%,0);
-}
-
-/* MODAL */
-
-#menuOverlay{
+.modal{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.6);
-  z-index:200;
+  background:rgba(0,0,0,.68);
+  z-index:300;
   display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
 }
 
-#menuOverlay.show{
-  display:block;
+.modal.open{
+  display:flex;
 }
 
-#menu{
-  position:absolute;
-  right:10px;
-  top:60px;
-  width:240px;
+.modalBox{
+  width:min(500px,100%);
+  max-height:90vh;
+  overflow:auto;
   background:#111827;
-  border:1px solid var(--line);
-  border-radius:12px;
-  box-shadow:var(--shadow);
-  padding:7px;
+  border:1px solid #334155;
+  border-radius:15px;
+  padding:18px;
 }
 
-.menuItem{
-  width:100%;
-  min-height:44px;
-  border:0;
-  background:none;
-  text-align:left;
-  border-radius:8px;
-  padding:8px 10px;
+.modalBox h2{
+  margin-top:0;
 }
 
-.menuItem:hover{
-  background:#172033;
-}
-
-.hidden{
-  display:none!important;
+.modalActions{
+  display:flex;
+  gap:8px;
+  justify-content:flex-end;
+  margin-top:15px;
 }
 </style>
 </head>
 
 <body>
 
-<div id="app">
+<div class="app">
 
-<header id="topbar">
-  <div class="brand">
-    <div class="logo">⚙</div>
-    <div class="brandText">
-      <strong>Hydraulic Studio</strong>
-      <span>Engineering Hydraulic Simulation</span>
-    </div>
-  </div>
+  <!-- DESKTOP TOP -->
+  <header class="desktopTop">
+    <div class="brand">Hydraulic <span>Studio</span></div>
 
-  <div class="topActions">
-    <button class="btn" onclick="newProject()">New</button>
-    <button class="btn" onclick="loadExample()">Example</button>
-    <button class="btn" onclick="undo()">Undo</button>
-    <button class="btn" onclick="redo()">Redo</button>
-    <button class="btn" onclick="saveProject()">Save</button>
-    <button class="btn" onclick="document.getElementById('fileInput').click()">Load</button>
-    <button class="btn" onclick="runDiagnostics()">Diagnostics</button>
-    <button id="desktopRun" class="btn success" onclick="toggleSimulation()">▶ Run</button>
-  </div>
-</header>
-
-<div id="mobileTop">
-  <div class="mobileBrand">
-    <div class="mobileLogo">⚙</div>
-    <div>
-      <strong>Hydraulic Studio</strong>
-      <small>Hydraulic Engineering</small>
-    </div>
-  </div>
-
-  <div class="mobileTopActions">
-    <button id="mobileRun" class="mobileTopBtn" onclick="toggleSimulation()">▶</button>
-    <button class="mobileTopBtn" onclick="openMenu()">⋯</button>
-  </div>
-</div>
-
-<main id="main">
-
-  <aside id="library">
-    <div class="panelTitle">Component Library</div>
-    <input id="librarySearch" class="search" placeholder="Search components..." oninput="renderLibrary()">
-    <div id="libraryContent"></div>
-  </aside>
-
-  <section id="workspace">
-
-    <div id="workspaceTools">
-      <button class="workspaceTool" title="Zoom in" onclick="zoomBy(1.2)">＋</button>
-      <button class="workspaceTool" title="Zoom out" onclick="zoomBy(.8)">−</button>
-      <button class="workspaceTool" title="Fit circuit" onclick="fitView()">⌗</button>
-      <button class="workspaceTool" title="Cancel connection" onclick="cancelConnection()">×</button>
+    <div class="toolbar">
+      <button class="btn primary" onclick="toggleSimulation()">▶ Run</button>
+      <button class="btn" onclick="resetSimulation()">↺ Reset</button>
+      <button class="btn" onclick="undo()">↶ Undo</button>
+      <button class="btn" onclick="redo()">↷ Redo</button>
+      <button class="btn" onclick="loadExample()">🧪 Example</button>
+      <button class="btn" onclick="saveProject()">💾 Save</button>
+      <button class="btn" onclick="loadProject()">📂 Load</button>
+      <button class="btn" onclick="runDiagnostics()">🔍 Diagnostics</button>
     </div>
 
-    <div id="connectionHint">Tap another port to connect</div>
+    <div style="margin-left:auto;font-size:12px;color:#94a3b8" id="desktopState">
+      STOPPED
+    </div>
+  </header>
 
-    <svg id="canvas">
-      <g id="world">
-        <g id="grid"></g>
-        <g id="wires"></g>
-        <g id="components"></g>
-      </g>
-    </svg>
+  <!-- MOBILE HEADER -->
+  <header class="mobileTop">
+    <div class="mobileBrand">Hydraulic <span>Studio</span></div>
 
+    <div class="mobileTopRight">
+      <button class="run" id="mobileRunBtn" onclick="toggleSimulation()">▶</button>
+      <button onclick="mobileMenu()">⋯</button>
+    </div>
+  </header>
+
+  <main class="workspace">
+
+    <!-- DESKTOP LIBRARY -->
+    <aside class="library">
+      <div class="panelTitle">Components</div>
+      <div class="componentGrid" id="desktopComponents"></div>
+
+      <div class="panelTitle">System</div>
+      <button class="btn" style="width:100%;margin-bottom:6px" onclick="loadExample()">Load Example</button>
+      <button class="btn" style="width:100%;margin-bottom:6px" onclick="saveProject()">Save Project</button>
+      <button class="btn" style="width:100%" onclick="clearCircuit()">Clear Circuit</button>
+    </aside>
+
+    <!-- CANVAS -->
+    <section class="canvasWrap" id="canvasWrap">
+      <svg id="svg"></svg>
+    </section>
+
+    <!-- DESKTOP INSPECTOR -->
+    <aside class="inspector" id="desktopInspector"></aside>
+
+  </main>
+
+  <div class="statusBar">
+    <span id="statusText">Ready</span>
+    <span id="statusMetrics">0 components • 0 connections</span>
+  </div>
+
+  <!-- MOBILE CONNECTION BANNER -->
+  <div class="connectionBanner" id="connectionBanner">
+    <span>Tap another port to connect</span>
+    <button onclick="cancelConnection()">Cancel</button>
+  </div>
+
+  <div class="selectedBadge" id="selectedBadge" style="display:none"></div>
+
+  <!-- MOBILE SHEET -->
+  <section class="mobileSheet" id="mobileSheet">
+    <div class="sheetHandle"></div>
+    <div id="mobileSheetContent"></div>
   </section>
 
-  <aside id="inspector">
-    <div id="inspectorContent"></div>
-  </aside>
+  <!-- MOBILE NAV -->
+  <nav class="mobileNav">
+    <button data-tab="components" onclick="setMobileTab('components')">
+      <span>🧩</span><span>Components</span>
+    </button>
 
-</main>
+    <button data-tab="circuit" onclick="setMobileTab('circuit')">
+      <span>🔗</span><span>Circuit</span>
+    </button>
 
-<footer id="status">
-  <div class="statusItem">
-    <span id="statusDot" class="statusDot off"></span>
-    <span id="statusText">Simulation stopped</span>
-  </div>
-  <div class="statusItem">Components: <b id="componentCount">0</b></div>
-  <div class="statusItem">Connections: <b id="connectionCount">0</b></div>
-  <div class="statusItem">Pressure: <b id="statusPressure">0 bar</b></div>
-  <div class="statusItem">Flow: <b id="statusFlow">0 L/min</b></div>
-</footer>
+    <button data-tab="simulate" onclick="setMobileTab('simulate')">
+      <span>▶️</span><span>Simulate</span>
+    </button>
+
+    <button data-tab="monitor" onclick="setMobileTab('monitor')">
+      <span>📊</span><span>Monitor</span>
+    </button>
+
+    <button data-tab="properties" onclick="setMobileTab('properties')">
+      <span>⚙️</span><span>Properties</span>
+    </button>
+  </nav>
+
+  <div class="mobileToast" id="mobileToast"></div>
 
 </div>
 
-<!-- MOBILE SHEET -->
+<!-- IMPORT/EXPORT MODAL -->
+<div class="modal" id="modal">
+  <div class="modalBox">
+    <h2>Hydraulic Studio Project</h2>
+    <textarea id="projectText"
+      style="width:100%;height:300px;background:#080d18;color:#e2e8f0;border:1px solid #334155;border-radius:8px;padding:10px;font-family:monospace"></textarea>
 
-<div id="mobileSheet">
-  <div class="sheetHandle"></div>
-
-  <div class="sheetHeader">
-    <strong id="sheetTitle">Components</strong>
-    <button class="sheetClose" onclick="closeMobileSheet()">×</button>
-  </div>
-
-  <div id="sheetContent" class="sheetContent"></div>
-</div>
-
-<div id="toast"></div>
-
-<div id="menuOverlay" onclick="closeMenu()">
-  <div id="menu" onclick="event.stopPropagation()">
-    <button class="menuItem" onclick="newProject();closeMenu()">＋ New Project</button>
-    <button class="menuItem" onclick="loadExample();closeMenu()">⚙ Load Example Circuit</button>
-    <button class="menuItem" onclick="saveProject();closeMenu()">💾 Save Project</button>
-    <button class="menuItem" onclick="document.getElementById('fileInput').click();closeMenu()">📂 Load Project</button>
-    <button class="menuItem" onclick="undo();closeMenu()">↶ Undo</button>
-    <button class="menuItem" onclick="redo();closeMenu()">↷ Redo</button>
-    <button class="menuItem" onclick="runDiagnostics();closeMenu()">🔎 Diagnostics</button>
+    <div class="modalActions">
+      <button class="btn" onclick="closeModal()">Cancel</button>
+      <button class="btn primary" onclick="importProject()">Import</button>
+    </div>
   </div>
 </div>
-
-<input id="fileInput" type="file" accept=".json,application/json" hidden>
-
-<!-- MOBILE NAV -->
-
-<nav id="mobileNav">
-
-  <button class="mobileNavBtn" data-tab="components" onclick="setMobileTab('components')">
-    <span>⚙</span>
-    <span>Components</span>
-  </button>
-
-  <button class="mobileNavBtn" data-tab="circuit" onclick="setMobileTab('circuit')">
-    <span>⌘</span>
-    <span>Circuit</span>
-  </button>
-
-  <button class="mobileNavBtn" data-tab="simulate" onclick="setMobileTab('simulate')">
-    <span>▶</span>
-    <span>Simulate</span>
-  </button>
-
-  <button class="mobileNavBtn" data-tab="monitor" onclick="setMobileTab('monitor')">
-    <span>◉</span>
-    <span>Monitor</span>
-  </button>
-
-  <button class="mobileNavBtn" data-tab="properties" onclick="setMobileTab('properties')">
-    <span>☷</span>
-    <span>Properties</span>
-  </button>
-
-</nav>
 
 <script>
-
 /* =========================================================
    HYDRAULIC STUDIO
-   Touch-first hydraulic engineering simulator
+   Mobile-first hydraulic engineering simulator
 ========================================================= */
 
-const svg = document.getElementById("canvas");
-const world = document.getElementById("world");
-const grid = document.getElementById("grid");
-const componentsLayer = document.getElementById("components");
-const wiresLayer = document.getElementById("wires");
+const svg = document.getElementById("svg");
+const canvasWrap = document.getElementById("canvasWrap");
 
 let components = [];
 let connections = [];
@@ -1233,47 +985,31 @@ let connections = [];
 let selectedId = null;
 let connectingPort = null;
 
-let running = false;
-let lastTime = performance.now();
+let simulationRunning = false;
+let simulationTime = 0;
+let animationFrame = null;
+
+let undoStack = [];
+let redoStack = [];
 
 let zoom = 1;
 let panX = 0;
 let panY = 0;
 
-let history = [];
-let historyIndex = -1;
+let mobileTab = null;
 
-let mobileTab = "components";
-let mobileSheetOpen = false;
-
-let pointerMode = "select";
-let activePointer = null;
-let dragStart = null;
-
-let simulation = {
-  pressure:0,
-  flow:0,
-  power:0,
-  temperature:25,
-  tankLevel:75,
-  cavitation:false,
-  reliefOpen:false
-};
-
-const COMPONENTS = {
+const componentDefs = {
 
   tank:{
-    name:"Reservoir / Tank",
-    category:"Sources & Reservoirs",
-    icon:"▱",
-    ports:["P"],
-    defaults:{volume:100,level:75}
+    name:"Tank",
+    icon:"🛢️",
+    ports:["T"],
+    defaults:{}
   },
 
   pump:{
     name:"Fixed Pump",
-    category:"Pumps",
-    icon:"◉",
+    icon:"⚙️",
     ports:["IN","OUT"],
     defaults:{
       displacement:16,
@@ -1283,9 +1019,8 @@ const COMPONENTS = {
   },
 
   variablePump:{
-    name:"Variable Piston Pump",
-    category:"Pumps",
-    icon:"◉",
+    name:"Variable Pump",
+    icon:"⚙️",
     ports:["IN","OUT"],
     defaults:{
       displacement:32,
@@ -1298,8 +1033,7 @@ const COMPONENTS = {
 
   accumulator:{
     name:"Accumulator",
-    category:"Energy",
-    icon:"▣",
+    icon:"🔵",
     ports:["P"],
     defaults:{
       volume:20,
@@ -1309,9 +1043,8 @@ const COMPONENTS = {
   },
 
   valve43:{
-    name:"4/3 Directional Valve",
-    category:"Directional Valves",
-    icon:"▤",
+    name:"4/3 Valve",
+    icon:"↔️",
     ports:["P","T","A","B"],
     defaults:{
       position:"extend",
@@ -1321,9 +1054,8 @@ const COMPONENTS = {
   },
 
   valve42:{
-    name:"4/2 Directional Valve",
-    category:"Directional Valves",
-    icon:"▤",
+    name:"4/2 Valve",
+    icon:"↔️",
     ports:["P","T","A","B"],
     defaults:{
       position:"extend",
@@ -1333,8 +1065,7 @@ const COMPONENTS = {
 
   proportional:{
     name:"Proportional Valve",
-    category:"Directional Valves",
-    icon:"⇆",
+    icon:"🎚️",
     ports:["P","T","A","B"],
     defaults:{
       command:70,
@@ -1343,10 +1074,9 @@ const COMPONENTS = {
   },
 
   relief:{
-    name:"Pressure Relief Valve",
-    category:"Pressure Control",
-    icon:"↗",
-    ports:["IN","OUT"],
+    name:"Relief Valve",
+    icon:"🛡️",
+    ports:["P","T"],
     defaults:{
       setting:210,
       cracking:.5
@@ -1354,10 +1084,9 @@ const COMPONENTS = {
   },
 
   reducing:{
-    name:"Pressure Reducing Valve",
-    category:"Pressure Control",
-    icon:"↘",
-    ports:["IN","OUT"],
+    name:"Reducing Valve",
+    icon:"⬇️",
+    ports:["IN","OUT","T"],
     defaults:{
       setting:120
     }
@@ -1365,19 +1094,17 @@ const COMPONENTS = {
 
   sequence:{
     name:"Sequence Valve",
-    category:"Pressure Control",
-    icon:"⇥",
-    ports:["IN","OUT"],
+    icon:"⏭️",
+    ports:["IN","OUT","T"],
     defaults:{
       setting:100
     }
   },
 
   counterbalance:{
-    name:"Counterbalance Valve",
-    category:"Pressure Control",
-    icon:"⇳",
-    ports:["IN","OUT"],
+    name:"Counterbalance",
+    icon:"⚖️",
+    ports:["IN","OUT","PILOT"],
     defaults:{
       setting:100,
       pilotRatio:3
@@ -1386,8 +1113,7 @@ const COMPONENTS = {
 
   check:{
     name:"Check Valve",
-    category:"Flow Control",
-    icon:"▶",
+    icon:"➡️",
     ports:["IN","OUT"],
     defaults:{
       cracking:.5
@@ -1395,9 +1121,8 @@ const COMPONENTS = {
   },
 
   flowControl:{
-    name:"Flow Control Valve",
-    category:"Flow Control",
-    icon:"◒",
+    name:"Flow Control",
+    icon:"💧",
     ports:["IN","OUT"],
     defaults:{
       opening:100,
@@ -1407,9 +1132,8 @@ const COMPONENTS = {
   },
 
   throttleCheck:{
-    name:"Throttle Check Valve",
-    category:"Flow Control",
-    icon:"◐",
+    name:"Throttle + Check",
+    icon:"🔀",
     ports:["IN","OUT"],
     defaults:{
       opening:100,
@@ -1420,8 +1144,7 @@ const COMPONENTS = {
 
   filter:{
     name:"Filter",
-    category:"Flow Control",
-    icon:"⌇",
+    icon:"🧰",
     ports:["IN","OUT"],
     defaults:{
       rating:150,
@@ -1430,8 +1153,7 @@ const COMPONENTS = {
   },
 
   cylinder:{
-    name:"Hydraulic Cylinder",
-    category:"Actuators",
+    name:"Cylinder",
     icon:"▣",
     ports:["A","B"],
     defaults:{
@@ -1447,8 +1169,7 @@ const COMPONENTS = {
 
   motor:{
     name:"Hydraulic Motor",
-    category:"Actuators",
-    icon:"↻",
+    icon:"⭕",
     ports:["A","B"],
     defaults:{
       displacement:80,
@@ -1459,268 +1180,246 @@ const COMPONENTS = {
 
   gauge:{
     name:"Pressure Gauge",
-    category:"Instrumentation",
-    icon:"◉",
+    icon:"⏱️",
     ports:["P"],
     defaults:{}
   },
 
   flowmeter:{
     name:"Flow Meter",
-    category:"Instrumentation",
-    icon:"⇥",
+    icon:"📈",
     ports:["IN","OUT"],
-    defaults:{}
-  },
-
-  temperature:{
-    name:"Temperature Sensor",
-    category:"Instrumentation",
-    icon:"℃",
-    ports:["P"],
     defaults:{}
   }
 };
+
+const componentOrder = [
+  "tank",
+  "pump",
+  "variablePump",
+  "accumulator",
+  "valve43",
+  "valve42",
+  "proportional",
+  "relief",
+  "reducing",
+  "sequence",
+  "counterbalance",
+  "check",
+  "flowControl",
+  "throttleCheck",
+  "filter",
+  "cylinder",
+  "motor",
+  "gauge",
+  "flowmeter"
+];
 
 /* =========================================================
    UTILITIES
 ========================================================= */
 
-function uid(){
-  return "c" + Date.now().toString(36) + Math.random().toString(36).slice(2,7);
+function uid(prefix="c"){
+  return prefix + Math.random().toString(36).slice(2,9);
 }
 
 function clone(o){
   return JSON.parse(JSON.stringify(o));
 }
 
-function escapeHtml(v){
-  return String(v)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;");
+function clamp(v,min,max){
+  return Math.max(min,Math.min(max,v));
 }
 
-function fmt(n,d=1){
-  if(!Number.isFinite(n)) return "0";
-  return Number(n).toFixed(d);
+function fmt(v,d=1){
+  if(!Number.isFinite(v)) return "0";
+  return Number(v).toFixed(d);
 }
 
-function clamp(v,a,b){
-  return Math.max(a,Math.min(b,v));
+function componentName(type){
+  return componentDefs[type]?.name || type;
 }
 
-function getC(id){
-  return components.find(c=>c.id===id);
-}
-
-function componentName(c){
-  return c?.name || COMPONENTS[c?.type]?.name || "Component";
+function toast(msg){
+  const el=document.getElementById("mobileToast");
+  el.textContent=msg;
+  el.classList.add("show");
+  clearTimeout(window.toastTimer);
+  window.toastTimer=setTimeout(()=>el.classList.remove("show"),1800);
 }
 
 /* =========================================================
-   COMPONENT CREATION
+   HISTORY
 ========================================================= */
 
-function makeComponent(type,x=0,y=0){
-
-  const spec = COMPONENTS[type];
-
+function snapshot(){
   return {
+    components:clone(components),
+    connections:clone(connections)
+  };
+}
+
+function pushHistory(){
+  undoStack.push(snapshot());
+
+  if(undoStack.length>50){
+    undoStack.shift();
+  }
+
+  redoStack=[];
+}
+
+function restore(s){
+  components=clone(s.components);
+  connections=clone(s.connections);
+  selectedId=null;
+  connectingPort=null;
+  render();
+}
+
+function undo(){
+  if(!undoStack.length){
+    toast("Nothing to undo");
+    return;
+  }
+
+  redoStack.push(snapshot());
+  restore(undoStack.pop());
+}
+
+function redo(){
+  if(!redoStack.length){
+    toast("Nothing to redo");
+    return;
+  }
+
+  undoStack.push(snapshot());
+  restore(redoStack.pop());
+}
+
+/* =========================================================
+   COMPONENTS
+========================================================= */
+
+function addComponent(type,x=null,y=null){
+
+  pushHistory();
+
+  const def=componentDefs[type];
+
+  if(x===null){
+    x=250 + Math.random()*350;
+  }
+
+  if(y===null){
+    y=180 + Math.random()*220;
+  }
+
+  const c={
     id:uid(),
     type,
     x,
     y,
-    w:130,
-    h:80,
-    name:spec.name,
-    params:clone(spec.defaults),
-    fault:null,
-    state:{
-      pressureA:0,
-      pressureB:0,
-      flow:0,
-      speed:0,
-      temperature:25
-    }
+    rotation:0,
+    properties:clone(def.defaults)
   };
+
+  components.push(c);
+
+  selectedId=c.id;
+
+  render();
+  openProperties();
+
+  toast(componentName(type)+" added");
+}
+
+function getComponent(id){
+  return components.find(c=>c.id===id);
+}
+
+function deleteSelected(){
+
+  if(!selectedId){
+    toast("Select a component first");
+    return;
+  }
+
+  pushHistory();
+
+  connections=connections.filter(
+    w=>w.a.component!==selectedId &&
+       w.b.component!==selectedId
+  );
+
+  components=components.filter(c=>c.id!==selectedId);
+
+  selectedId=null;
+
+  render();
+  toast("Component deleted");
+}
+
+function clearCircuit(){
+
+  if(!components.length) return;
+
+  if(!confirm("Clear the entire circuit?")) return;
+
+  pushHistory();
+
+  components=[];
+  connections=[];
+  selectedId=null;
+
+  render();
+}
+
+function duplicateSelected(){
+
+  const c=getComponent(selectedId);
+
+  if(!c) return;
+
+  pushHistory();
+
+  const copy=clone(c);
+
+  copy.id=uid();
+  copy.x+=40;
+  copy.y+=40;
+
+  components.push(copy);
+  selectedId=copy.id;
+
+  render();
 }
 
 /* =========================================================
    PORT GEOMETRY
 ========================================================= */
 
-function portOffset(c,p){
+function portPosition(c,port){
 
-  const w=c.w;
-  const h=c.h;
+  const base={
+    IN:{x:-65,y:0},
+    OUT:{x:65,y:0},
+    P:{x:-65,y:0},
+    T:{x:65,y:0},
+    A:{x:0,y:-42},
+    B:{x:0,y:42},
+    PILOT:{x:0,y:-55}
+  }[port] || {x:0,y:0};
 
-  const map = {
+  let x=base.x;
+  let y=base.y;
 
-    tank:{
-      P:{x:w/2,y:0}
-    },
-
-    pump:{
-      IN:{x:0,y:h/2},
-      OUT:{x:w,y:h/2}
-    },
-
-    variablePump:{
-      IN:{x:0,y:h/2},
-      OUT:{x:w,y:h/2}
-    },
-
-    accumulator:{
-      P:{x:w/2,y:0}
-    },
-
-    valve43:{
-      P:{x:0,y:h/2-22},
-      T:{x:0,y:h/2+22},
-      A:{x:w,y:h/2-22},
-      B:{x:w,y:h/2+22}
-    },
-
-    valve42:{
-      P:{x:0,y:h/2-22},
-      T:{x:0,y:h/2+22},
-      A:{x:w,y:h/2-22},
-      B:{x:w,y:h/2+22}
-    },
-
-    proportional:{
-      P:{x:0,y:h/2-22},
-      T:{x:0,y:h/2+22},
-      A:{x:w,y:h/2-22},
-      B:{x:w,y:h/2+22}
-    },
-
-    relief:{
-      IN:{x:0,y:h/2},
-      OUT:{x:w,y:h/2}
-    },
-
-    reducing:{
-      IN:{x:0,y:h/2},
-      OUT:{x:w,y:h/2}
-    },
-
-    sequence:{
-      IN:{x:0,y:h/2},
-      OUT:{x:w,y:h/2}
-    },
-
-    counterbalance:{
-      IN:{x:0,y:h/2},
-      OUT:{x:w,y:h/2}
-    },
-
-    check:{
-      IN:{x:0,y:h/2},
-      OUT:{x:w,y:h/2}
-    },
-
-    flowControl:{
-      IN:{x:0,y:h/2},
-      OUT:{x:w,y:h/2}
-    },
-
-    throttleCheck:{
-      IN:{x:0,y:h/2},
-      OUT:{x:w,y:h/2}
-    },
-
-    filter:{
-      IN:{x:0,y:h/2},
-      OUT:{x:w,y:h/2}
-    },
-
-    cylinder:{
-      A:{x:0,y:h/2-18},
-      B:{x:0,y:h/2+18}
-    },
-
-    motor:{
-      A:{x:0,y:h/2-18},
-      B:{x:0,y:h/2+18}
-    },
-
-    gauge:{
-      P:{x:w/2,y:0}
-    },
-
-    flowmeter:{
-      IN:{x:0,y:h/2},
-      OUT:{x:w,y:h/2}
-    },
-
-    temperature:{
-      P:{x:w/2,y:0}
-    }
-
-  };
-
-  return map[c.type]?.[p] || {x:w/2,y:h/2};
-}
-
-function worldPort(c,p){
-
-  const o=portOffset(c,p);
+  const r=(c.rotation||0)*Math.PI/180;
 
   return {
-    x:c.x+o.x,
-    y:c.y+o.y
+    x:c.x + x*Math.cos(r)-y*Math.sin(r),
+    y:c.y + x*Math.sin(r)+y*Math.cos(r)
   };
-}
-
-function screenToWorld(clientX,clientY){
-
-  const r=svg.getBoundingClientRect();
-
-  return {
-    x:(clientX-r.left-panX)/zoom,
-    y:(clientY-r.top-panY)/zoom
-  };
-}
-
-/* =========================================================
-   TRANSFORM / GRID
-========================================================= */
-
-function updateTransform(){
-
-  world.setAttribute(
-    "transform",
-    `translate(${panX},${panY}) scale(${zoom})`
-  );
-}
-
-function drawGrid(){
-
-  const size=40;
-  const major=200;
-
-  let s="";
-
-  for(let x=-2000;x<=4000;x+=size){
-
-    const majorLine=(Math.abs(x)%major===0);
-
-    s+=`<line class="${majorLine?'gridMajor':'gridLine'}"
-      x1="${x}" y1="-2000" x2="${x}" y2="4000"/>`;
-  }
-
-  for(let y=-2000;y<=4000;y+=size){
-
-    const majorLine=(Math.abs(y)%major===0);
-
-    s+=`<line class="${majorLine?'gridMajor':'gridLine'}"
-      x1="-2000" y1="${y}" x2="4000" y2="${y}"/>`;
-  }
-
-  grid.innerHTML=s;
 }
 
 /* =========================================================
@@ -1729,3082 +1428,832 @@ function drawGrid(){
 
 function render(){
 
-  updateTransform();
-
-  componentsLayer.innerHTML="";
-  wiresLayer.innerHTML="";
-
-  renderWires();
-  renderComponents();
-
-  document.getElementById("componentCount").textContent=components.length;
-  document.getElementById("connectionCount").textContent=connections.length;
-
-  updateInspector();
-  updateMobileSheetIfOpen();
+  renderLibrary();
+  renderCanvas();
+  renderInspector();
+  renderMobileSheet();
+  updateStatus();
 }
 
-function renderComponents(){
+function renderLibrary(){
 
-  for(const c of components){
+  const el=document.getElementById("desktopComponents");
 
-    const g=document.createElementNS("http://www.w3.org/2000/svg","g");
+  el.innerHTML="";
 
-    g.setAttribute("transform",`translate(${c.x},${c.y})`);
-    g.dataset.id=c.id;
-    g.classList.add("component");
+  componentOrder.forEach(type=>{
+
+    const d=componentDefs[type];
+
+    const b=document.createElement("button");
+
+    b.className="componentBtn";
+
+    b.innerHTML=`
+      <div class="componentIcon">${d.icon}</div>
+      <div class="componentName">${d.name}</div>
+    `;
+
+    b.onclick=()=>addComponent(type);
+
+    el.appendChild(b);
+  });
+}
+
+function renderCanvas(){
+
+  const w=canvasWrap.clientWidth;
+  const h=canvasWrap.clientHeight;
+
+  svg.setAttribute("viewBox",`0 0 ${w} ${h}`);
+
+  let html="";
+
+  html+=`
+    <g transform="translate(${panX},${panY}) scale(${zoom})">
+  `;
+
+  /* wires */
+  connections.forEach(wire=>{
+
+    const ca=getComponent(wire.a.component);
+    const cb=getComponent(wire.b.component);
+
+    if(!ca||!cb) return;
+
+    const a=portPosition(ca,wire.a.port);
+    const b=portPosition(cb,wire.b.port);
+
+    const active=simulationRunning &&
+      (ca.type==="pump" ||
+       ca.type==="variablePump" ||
+       cb.type==="pump" ||
+       cb.type==="variablePump");
+
+    html+=`
+      <path
+        class="wire ${active?"active flow":""}"
+        d="M ${a.x} ${a.y} L ${(a.x+b.x)/2} ${a.y} L ${(a.x+b.x)/2} ${b.y} L ${b.x} ${b.y}"
+      />
+    `;
+  });
+
+  /* components */
+  components.forEach(c=>{
+
+    const d=componentDefs[c.type];
 
     const selected=c.id===selectedId;
 
-    let body=document.createElementNS("http://www.w3.org/2000/svg","rect");
+    html+=`
+      <g
+        class="component ${selected?"selected":""}"
+        transform="translate(${c.x},${c.y}) rotate(${c.rotation||0})"
+        data-id="${c.id}"
+      >
 
-    body.setAttribute("x",0);
-    body.setAttribute("y",0);
-    body.setAttribute("width",c.w);
-    body.setAttribute("height",c.h);
-    body.setAttribute("rx",8);
+        ${drawBody(c)}
 
-    body.setAttribute(
-      "class",
-      c.fault ? "componentBody componentFault" :
-      selected ? "componentBody componentSelected" :
-      "componentBody"
-    );
+        <text
+          class="label"
+          x="0"
+          y="62"
+          text-anchor="middle"
+        >
+          ${escapeHtml(d.name)}
+        </text>
 
-    g.appendChild(body);
+        ${drawPorts(c)}
 
-    drawSymbol(g,c);
+      </g>
+    `;
+  });
 
-    const title=document.createElementNS("http://www.w3.org/2000/svg","text");
+  html+="</g>";
 
-    title.setAttribute("x",c.w/2);
-    title.setAttribute("y",c.h-12);
-    title.setAttribute("text-anchor","middle");
-    title.setAttribute("class","componentText");
-    title.textContent=c.name.length>18
-      ? c.name.slice(0,18)+"…"
-      : c.name;
+  svg.innerHTML=html;
 
-    g.appendChild(title);
+  bindSVGEvents();
+}
 
-    for(const p of COMPONENTS[c.type].ports){
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g,m=>({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#039;"
+  }[m]));
+}
 
-      const po=portOffset(c,p);
+function drawPorts(c){
 
-      const circle=document.createElementNS(
-        "http://www.w3.org/2000/svg","circle"
-      );
+  const ports=componentDefs[c.type].ports;
 
-      circle.setAttribute("cx",po.x);
-      circle.setAttribute("cy",po.y);
+  return ports.map(p=>{
 
-      circle.setAttribute(
-        "r",
-        window.innerWidth<=850 ? 9 : 6
-      );
+    const pos={
+      IN:{x:-65,y:0},
+      OUT:{x:65,y:0},
+      P:{x:-65,y:0},
+      T:{x:65,y:0},
+      A:{x:0,y:-42},
+      B:{x:0,y:42},
+      PILOT:{x:0,y:-55}
+    }[p] || {x:0,y:0};
 
-      const connected=connections.some(
-        w=>
-          (w.a.id===c.id&&w.a.port===p) ||
-          (w.b.id===c.id&&w.b.port===p)
-      );
+    const connecting=
+      connectingPort &&
+      connectingPort.component===c.id &&
+      connectingPort.port===p;
 
-      circle.setAttribute(
-        "class",
-        "port"+
-        (connected?" connected":"")+
-        (connectingPort &&
-          connectingPort.id===c.id &&
-          connectingPort.port===p
-          ?" connecting":"")
-      );
+    return `
+      <circle
+        class="port ${connecting?"connecting":""}"
+        cx="${pos.x}"
+        cy="${pos.y}"
+        r="${window.innerWidth<=850?10:7}"
+        data-port="${p}"
+        data-component="${c.id}"
+      />
+      <text
+        x="${pos.x}"
+        y="${pos.y-13}"
+        text-anchor="middle"
+        class="subLabel"
+      >${p}</text>
+    `;
+  }).join("");
+}
 
-      circle.dataset.component=c.id;
-      circle.dataset.port=p;
+function drawBody(c){
 
-      circle.addEventListener(
-        "pointerdown",
-        e=>{
-          e.stopPropagation();
-          portPointerDown(c.id,p,e);
-        }
-      );
+  const p=c.properties;
 
-      g.appendChild(circle);
+  switch(c.type){
 
-      const label=document.createElementNS(
-        "http://www.w3.org/2000/svg","text"
-      );
+    case"tank":
+      return `
+        <path class="body"
+          d="M-38,-25 L38,-25 L28,25 L-28,25 Z"/>
+        <path d="M-28,0 L28,0"
+          stroke="#64748b" stroke-width="2"/>
+      `;
 
-      label.setAttribute("x",po.x);
-      label.setAttribute("y",po.y-10);
-      label.setAttribute("text-anchor","middle");
-      label.setAttribute("fill","#8ea0ba");
-      label.setAttribute("font-size",window.innerWidth<=850?9:8);
-      label.textContent=p;
+    case"pump":
+    case"variablePump":
+      return `
+        <circle class="body" cx="0" cy="0" r="32"/>
+        <path d="M-12,10 L18,0 L-12,-10 Z"
+          fill="#38bdf8"/>
+        ${c.type==="variablePump"
+          ?`<path d="M-23,25 L23,-25" stroke="#facc15" stroke-width="3"/>`
+          :""}
+      `;
 
-      g.appendChild(label);
-    }
+    case"accumulator":
+      return `
+        <rect class="body" x="-27" y="-38" width="54" height="76" rx="10"/>
+        <line x1="-27" y1="0" x2="27" y2="0"
+          stroke="#64748b" stroke-width="2"/>
+        <text x="0" y="-13" text-anchor="middle"
+          fill="#94a3b8" font-size="10">P</text>
+      `;
 
-    g.addEventListener(
-      "pointerdown",
-      e=>componentPointerDown(c,e)
-    );
+    case"valve43":
+      return `
+        <rect class="body" x="-55" y="-28" width="110" height="56" rx="5"/>
+        <line x1="-18" y1="-28" x2="-18" y2="28"
+          stroke="#64748b"/>
+        <line x1="18" y1="-28" x2="18" y2="28"
+          stroke="#64748b"/>
+        <text x="-37" y="5" fill="#e2e8f0" font-size="10">
+          ${p.position==="retract"?"←":"→"}
+        </text>
+        <text x="0" y="5" fill="#e2e8f0" font-size="10">
+          ${p.centre==="closed"?"■":"○"}
+        </text>
+        <text x="37" y="5" fill="#e2e8f0" font-size="10">
+          →
+        </text>
+      `;
 
-    componentsLayer.appendChild(g);
+    case"valve42":
+      return `
+        <rect class="body" x="-42" y="-28" width="84" height="56" rx="5"/>
+        <line x1="0" y1="-28" x2="0" y2="28"
+          stroke="#64748b"/>
+        <text x="-20" y="5" fill="#e2e8f0" font-size="11">→</text>
+        <text x="20" y="5" fill="#e2e8f0" font-size="11">←</text>
+      `;
+
+    case"proportional":
+      return `
+        <rect class="body" x="-50" y="-28" width="100" height="56" rx="5"/>
+        <line x1="0" y1="-28" x2="0" y2="28"
+          stroke="#64748b"/>
+        <text x="-25" y="5" fill="#e2e8f0" font-size="11">→</text>
+        <text x="25" y="5" fill="#e2e8f0" font-size="11">←</text>
+        <text x="0" y="-38" text-anchor="middle"
+          fill="#facc15" font-size="9">${Math.round(p.command||0)}%</text>
+      `;
+
+    case"relief":
+      return `
+        <path class="body"
+          d="M-38,25 L0,-25 L38,25 Z"/>
+        <path d="M-15,12 L15,-12"
+          stroke="#facc15" stroke-width="3"/>
+      `;
+
+    case"reducing":
+    case"sequence":
+    case"counterbalance":
+      return `
+        <path class="body"
+          d="M-34,25 L0,-25 L34,25 Z"/>
+        <path d="M-15,12 L15,-12"
+          stroke="#facc15" stroke-width="3"/>
+      `;
+
+    case"check":
+      return `
+        <rect class="body" x="-38" y="-25" width="76" height="50" rx="7"/>
+        <path d="M-12,-13 L14,0 L-12,13 Z"
+          fill="#38bdf8"/>
+        <line x1="18" y1="-16" x2="18" y2="16"
+          stroke="#f8fafc" stroke-width="3"/>
+      `;
+
+    case"flowControl":
+    case"throttleCheck":
+      return `
+        <rect class="body" x="-40" y="-25" width="80" height="50" rx="7"/>
+        <path d="M-18,12 L18,-12"
+          stroke="#facc15" stroke-width="3"/>
+        <text x="0" y="6" text-anchor="middle"
+          fill="#94a3b8" font-size="9">
+          ${Math.round(p.opening||0)}%
+        </text>
+      `;
+
+    case"filter":
+      return `
+        <rect class="body" x="-38" y="-27" width="76" height="54" rx="7"/>
+        <path d="M-23,-15 L23,15 M-23,0 L23,0 M-23,15 L23,-15"
+          stroke="#94a3b8"/>
+      `;
+
+    case"cylinder":
+      return `
+        <rect class="body" x="-48" y="-24" width="65" height="48" rx="5"/>
+        <rect x="17" y="-7" width="38" height="14"
+          fill="#64748b"/>
+        <line x1="0" y1="-18" x2="0" y2="18"
+          stroke="#94a3b8" stroke-width="3"/>
+      `;
+
+    case"motor":
+      return `
+        <circle class="body" cx="0" cy="0" r="31"/>
+        <path d="M-12,10 L18,0 L-12,-10 Z"
+          fill="#38bdf8"/>
+        <path d="M-12,-16 A20,20 0 0 1 12,16"
+          fill="none" stroke="#facc15" stroke-width="3"/>
+      `;
+
+    case"gauge":
+      return `
+        <circle class="body" cx="0" cy="0" r="29"/>
+        <path d="M-16,9 A20,20 0 0 1 16,9"
+          fill="none" stroke="#94a3b8" stroke-width="2"/>
+        <line x1="0" y1="7" x2="8" y2="-12"
+          stroke="#facc15" stroke-width="3"/>
+      `;
+
+    case"flowmeter":
+      return `
+        <rect class="body" x="-38" y="-25" width="76" height="50" rx="7"/>
+        <path d="M-20,0 L20,0 M10,-10 L20,0 L10,10"
+          fill="none" stroke="#38bdf8" stroke-width="3"/>
+      `;
+
+    default:
+      return `<rect class="body" x="-30" y="-25" width="60" height="50"/>`;
   }
 }
 
 /* =========================================================
-   COMPONENT SYMBOLS
+   SVG INTERACTION
 ========================================================= */
 
-function line(parent,x1,y1,x2,y2,cls=""){
-  const l=document.createElementNS(
-    "http://www.w3.org/2000/svg","line"
-  );
+let dragState=null;
 
-  l.setAttribute("x1",x1);
-  l.setAttribute("y1",y1);
-  l.setAttribute("x2",x2);
-  l.setAttribute("y2",y2);
+function bindSVGEvents(){
 
-  l.setAttribute("stroke","#dce8ff");
-  l.setAttribute("stroke-width","2");
+  svg.querySelectorAll(".component").forEach(g=>{
 
-  if(cls) l.setAttribute("class",cls);
+    g.addEventListener("pointerdown",startComponentDrag);
 
-  parent.appendChild(l);
+    g.addEventListener("click",e=>{
 
-  return l;
-}
+      if(e.target.classList.contains("port")) return;
 
-function drawSymbol(g,c){
+      const id=g.dataset.id;
 
-  const w=c.w;
-  const h=c.h;
+      selectedId=id;
 
-  if(c.type==="tank"){
+      renderInspector();
+      updateSelectedBadge();
 
-    line(g,25,25,105,25);
-    line(g,30,25,30,58);
-    line(g,100,25,100,58);
-
-    const t=document.createElementNS(
-      "http://www.w3.org/2000/svg","text"
-    );
-
-    t.setAttribute("x",w/2);
-    t.setAttribute("y",50);
-    t.setAttribute("text-anchor","middle");
-    t.setAttribute("fill","#54d8ff");
-    t.setAttribute("font-size","12");
-    t.textContent="TANK";
-
-    g.appendChild(t);
-
-  }else if(c.type==="pump"||c.type==="variablePump"){
-
-    const circle=document.createElementNS(
-      "http://www.w3.org/2000/svg","circle"
-    );
-
-    circle.setAttribute("cx",w/2);
-    circle.setAttribute("cy",h/2);
-    circle.setAttribute("r",25);
-    circle.setAttribute("fill","none");
-    circle.setAttribute("stroke","#dce8ff");
-    circle.setAttribute("stroke-width","2");
-
-    g.appendChild(circle);
-
-    const poly=document.createElementNS(
-      "http://www.w3.org/2000/svg","polygon"
-    );
-
-    poly.setAttribute(
-      "points",
-      `${w/2-9},${h/2-10} ${w/2+13},${h/2} ${w/2-9},${h/2+10}`
-    );
-
-    poly.setAttribute("fill","#54d8ff");
-
-    g.appendChild(poly);
-
-    if(c.type==="variablePump"){
-      line(g,43,16,88,64);
-      line(g,48,16,93,64);
-    }
-
-  }else if(
-    c.type==="valve43" ||
-    c.type==="valve42" ||
-    c.type==="proportional"
-  ){
-
-    const boxes=c.type==="valve43"?3:2;
-
-    const bw=w/boxes;
-
-    for(let i=0;i<boxes;i++){
-
-      const r=document.createElementNS(
-        "http://www.w3.org/2000/svg","rect"
-      );
-
-      r.setAttribute("x",i*bw);
-      r.setAttribute("y",10);
-      r.setAttribute("width",bw);
-      r.setAttribute("height",h-20);
-      r.setAttribute("fill","none");
-      r.setAttribute("stroke","#dce8ff");
-      r.setAttribute("stroke-width","1.5");
-
-      g.appendChild(r);
-    }
-
-    const pos=c.params.position;
-
-    if(pos==="extend"){
-      line(g,15,h/2,45,h/2);
-      line(g,45,h/2,65,h/2-15);
-      line(g,65,h/2-15,95,h/2-15);
-    }else if(pos==="retract"){
-      line(g,95,h/2,65,h/2+15);
-      line(g,65,h/2+15,45,h/2);
-      line(g,45,h/2,15,h/2);
-    }else{
-      line(g,45,h/2,85,h/2);
-    }
-
-    if(c.type==="proportional"){
-      const txt=document.createElementNS(
-        "http://www.w3.org/2000/svg","text"
-      );
-
-      txt.setAttribute("x",w/2);
-      txt.setAttribute("y",h/2+5);
-      txt.setAttribute("text-anchor","middle");
-      txt.setAttribute("fill","#f5c451");
-      txt.setAttribute("font-size","10");
-
-      txt.textContent=(c.params.command||0)+"%";
-
-      g.appendChild(txt);
-    }
-
-  }else if(
-    c.type==="relief"||
-    c.type==="reducing"||
-    c.type==="sequence"||
-    c.type==="counterbalance"
-  ){
-
-    const d=document.createElementNS(
-      "http://www.w3.org/2000/svg","polygon"
-    );
-
-    d.setAttribute(
-      "points",
-      `${w/2},12 ${w-18},${h/2} ${w/2},${h-12} 18,${h/2}`
-    );
-
-    d.setAttribute("fill","none");
-    d.setAttribute("stroke","#dce8ff");
-    d.setAttribute("stroke-width","2");
-
-    g.appendChild(d);
-
-    line(g,35,h/2,w-35,h/2);
-
-    const t=document.createElementNS(
-      "http://www.w3.org/2000/svg","text"
-    );
-
-    t.setAttribute("x",w/2);
-    t.setAttribute("y",h/2-7);
-    t.setAttribute("text-anchor","middle");
-    t.setAttribute("fill","#f5c451");
-    t.setAttribute("font-size","9");
-
-    t.textContent=
-      c.params.setting!==undefined
-      ? c.params.setting+" bar"
-      :"VALVE";
-
-    g.appendChild(t);
-
-  }else if(
-    c.type==="check"||
-    c.type==="flowControl"||
-    c.type==="throttleCheck"||
-    c.type==="filter"
-  ){
-
-    line(g,20,h/2,w-20,h/2);
-
-    if(c.type==="check"){
-
-      const poly=document.createElementNS(
-        "http://www.w3.org/2000/svg","polygon"
-      );
-
-      poly.setAttribute(
-        "points",
-        `${w/2-15},${h/2-13} ${w/2+10},${h/2} ${w/2-15},${h/2+13}`
-      );
-
-      poly.setAttribute("fill","#54d8ff");
-
-      g.appendChild(poly);
-
-      line(g,w/2+10,h/2-17,w/2+10,h/2+17);
-
-    }else if(c.type==="filter"){
-
-      for(let i=-15;i<=15;i+=8){
-        line(g,w/2+i,h/2-14,w/2+i,h/2+14);
+      if(window.innerWidth<=850){
+        setMobileTab("properties");
       }
 
-    }else{
+      e.stopPropagation();
+    });
+  });
 
-      line(g,w/2-18,h/2-18,w/2+18,h/2+18);
+  svg.querySelectorAll(".port").forEach(port=>{
 
-      const t=document.createElementNS(
-        "http://www.w3.org/2000/svg","text"
-      );
+    port.addEventListener("pointerdown",e=>{
 
-      t.setAttribute("x",w/2);
-      t.setAttribute("y",h/2-8);
-      t.setAttribute("text-anchor","middle");
-      t.setAttribute("fill","#54d8ff");
-      t.setAttribute("font-size","9");
+      e.stopPropagation();
 
-      t.textContent=
-        Math.round(c.params.opening||100)+"%";
+      const component=port.dataset.component;
+      const p=port.dataset.port;
 
-      g.appendChild(t);
-    }
-
-  }else if(c.type==="cylinder"){
-
-    line(g,18,h/2,55,h/2);
-
-    const rect=document.createElementNS(
-      "http://www.w3.org/2000/svg","rect"
-    );
-
-    rect.setAttribute("x",55);
-    rect.setAttribute("y",22);
-    rect.setAttribute("width",45);
-    rect.setAttribute("height",36);
-    rect.setAttribute("fill","none");
-    rect.setAttribute("stroke","#dce8ff");
-    rect.setAttribute("stroke-width","2");
-
-    g.appendChild(rect);
-
-    line(g,100,h/2,118,h/2);
-
-    line(g,65,22,65,58);
-
-  }else if(c.type==="motor"){
-
-    const circle=document.createElementNS(
-      "http://www.w3.org/2000/svg","circle"
-    );
-
-    circle.setAttribute("cx",w/2);
-    circle.setAttribute("cy",h/2);
-    circle.setAttribute("r",25);
-    circle.setAttribute("fill","none");
-    circle.setAttribute("stroke","#dce8ff");
-    circle.setAttribute("stroke-width","2");
-
-    g.appendChild(circle);
-
-    const t=document.createElementNS(
-      "http://www.w3.org/2000/svg","text"
-    );
-
-    t.setAttribute("x",w/2);
-    t.setAttribute("y",h/2+6);
-    t.setAttribute("text-anchor","middle");
-    t.setAttribute("fill","#54d8ff");
-    t.setAttribute("font-size","18");
-    t.textContent="↻";
-
-    g.appendChild(t);
-
-  }else{
-
-    const t=document.createElementNS(
-      "http://www.w3.org/2000/svg","text"
-    );
-
-    t.setAttribute("x",w/2);
-    t.setAttribute("y",h/2+7);
-    t.setAttribute("text-anchor","middle");
-    t.setAttribute("fill","#54d8ff");
-    t.setAttribute("font-size","24");
-    t.textContent=COMPONENTS[c.type].icon;
-
-    g.appendChild(t);
-  }
+      handlePortTap(component,p);
+    });
+  });
 }
 
-/* =========================================================
-   WIRES
-========================================================= */
+function startComponentDrag(e){
 
-function renderWires(){
+  if(e.target.classList.contains("port")) return;
 
-  for(const w of connections){
+  const id=e.currentTarget.dataset.id;
 
-    const a=getC(w.a.id);
-    const b=getC(w.b.id);
+  const c=getComponent(id);
 
-    if(!a||!b) continue;
+  if(!c) return;
 
-    const p1=worldPort(a,w.a.port);
-    const p2=worldPort(b,w.b.port);
+  selectedId=id;
 
-    const mid=(p1.x+p2.x)/2;
+  const pt=svgPoint(e);
 
-    const path=document.createElementNS(
-      "http://www.w3.org/2000/svg","path"
-    );
+  dragState={
+    id,
+    startX:pt.x,
+    startY:pt.y,
+    origX:c.x,
+    origY:c.y,
+    moved:false
+  };
 
-    path.setAttribute(
-      "d",
-      `M ${p1.x} ${p1.y}
-       C ${mid} ${p1.y},
-         ${mid} ${p2.y},
-         ${p2.x} ${p2.y}`
-    );
+  e.currentTarget.setPointerCapture?.(e.pointerId);
 
-    path.setAttribute(
-      "class",
-      "wire"+(running?" active":"")
-    );
-
-    wiresLayer.appendChild(path);
-
-    if(running){
-
-      const flow=Math.abs(getWireFlow(w));
-
-      const count=clamp(Math.round(flow/15),1,5);
-
-      for(let i=0;i<count;i++){
-
-        const dot=document.createElementNS(
-          "http://www.w3.org/2000/svg","circle"
-        );
-
-        dot.setAttribute("r",3.5);
-        dot.setAttribute("class","flowDot");
-
-        const length=path.getTotalLength();
-
-        const progress=
-          ((performance.now()/700)+(i/count))%1;
-
-        const point=path.getPointAtLength(
-          progress*length
-        );
-
-        dot.setAttribute("cx",point.x);
-        dot.setAttribute("cy",point.y);
-
-        wiresLayer.appendChild(dot);
-      }
-    }
-  }
+  e.stopPropagation();
 }
 
-/* =========================================================
-   ADD / DELETE / HISTORY
-========================================================= */
+svg.addEventListener("pointermove",e=>{
 
-function addComponent(type){
+  if(!dragState) return;
+
+  const pt=svgPoint(e);
+
+  const c=getComponent(dragState.id);
+
+  if(!c) return;
+
+  const dx=pt.x-dragState.startX;
+  const dy=pt.y-dragState.startY;
+
+  if(Math.abs(dx)+Math.abs(dy)>3){
+    dragState.moved=true;
+  }
+
+  c.x=snap(dragState.origX+dx);
+  c.y=snap(dragState.origY+dy);
+
+  renderCanvas();
+});
+
+svg.addEventListener("pointerup",e=>{
+
+  if(!dragState) return;
+
+  if(dragState.moved){
+    pushHistory();
+  }
+
+  dragState=null;
+
+  renderInspector();
+  updateStatus();
+});
+
+svg.addEventListener("pointercancel",()=>{
+  dragState=null;
+});
+
+function snap(v){
+  return Math.round(v/10)*10;
+}
+
+function svgPoint(e){
 
   const rect=svg.getBoundingClientRect();
 
-  const centre=screenToWorld(
-    rect.left+rect.width/2,
-    rect.top+rect.height/2
-  );
-
-  const c=makeComponent(
-    type,
-    Math.round((centre.x-65)/20)*20,
-    Math.round((centre.y-40)/20)*20
-  );
-
-  components.push(c);
-
-  selectedId=c.id;
-
-  pushHistory();
-
-  render();
-
-  showToast(componentName(c)+" added");
-
-  if(window.innerWidth<=850){
-    setTimeout(()=>setMobileTab("properties"),80);
-  }
-}
-
-function deleteSelected(){
-
-  if(!selectedId) return;
-
-  connections=connections.filter(
-    w=>w.a.id!==selectedId && w.b.id!==selectedId
-  );
-
-  components=components.filter(
-    c=>c.id!==selectedId
-  );
-
-  selectedId=null;
-
-  pushHistory();
-  render();
-}
-
-function pushHistory(){
-
-  history=history.slice(0,historyIndex+1);
-
-  history.push({
-    components:clone(components),
-    connections:clone(connections)
-  });
-
-  if(history.length>50){
-    history.shift();
-  }else{
-    historyIndex++;
-  }
-}
-
-function undo(){
-
-  if(historyIndex<=0) return;
-
-  historyIndex--;
-
-  const h=history[historyIndex];
-
-  components=clone(h.components);
-  connections=clone(h.connections);
-
-  selectedId=null;
-
-  render();
-}
-
-function redo(){
-
-  if(historyIndex>=history.length-1) return;
-
-  historyIndex++;
-
-  const h=history[historyIndex];
-
-  components=clone(h.components);
-  connections=clone(h.connections);
-
-  selectedId=null;
-
-  render();
+  return {
+    x:(e.clientX-rect.left-panX)/zoom,
+    y:(e.clientY-rect.top-panY)/zoom
+  };
 }
 
 /* =========================================================
-   POINTER / TOUCH
+   CONNECTIONS
 ========================================================= */
 
-function componentPointerDown(c,e){
+function handlePortTap(component,port){
 
-  if(e.button!==undefined && e.button!==0) return;
+  if(!connectingPort){
 
-  if(pointerMode!=="select") return;
+    connectingPort={
+      component,
+      port
+    };
 
-  e.stopPropagation();
+    document.getElementById("connectionBanner")
+      .classList.add("show");
 
-  selectedId=c.id;
+    renderCanvas();
 
-  activePointer=e.pointerId;
-
-  dragStart={
-    x:e.clientX,
-    y:e.clientY,
-    cx:c.x,
-    cy:c.y
-  };
-
-  try{
-    e.currentTarget.setPointerCapture(e.pointerId);
-  }catch{}
-
-  render();
-
-  const move=ev=>{
-
-    if(ev.pointerId!==activePointer) return;
-
-    const dx=(ev.clientX-dragStart.x)/zoom;
-    const dy=(ev.clientY-dragStart.y)/zoom;
-
-    c.x=Math.round((dragStart.cx+dx)/10)*10;
-    c.y=Math.round((dragStart.cy+dy)/10)*10;
-
-    render();
-  };
-
-  const up=ev=>{
-
-    if(ev.pointerId!==activePointer) return;
-
-    document.removeEventListener("pointermove",move);
-    document.removeEventListener("pointerup",up);
-
-    activePointer=null;
-    dragStart=null;
-
-    pushHistory();
-  };
-
-  document.addEventListener("pointermove",move);
-  document.addEventListener("pointerup",up);
-}
-
-function portPointerDown(id,port,e){
-
-  if(connectingPort){
-
-    if(
-      connectingPort.id===id &&
-      connectingPort.port===port
-    ){
-      cancelConnection();
-      return;
-    }
-
-    if(
-      hasConnection(
-        connectingPort.id,
-        connectingPort.port,
-        id,
-        port
-      )
-    ){
-      showToast("Ports already connected");
-      cancelConnection();
-      return;
-    }
-
-    connections.push({
-      id:uid(),
-      a:{
-        id:connectingPort.id,
-        port:connectingPort.port
-      },
-      b:{
-        id,
-        port
-      }
-    });
-
-    pushHistory();
-
-    showToast("Hydraulic connection created");
-
-    connectingPort=null;
-
-    document.getElementById(
-      "connectionHint"
-    ).classList.remove("show");
-
-    render();
+    toast("Now tap the second port");
 
     return;
   }
 
-  connectingPort={id,port};
+  if(
+    connectingPort.component===component &&
+    connectingPort.port===port
+  ){
+    cancelConnection();
+    return;
+  }
 
-  document.getElementById(
-    "connectionHint"
-  ).classList.add("show");
+  pushHistory();
 
+  const exists=connections.some(w=>
+    (w.a.component===connectingPort.component &&
+     w.a.port===connectingPort.port &&
+     w.b.component===component &&
+     w.b.port===port) ||
+    (w.b.component===connectingPort.component &&
+     w.b.port===connectingPort.port &&
+     w.a.component===component &&
+     w.a.port===port)
+  );
+
+  if(!exists){
+
+    connections.push({
+      id:uid("w"),
+      a:{
+        component:connectingPort.component,
+        port:connectingPort.port
+      },
+      b:{
+        component,
+        port
+      }
+    });
+
+    toast("Hydraulic connection created");
+  }
+
+  cancelConnection();
   render();
-
-  showToast("Now tap another port");
 }
 
 function cancelConnection(){
 
   connectingPort=null;
 
-  document.getElementById(
-    "connectionHint"
-  ).classList.remove("show");
+  document.getElementById("connectionBanner")
+    .classList.remove("show");
 
-  render();
-}
-
-function hasConnection(id1,p1,id2,p2){
-
-  return connections.some(w=>
-    (w.a.id===id1&&w.a.port===p1&&w.b.id===id2&&w.b.port===p2) ||
-    (w.a.id===id2&&w.a.port===p2&&w.b.id===id1&&w.b.port===p1)
-  );
-}
-
-/* =========================================================
-   WORKSPACE BACKGROUND
-========================================================= */
-
-svg.addEventListener("pointerdown",e=>{
-
-  if(e.target!==svg) return;
-
-  selectedId=null;
-
-  if(connectingPort){
-    cancelConnection();
-    return;
-  }
-
-  render();
-});
-
-function zoomBy(f){
-
-  zoom=clamp(zoom*f,.35,2.8);
-
-  updateTransform();
-  render();
-}
-
-function fitView(){
-
-  if(!components.length){
-
-    zoom=1;
-    panX=window.innerWidth/2;
-    panY=window.innerHeight/2;
-
-    updateTransform();
-
-    return;
-  }
-
-  let minX=Infinity;
-  let minY=Infinity;
-  let maxX=-Infinity;
-  let maxY=-Infinity;
-
-  for(const c of components){
-
-    minX=Math.min(minX,c.x);
-    minY=Math.min(minY,c.y);
-
-    maxX=Math.max(maxX,c.x+c.w);
-    maxY=Math.max(maxY,c.y+c.h);
-  }
-
-  const r=svg.getBoundingClientRect();
-
-  const pad=100;
-
-  const sx=(r.width-pad)/(maxX-minX+1);
-  const sy=(r.height-pad)/(maxY-minY+1);
-
-  zoom=clamp(Math.min(sx,sy),.35,1.5);
-
-  panX=r.width/2-(minX+maxX)/2*zoom;
-  panY=r.height/2-(minY+maxY)/2*zoom;
-
-  updateTransform();
-  render();
-}
-
-/* =========================================================
-   GRAPH / HYDRAULIC NETWORK
-========================================================= */
-
-function connectedComponents(id){
-
-  const ids=new Set([id]);
-
-  let changed=true;
-
-  while(changed){
-
-    changed=false;
-
-    for(const w of connections){
-
-      if(ids.has(w.a.id)&&!ids.has(w.b.id)){
-        ids.add(w.b.id);
-        changed=true;
-      }
-
-      if(ids.has(w.b.id)&&!ids.has(w.a.id)){
-        ids.add(w.a.id);
-        changed=true;
-      }
-    }
-  }
-
-  return [...ids].map(getC).filter(Boolean);
-}
-
-function connectedPorts(id,port){
-
-  const out=[];
-
-  for(const w of connections){
-
-    if(w.a.id===id&&w.a.port===port){
-      out.push(w.b);
-    }
-
-    if(w.b.id===id&&w.b.port===port){
-      out.push(w.a);
-    }
-  }
-
-  return out;
-}
-
-function endpointKey(id,port){
-  return id+":"+port;
-}
-
-/* =========================================================
-   HYDRAULIC PATH LOGIC
-========================================================= */
-
-function componentInternalConnection(c,p1,p2){
-
-  if(c.type==="tank") return false;
-
-  if(c.type==="pump"){
-    return p1==="IN"&&p2==="OUT" || p1==="OUT"&&p2==="IN";
-  }
-
-  if(c.type==="variablePump"){
-    return p1==="IN"&&p2==="OUT" || p1==="OUT"&&p2==="IN";
-  }
-
-  if(
-    [
-      "relief",
-      "reducing",
-      "sequence",
-      "counterbalance",
-      "check",
-      "flowControl",
-      "throttleCheck",
-      "filter",
-      "flowmeter"
-    ].includes(c.type)
-  ){
-    return (
-      (p1==="IN"&&p2==="OUT") ||
-      (p1==="OUT"&&p2==="IN")
-    );
-  }
-
-  if(
-    ["valve43","valve42","proportional"].includes(c.type)
-  ){
-    const pairs=valveConnections(c);
-
-    return pairs.some(
-      p=>
-        (p[0]===p1&&p[1]===p2) ||
-        (p[0]===p2&&p[1]===p1)
-    );
-  }
-
-  if(c.type==="cylinder"){
-    return false;
-  }
-
-  if(c.type==="motor"){
-    return false;
-  }
-
-  return false;
-}
-
-function valveConnections(c){
-
-  if(c.type==="valve43"){
-
-    if(c.params.position==="extend"){
-
-      return [
-        ["P","A"],
-        ["B","T"]
-      ];
-
-    }
-
-    if(c.params.position==="retract"){
-
-      return [
-        ["P","B"],
-        ["A","T"]
-      ];
-    }
-
-    if(c.params.centre==="open"){
-
-      return [
-        ["P","T"],
-        ["P","A"],
-        ["P","B"]
-      ];
-    }
-
-    if(c.params.centre==="float"){
-
-      return [
-        ["A","T"],
-        ["B","T"]
-      ];
-    }
-
-    return [];
-  }
-
-  if(c.type==="valve42"){
-
-    if(c.params.position==="retract"){
-
-      return [
-        ["P","B"],
-        ["A","T"]
-      ];
-    }
-
-    return [
-      ["P","A"],
-      ["B","T"]
-    ];
-  }
-
-  if(c.type==="proportional"){
-
-    const cmd=Number(c.params.command)||0;
-
-    if(cmd>50){
-
-      return [
-        ["P","A"],
-        ["B","T"]
-      ];
-    }
-
-    if(cmd<50){
-
-      return [
-        ["P","B"],
-        ["A","T"]
-      ];
-    }
-
-    return [];
-  }
-
-  return [];
-}
-
-function hasTankPath(startId,startPort){
-
-  const queue=[
-    {id:startId,port:startPort}
-  ];
-
-  const visited=new Set();
-
-  while(queue.length){
-
-    const current=queue.shift();
-
-    const key=endpointKey(
-      current.id,
-      current.port
-    );
-
-    if(visited.has(key)) continue;
-
-    visited.add(key);
-
-    const c=getC(current.id);
-
-    if(!c) continue;
-
-    if(c.type==="tank") return true;
-
-    for(const next of connectedPorts(
-      current.id,
-      current.port
-    )){
-      queue.push(next);
-    }
-
-    for(const p of COMPONENTS[c.type].ports){
-
-      if(p!==current.port &&
-         componentInternalConnection(
-           c,
-           current.port,
-           p
-         )){
-        queue.push({
-          id:c.id,
-          port:p
-        });
-      }
-    }
-  }
-
-  return false;
-}
-
-/* =========================================================
-   PRESSURE / FLOW ENGINE
-========================================================= */
-
-function pumpAvailableFlow(c){
-
-  if(c.fault==="pumpWear"){
-
-    return (
-      Number(c.params.displacement)*
-      Number(c.params.rpm)/1000*
-      .55
-    );
-  }
-
-  let swash=1;
-
-  if(c.type==="variablePump"){
-    swash=clamp(
-      Number(c.params.swash)/100,
-      0,
-      1
-    );
-  }
-
-  const displacement=
-    Number(c.params.displacement)||0;
-
-  const rpm=
-    Number(c.params.rpm)||0;
-
-  const efficiency=
-    Number(c.params.efficiency)||.9;
-
-  return displacement*rpm/1000*efficiency*swash;
-}
-
-function cylinderAreaA(c){
-
-  const d=Number(c.params.bore)||100;
-
-  return Math.PI*d*d/4/1e6;
-}
-
-function cylinderAreaB(c){
-
-  const d=Number(c.params.bore)||100;
-  const rod=Number(c.params.rod)||50;
-
-  return Math.PI*(d*d-rod*rod)/4/1e6;
-}
-
-function pressureFromLoad(c){
-
-  const force=
-    (Number(c.params.load)||0)+
-    (Number(c.params.friction)||0);
-
-  return force/Math.max(
-    cylinderAreaA(c),
-    .000001
-  )/1e5;
-}
-
-function cylinderRequiredPressure(c){
-
-  return pressureFromLoad(c);
-}
-
-function flowControlCapacity(c){
-
-  const opening=
-    clamp(
-      Number(c.params.opening)||0,
-      0,
-      100
-    )/100;
-
-  const max=
-    Number(c.params.maxFlow)||0;
-
-  return max*opening;
-}
-
-function pressureDropForFlow(c,flow){
-
-  if(c.type==="filter"){
-
-    if(c.fault==="blockedFilter"){
-      return 60+flow*.5;
-    }
-
-    return flow*
-      Number(c.params.restriction||.3);
-  }
-
-  if(
-    c.type==="flowControl"||
-    c.type==="throttleCheck"
-  ){
-
-    const capacity=flowControlCapacity(c);
-
-    if(flow<=capacity) return 2;
-
-    return (flow-capacity)*2;
-  }
-
-  if(c.type==="check"){
-    return Math.max(
-      0,
-      Number(c.params.cracking)||.5
-    );
-  }
-
-  return 1;
-}
-
-function estimatePumpLoad(c){
-
-  const pressure=getSystemPressureRaw();
-
-  const flow=pumpAvailableFlow(c);
-
-  return pressure*flow/600;
-}
-
-function networkPressures(){
-
-  const result={};
-
-  for(const c of components){
-
-    result[c.id]={
-      ports:{},
-      flow:0
-    };
-  }
-
-  const pump=components.find(
-    c=>c.type==="pump"||
-       c.type==="variablePump"
-  );
-
-  if(!pump){
-    return result;
-  }
-
-  let pressure=0;
-
-  const cylinders=components.filter(
-    c=>c.type==="cylinder"
-  );
-
-  for(const cyl of cylinders){
-
-    const required=
-      cylinderRequiredPressure(cyl);
-
-    pressure=Math.max(
-      pressure,
-      required
-    );
-  }
-
-  const relief=components.find(
-    c=>c.type==="relief"
-  );
-
-  if(relief){
-    pressure=Math.min(
-      pressure,
-      Number(relief.params.setting)||210
-    );
-  }
-
-  const variable=components.find(
-    c=>c.type==="variablePump"
-  );
-
-  if(variable){
-
-    const compensator=
-      Number(variable.params.compensator)||250;
-
-    if(pressure>compensator){
-      pressure=compensator;
-    }
-  }
-
-  pressure=Math.max(0,pressure);
-
-  for(const c of components){
-
-    const p={};
-
-    for(const port of COMPONENTS[c.type].ports){
-
-      if(port==="T"||
-         c.type==="tank"){
-
-        p[port]=0;
-
-      }else{
-
-        p[port]=pressure;
-      }
-    }
-
-    result[c.id].ports=p;
-  }
-
-  simulation.pressure=pressure;
-
-  return result;
-}
-
-function calculateSystem(){
-
-  const pump=
-    components.find(
-      c=>c.type==="pump"||
-         c.type==="variablePump"
-    );
-
-  let totalFlow=0;
-
-  if(pump){
-    totalFlow=pumpAvailableFlow(pump);
-  }
-
-  const cylinders=
-    components.filter(
-      c=>c.type==="cylinder"
-    );
-
-  let demandedFlow=0;
-
-  for(const c of cylinders){
-
-    let target=0;
-
-    const valves=components.filter(
-      x=>
-        x.type==="valve43"||
-        x.type==="valve42"||
-        x.type==="proportional"
-    );
-
-    if(valves.some(
-      v=>v.params.position==="extend"||
-         (v.type==="proportional" &&
-          Number(v.params.command)>50)
-    )){
-      target=1;
-    }
-
-    if(valves.some(
-      v=>v.params.position==="retract"||
-         (v.type==="proportional" &&
-          Number(v.params.command)<50)
-    )){
-      target=-1;
-    }
-
-    if(
-      c.fault==="cylinderLeakage"
-    ){
-      target*=.65;
-    }
-
-    const area=
-      target>=0
-      ?cylinderAreaA(c)
-      :cylinderAreaB(c);
-
-    demandedFlow+=
-      Math.abs(
-        area*
-        (Number(c.params.maxSpeed)||300)*
-        60000/1000
-      );
-  }
-
-  if(cylinders.length){
-
-    totalFlow=Math.min(
-      totalFlow,
-      Math.max(demandedFlow,1)
-    );
-  }
-
-  simulation.flow=Math.max(
-    0,
-    totalFlow
-  );
-
-  const pressure=getSystemPressureRaw();
-
-  simulation.power=
-    pressure*
-    simulation.flow/
-    600;
-
-  return simulation;
-}
-
-function getSystemPressureRaw(){
-
-  const pump=
-    components.find(
-      c=>c.type==="pump"||
-         c.type==="variablePump"
-    );
-
-  if(!pump) return 0;
-
-  let p=0;
-
-  const cylinders=
-    components.filter(
-      c=>c.type==="cylinder"
-    );
-
-  for(const c of cylinders){
-
-    p=Math.max(
-      p,
-      cylinderRequiredPressure(c)
-    );
-  }
-
-  const relief=
-    components.find(
-      c=>c.type==="relief"
-    );
-
-  if(relief){
-
-    const setting=
-      Number(relief.params.setting)||210;
-
-    if(p>=setting){
-      simulation.reliefOpen=true;
-      p=setting;
-    }else{
-      simulation.reliefOpen=false;
-    }
-  }
-
-  const variable=
-    components.find(
-      c=>c.type==="variablePump"
-    );
-
-  if(variable){
-
-    const comp=
-      Number(variable.params.compensator)||250;
-
-    p=Math.min(p,comp);
-  }
-
-  return Math.max(0,p);
-}
-
-function getSystemFlowRaw(){
-
-  return simulation.flow||0;
-}
-
-function getSystemPressure(){
-
-  return getSystemPressureRaw();
-}
-
-function getSystemFlow(){
-
-  return getSystemFlowRaw();
-}
-
-function getWireFlow(w){
-
-  const a=getC(w.a.id);
-  const b=getC(w.b.id);
-
-  if(!a||!b) return 0;
-
-  const flow=getSystemFlowRaw();
-
-  if(
-    a.type==="tank"||
-    b.type==="tank"
-  ){
-    return flow;
-  }
-
-  return flow;
-}
-
-function getPortPressure(id,port){
-
-  const c=getC(id);
-
-  if(!c) return 0;
-
-  if(c.type==="tank") return 0;
-
-  if(port==="T") return 0;
-
-  return getSystemPressureRaw();
-}
-
-/* =========================================================
-   CYLINDER / MOTOR
-========================================================= */
-
-function updateCylinder(c,dt){
-
-  let direction=0;
-
-  const valves=
-    components.filter(
-      x=>
-        x.type==="valve43"||
-        x.type==="valve42"||
-        x.type==="proportional"
-    );
-
-  for(const v of valves){
-
-    if(v.type==="proportional"){
-
-      const cmd=
-        Number(v.params.command)||0;
-
-      if(cmd>55) direction=1;
-      else if(cmd<45) direction=-1;
-
-    }else{
-
-      if(v.params.position==="extend")
-        direction=1;
-
-      if(v.params.position==="retract")
-        direction=-1;
-    }
-  }
-
-  if(!direction){
-    c.state.speed=0;
-    return;
-  }
-
-  const available=
-    getSystemFlowRaw();
-
-  const area=
-    direction>0
-    ?cylinderAreaA(c)
-    :cylinderAreaB(c);
-
-  let speed=
-    available/
-    Math.max(area*60000/1000,.0001);
-
-  speed=
-    Math.min(
-      speed,
-      Number(c.params.maxSpeed)||300
-    );
-
-  if(c.fault==="cylinderLeakage"){
-    speed*=.65;
-  }
-
-  c.state.speed=
-    direction*speed;
-
-  c.params.position+=
-    c.state.speed*dt/1000;
-
-  c.params.position=
-    clamp(
-      c.params.position,
-      0,
-      Number(c.params.stroke)||500
-    );
-
-  c.state.pressureA=
-    direction>0
-    ?getSystemPressureRaw()
-    :0;
-
-  c.state.pressureB=
-    direction<0
-    ?getSystemPressureRaw()
-    :0;
-
-  c.state.flow=available;
-}
-
-function updateMotor(c,dt){
-
-  const pressure=
-    getSystemPressureRaw();
-
-  const displacement=
-    Number(c.params.displacement)||80;
-
-  const theoretical=
-    pressure*displacement/
-    600;
-
-  let speed=
-    pressure*8;
-
-  speed=
-    Math.min(
-      speed,
-      Number(c.params.speedLimit)||2500
-    );
-
-  if(
-    Math.abs(theoretical)<
-    Number(c.params.loadTorque)||100
-  ){
-    speed*=.2;
-  }
-
-  c.state.speed=speed;
-  c.state.pressureA=pressure;
-  c.state.flow=getSystemFlowRaw();
-}
-
-/* =========================================================
-   TEMPERATURE
-========================================================= */
-
-function updateTemperature(dt){
-
-  const pressure=
-    getSystemPressureRaw();
-
-  const flow=
-    getSystemFlowRaw();
-
-  let heat=
-    25+
-    pressure*.04+
-    flow*.03;
-
-  if(simulation.reliefOpen){
-    heat+=15;
-  }
-
-  if(heat>100){
-    heat=100;
-  }
-
-  simulation.temperature=
-    simulation.temperature+
-    (heat-simulation.temperature)*
-    Math.min(dt/2000,1);
-
-  for(const c of components){
-
-    if(
-      c.type==="temperature"||
-      c.type==="pump"||
-      c.type==="variablePump"
-    ){
-      c.state.temperature=
-        simulation.temperature;
-    }
-  }
-}
-
-/* =========================================================
-   DIAGNOSTICS
-========================================================= */
-
-function diagnostics(){
-
-  const list=[];
-
-  const pump=
-    components.find(
-      c=>c.type==="pump"||
-         c.type==="variablePump"
-    );
-
-  const tank=
-    components.find(
-      c=>c.type==="tank"
-    );
-
-  const cylinder=
-    components.find(
-      c=>c.type==="cylinder"
-    );
-
-  if(!tank){
-    list.push({
-      type:"bad",
-      text:"No reservoir/tank detected."
-    });
-  }
-
-  if(!pump){
-    list.push({
-      type:"bad",
-      text:"No hydraulic pump detected."
-    });
-  }
-
-  if(pump&&tank){
-
-    if(
-      !hasTankPath(
-        pump.id,
-        "IN"
-      )
-    ){
-
-      list.push({
-        type:"bad",
-        text:"Pump inlet does not appear connected to tank."
-      });
-    }else{
-
-      list.push({
-        type:"good",
-        text:"Pump inlet has a tank return path."
-      });
-    }
-  }
-
-  if(pump){
-
-    const flow=pumpAvailableFlow(pump);
-
-    if(flow<=0){
-
-      list.push({
-        type:"bad",
-        text:"Pump is producing little or no flow."
-      });
-
-    }else{
-
-      list.push({
-        type:"good",
-        text:
-          "Pump theoretical available flow: "+
-          fmt(flow,1)+" L/min."
-      });
-    }
-
-    if(
-      pump.fault==="pumpWear"
-    ){
-
-      list.push({
-        type:"warn",
-        text:"Pump wear fault is active."
-      });
-    }
-  }
-
-  const filter=
-    components.find(
-      c=>c.type==="filter"
-    );
-
-  if(filter){
-
-    if(filter.fault==="blockedFilter"){
-
-      list.push({
-        type:"bad",
-        text:"Filter is blocked. High restriction expected."
-      });
-
-    }else{
-
-      list.push({
-        type:"good",
-        text:"Filter present in circuit."
-      });
-    }
-  }
-
-  if(cylinder){
-
-    const required=
-      cylinderRequiredPressure(cylinder);
-
-    const actual=
-      getSystemPressureRaw();
-
-    if(actual>=required){
-
-      list.push({
-        type:"good",
-        text:
-          "Cylinder load pressure satisfied: "+
-          fmt(required,1)+" bar."
-      });
-
-    }else{
-
-      list.push({
-        type:"warn",
-        text:
-          "Cylinder requires approximately "+
-          fmt(required,1)+" bar."
-      });
-    }
-
-    if(
-      cylinder.fault==="cylinderLeakage"
-    ){
-
-      list.push({
-        type:"bad",
-        text:"Cylinder internal leakage fault is active."
-      });
-    }
-  }
-
-  const relief=
-    components.find(
-      c=>c.type==="relief"
-    );
-
-  if(relief){
-
-    const setting=
-      Number(relief.params.setting)||210;
-
-    if(getSystemPressureRaw()>=setting){
-
-      list.push({
-        type:"warn",
-        text:
-          "Relief valve is at or near its setting."
-      });
-
-    }else{
-
-      list.push({
-        type:"good",
-        text:
-          "Relief valve setting: "+
-          fmt(setting,0)+" bar."
-      });
-    }
-  }
-
-  if(!list.length){
-
-    list.push({
-      type:"good",
-      text:"No obvious diagnostic conditions detected."
-    });
-  }
-
-  return list;
-}
-
-function runDiagnostics(){
-
-  const d=diagnostics();
-
-  const html=d.map(x=>
-    `<div class="diag ${x.type}">
-      ${escapeHtml(x.text)}
-    </div>`
-  ).join("");
-
-  document.getElementById(
-    "inspectorContent"
-  ).innerHTML=`
-
-    <div class="inspectorSection">
-      <div class="inspectorHeader">
-        System Diagnostics
-      </div>
-
-      <div class="inspectorBody">
-        ${html}
-      </div>
-    </div>
-
-    <div class="inspectorSection">
-      <div class="inspectorHeader">
-        Live System
-      </div>
-
-      <div class="inspectorBody">
-
-        <div class="metricGrid">
-
-          <div class="metric">
-            <span>Pressure</span>
-            <strong>${fmt(getSystemPressure(),1)}</strong>
-            <span>bar</span>
-          </div>
-
-          <div class="metric">
-            <span>Flow</span>
-            <strong>${fmt(getSystemFlow(),1)}</strong>
-            <span>L/min</span>
-          </div>
-
-          <div class="metric">
-            <span>Power</span>
-            <strong>${fmt(simulation.power,1)}</strong>
-            <span>kW</span>
-          </div>
-
-          <div class="metric">
-            <span>Oil Temp</span>
-            <strong>${fmt(simulation.temperature,1)}</strong>
-            <span>°C</span>
-          </div>
-
-        </div>
-
-      </div>
-    </div>
-  `;
-
-  if(window.innerWidth<=850){
-
-    mobileTab="monitor";
-    mobileSheetOpen=true;
-    renderMobileSheet();
-
-    document
-      .getElementById("mobileSheet")
-      .classList.add("open");
-
-    updateMobileNav();
-  }
-
-  showToast("Diagnostics updated");
+  renderCanvas();
 }
 
 /* =========================================================
    INSPECTOR
 ========================================================= */
 
-function updateInspector(){
+function renderInspector(){
 
-  const box=
-    document.getElementById(
-      "inspectorContent"
-    );
+  const el=document.getElementById("desktopInspector");
 
-  const c=getC(selectedId);
+  if(!selectedId){
 
-  if(!c){
-
-    box.innerHTML=`
-
-      <div class="inspectorSection">
-
-        <div class="inspectorHeader">
-          System Monitor
-        </div>
-
-        <div class="inspectorBody">
-
-          <div class="metricGrid">
-
-            <div class="metric">
-              <span>Pressure</span>
-              <strong>${fmt(getSystemPressure(),1)}</strong>
-              <span>bar</span>
-            </div>
-
-            <div class="metric">
-              <span>Flow</span>
-              <strong>${fmt(getSystemFlow(),1)}</strong>
-              <span>L/min</span>
-            </div>
-
-            <div class="metric">
-              <span>Power</span>
-              <strong>${fmt(simulation.power,1)}</strong>
-              <span>kW</span>
-            </div>
-
-            <div class="metric">
-              <span>Temperature</span>
-              <strong>${fmt(simulation.temperature,1)}</strong>
-              <span>°C</span>
-            </div>
-
-          </div>
-
+    el.innerHTML=`
+      <div class="panelTitle">Inspector</div>
+      <div class="inspectorCard">
+        <h3>Hydraulic Studio</h3>
+        <div style="font-size:12px;color:#94a3b8;line-height:1.6">
+          Select a component to edit its hydraulic properties.
+          <br><br>
+          On iPhone, use the Properties tab.
         </div>
       </div>
 
-      <div class="inspectorSection">
-
-        <div class="inspectorHeader">
-          Selected Component
-        </div>
-
-        <div class="inspectorBody">
-          <div style="color:#94a3b8;font-size:11px">
-            Select a component to edit its
-            engineering parameters.
-          </div>
-        </div>
-
-      </div>
+      ${renderDesktopMonitor()}
     `;
 
     return;
   }
 
-  box.innerHTML=`
+  const c=getComponent(selectedId);
 
-    <div class="inspectorSection">
+  if(!c) return;
 
-      <div class="inspectorHeader">
-        ${escapeHtml(c.name)}
-      </div>
-
-      <div class="inspectorBody">
-
-        ${propertyEditor(c)}
-
-      </div>
-
-    </div>
-
-    <div class="inspectorSection">
-
-      <div class="inspectorHeader">
-        Live Component Data
-      </div>
-
-      <div class="inspectorBody">
-
-        ${liveComponentData(c)}
-
-      </div>
-
-    </div>
-
-    <div class="inspectorSection">
-
-      <div class="inspectorHeader">
-        Fault Injection
-      </div>
-
-      <div class="inspectorBody">
-
-        <select
-          onchange="setFault('${c.id}',this.value)"
-          style="width:100%;background:#0c1322;color:white;border:1px solid var(--line);padding:9px;border-radius:7px"
-        >
-
-          <option value="">No fault</option>
-
-          ${
-            c.type==="pump"||
-            c.type==="variablePump"
-            ?`<option value="pumpWear"
-              ${c.fault==="pumpWear"?"selected":""}>
-              Pump wear
-            </option>`:""
-          }
-
-          ${
-            c.type==="filter"
-            ?`<option value="blockedFilter"
-              ${c.fault==="blockedFilter"?"selected":""}>
-              Blocked filter
-            </option>`:""
-          }
-
-          ${
-            c.type==="cylinder"
-            ?`<option value="cylinderLeakage"
-              ${c.fault==="cylinderLeakage"?"selected":""}>
-              Internal leakage
-            </option>`:""
-          }
-
-          ${
-            c.type==="valve43"||
-            c.type==="valve42"||
-            c.type==="proportional"
-            ?`<option value="valveStuck"
-              ${c.fault==="valveStuck"?"selected":""}>
-              Valve stuck
-            </option>`:""
-          }
-
-        </select>
-
-      </div>
-
-    </div>
-
+  el.innerHTML=`
+    <div class="panelTitle">Properties</div>
+    ${propertyEditorHTML(c,"desktop")}
+    ${renderComponentMetrics(c)}
   `;
 }
 
-function propertyEditor(c){
+function propertyEditorHTML(c,mode){
+
+  const p=c.properties;
 
   let html=`
-
-    <div class="field">
-      <label>Name</label>
-      <input
-        value="${escapeHtml(c.name)}"
-        onchange="setName('${c.id}',this.value)"
-      >
-    </div>
+    <div class="inspectorCard">
+      <h3>${componentDefs[c.type].icon} ${componentName(c.type)}</h3>
   `;
 
-  const p=c.params;
+  if(c.type==="pump"){
 
-  if(
-    c.type==="pump"||
-    c.type==="variablePump"
-  ){
+    html+=numberField("Displacement","displacement",p.displacement,"cc/rev",mode);
+    html+=numberField("Speed","rpm",p.rpm,"rpm",mode);
+    html+=numberField("Efficiency","efficiency",p.efficiency*100,"%",mode,true);
 
-    html+=`
-
-      <div class="field">
-        <label>Displacement (cc/rev)</label>
-        <input type="number"
-          value="${p.displacement}"
-          onchange="setParam('${c.id}','displacement',this.value)">
-      </div>
-
-      <div class="field">
-        <label>Speed (rpm)</label>
-        <input type="number"
-          value="${p.rpm}"
-          onchange="setParam('${c.id}','rpm',this.value)">
-      </div>
-
-      <div class="field">
-        <label>Volumetric Efficiency</label>
-        <input type="number"
-          min=".1" max="1" step=".01"
-          value="${p.efficiency}"
-          onchange="setParam('${c.id}','efficiency',this.value)">
-      </div>
-    `;
-
-    if(c.type==="variablePump"){
-
-      html+=`
-
-        <div class="field">
-          <label>Swash Plate: ${p.swash}%</label>
-
-          <input type="range"
-            min="0"
-            max="100"
-            value="${p.swash}"
-            oninput="setParam('${c.id}','swash',this.value);render()">
-        </div>
-
-        <div class="field">
-          <label>Pressure Compensator (bar)</label>
-          <input type="number"
-            value="${p.compensator}"
-            onchange="setParam('${c.id}','compensator',this.value)">
-        </div>
-      `;
-    }
   }
 
-  if(c.type==="tank"){
+  if(c.type==="variablePump"){
 
-    html+=`
-
-      <div class="field">
-        <label>Tank Volume (L)</label>
-        <input type="number"
-          value="${p.volume}"
-          onchange="setParam('${c.id}','volume',this.value)">
-      </div>
-
-      <div class="field">
-        <label>Tank Level (%)</label>
-        <input type="number"
-          min="0" max="100"
-          value="${p.level}"
-          onchange="setParam('${c.id}','level',this.value)">
-      </div>
-    `;
+    html+=numberField("Displacement","displacement",p.displacement,"cc/rev",mode);
+    html+=numberField("Speed","rpm",p.rpm,"rpm",mode);
+    html+=rangeField("Swash","swash",p.swash,0,100,"%","swash",mode);
+    html+=numberField("Compensator","compensator",p.compensator,"bar",mode);
+    html+=numberField("Efficiency","efficiency",p.efficiency*100,"%","",true);
   }
 
   if(c.type==="accumulator"){
 
-    html+=`
-
-      <div class="field">
-        <label>Volume (L)</label>
-        <input type="number"
-          value="${p.volume}"
-          onchange="setParam('${c.id}','volume',this.value)">
-      </div>
-
-      <div class="field">
-        <label>Precharge (bar)</label>
-        <input type="number"
-          value="${p.precharge}"
-          onchange="setParam('${c.id}','precharge',this.value)">
-      </div>
-
-      <div class="field">
-        <label>Maximum Pressure (bar)</label>
-        <input type="number"
-          value="${p.maxPressure}"
-          onchange="setParam('${c.id}','maxPressure',this.value)">
-      </div>
-    `;
+    html+=numberField("Volume","volume",p.volume,"L",mode);
+    html+=numberField("Precharge","precharge",p.precharge,"bar",mode);
+    html+=numberField("Maximum Pressure","maxPressure",p.maxPressure,"bar",mode);
   }
 
   if(c.type==="valve43"){
 
     html+=`
-
       <div class="field">
         <label>Valve Position</label>
-
-        <div class="segmented">
-
-          <button
-            class="${p.position==="retract"?"active":""}"
-            onclick="setParam('${c.id}','position','retract')">
-            RETRACT
-          </button>
-
-          <button
-            class="${p.position==="centre"?"active":""}"
-            onclick="setParam('${c.id}','position','centre')">
-            CENTRE
-          </button>
-
-          <button
-            class="${p.position==="extend"?"active":""}"
-            onclick="setParam('${c.id}','position','extend')">
-            EXTEND
-          </button>
-
+        <div class="${mode==="mobile"?"mobileBigSegment":"bigSegment"}">
+          ${["extend","center","retract","float"].map(v=>`
+            <button
+              class="${p.position===v?"active":""}"
+              onclick="setProperty('${c.id}','position','${v}')">
+              ${v.toUpperCase()}
+            </button>
+          `).join("")}
         </div>
       </div>
 
       <div class="field">
         <label>Centre Condition</label>
-
-        <select
-          onchange="setParam('${c.id}','centre',this.value)"
-        >
-
-          <option value="closed"
-            ${p.centre==="closed"?"selected":""}>
-            Closed Centre
-          </option>
-
-          <option value="open"
-            ${p.centre==="open"?"selected":""}>
-            Open Centre
-          </option>
-
-          <option value="float"
-            ${p.centre==="float"?"selected":""}>
-            Float Centre
-          </option>
-
-        </select>
-      </div>
-
-      <div class="field">
-        <label>Flow Rating (L/min)</label>
-
-        <input type="number"
-          value="${p.flowRating}"
-          onchange="setParam('${c.id}','flowRating',this.value)">
+        <div class="${mode==="mobile"?"mobileBigSegment":"bigSegment"}">
+          ${["closed","open","float"].map(v=>`
+            <button
+              class="${p.centre===v?"active":""}"
+              onclick="setProperty('${c.id}','centre','${v}')">
+              ${v.toUpperCase()}
+            </button>
+          `).join("")}
+        </div>
       </div>
     `;
+
+    html+=numberField("Flow Rating","flowRating",p.flowRating,"L/min",mode);
   }
 
   if(c.type==="valve42"){
 
     html+=`
-
       <div class="field">
-        <label>Position</label>
-
-        <div class="segmented">
-
-          <button
-            class="${p.position==="retract"?"active":""}"
-            onclick="setParam('${c.id}','position','retract')">
-            RETRACT
-          </button>
-
-          <button
-            class="${p.position==="extend"?"active":""}"
-            onclick="setParam('${c.id}','position','extend')">
-            EXTEND
-          </button>
-
+        <label>Valve Position</label>
+        <div class="bigSegment">
+          <button class="${p.position==="extend"?"active":""}"
+            onclick="setProperty('${c.id}','position','extend')">EXTEND</button>
+          <button class="${p.position==="retract"?"active":""}"
+            onclick="setProperty('${c.id}','position','retract')">RETRACT</button>
         </div>
       </div>
     `;
+
+    html+=numberField("Flow Rating","flowRating",p.flowRating,"L/min",mode);
   }
 
   if(c.type==="proportional"){
 
-    html+=`
+    html+=rangeField(
+      "Command",
+      "command",
+      p.command,
+      0,
+      100,
+      "%",
+      "command",
+      mode
+    );
 
-      <div class="field">
-
-        <label>
-          Command: ${Number(p.command)||0}%
-        </label>
-
-        <input type="range"
-          min="0"
-          max="100"
-          value="${p.command}"
-          oninput="setParam('${c.id}','command',this.value);render()">
-
-      </div>
-
-      <div class="field">
-        <label>Flow Rating (L/min)</label>
-
-        <input type="number"
-          value="${p.flowRating}"
-          onchange="setParam('${c.id}','flowRating',this.value)">
-      </div>
-    `;
+    html+=numberField("Flow Rating","flowRating",p.flowRating,"L/min",mode);
   }
 
-  if(
-    c.type==="relief"||
-    c.type==="reducing"||
-    c.type==="sequence"||
-    c.type==="counterbalance"
-  ){
+  if(["relief","reducing","sequence","counterbalance"].includes(c.type)){
 
-    html+=`
+    html+=numberField(
+      "Pressure Setting",
+      c.type==="relief"?"setting":"setting",
+      p.setting,
+      "bar",
+      mode
+    );
 
-      <div class="field">
-        <label>Pressure Setting (bar)</label>
-
-        <input type="number"
-          value="${p.setting}"
-          onchange="setParam('${c.id}','setting',this.value)">
-      </div>
-    `;
+    if(c.type==="relief"){
+      html+=numberField("Cracking","cracking",p.cracking,"bar",mode);
+    }
 
     if(c.type==="counterbalance"){
-
-      html+=`
-
-        <div class="field">
-          <label>Pilot Ratio</label>
-
-          <input type="number"
-            step=".1"
-            value="${p.pilotRatio}"
-            onchange="setParam('${c.id}','pilotRatio',this.value)">
-        </div>
-      `;
+      html+=numberField("Pilot Ratio","pilotRatio",p.pilotRatio,":1",mode);
     }
   }
 
-  if(
-    c.type==="flowControl"||
-    c.type==="throttleCheck"
-  ){
-
-    html+=`
-
-      <div class="field">
-        <label>
-          Opening: ${p.opening}%
-        </label>
-
-        <input type="range"
-          min="0"
-          max="100"
-          value="${p.opening}"
-          oninput="setParam('${c.id}','opening',this.value);render()">
-      </div>
-
-      <div class="field">
-        <label>Maximum Flow (L/min)</label>
-
-        <input type="number"
-          value="${p.maxFlow}"
-          onchange="setParam('${c.id}','maxFlow',this.value)">
-      </div>
-
-      <div class="field">
-        <label>Control Mode</label>
-
-        <select
-          onchange="setParam('${c.id}','mode',this.value)"
-        >
-
-          <option value="meter-in"
-            ${p.mode==="meter-in"?"selected":""}>
-            Meter-in
-          </option>
-
-          <option value="meter-out"
-            ${p.mode==="meter-out"?"selected":""}>
-            Meter-out
-          </option>
-
-        </select>
-      </div>
-    `;
+  if(c.type==="check"){
+    html+=numberField("Cracking Pressure","cracking",p.cracking,"bar",mode);
   }
 
-  if(c.type==="check"){
+  if(c.type==="flowControl" || c.type==="throttleCheck"){
+
+    html+=rangeField(
+      "Opening",
+      "opening",
+      p.opening,
+      0,
+      100,
+      "%",
+      "opening",
+      mode
+    );
+
+    html+=numberField("Maximum Flow","maxFlow",p.maxFlow,"L/min",mode);
 
     html+=`
-
       <div class="field">
-        <label>Cracking Pressure (bar)</label>
-
-        <input type="number"
-          step=".1"
-          value="${p.cracking}"
-          onchange="setParam('${c.id}','cracking',this.value)">
+        <label>Control Mode</label>
+        <select onchange="setProperty('${c.id}','mode',this.value)">
+          <option value="meter-in" ${p.mode==="meter-in"?"selected":""}>Meter In</option>
+          <option value="meter-out" ${p.mode==="meter-out"?"selected":""}>Meter Out</option>
+        </select>
       </div>
     `;
   }
 
   if(c.type==="filter"){
 
-    html+=`
-
-      <div class="field">
-        <label>Filter Rating (bar)</label>
-
-        <input type="number"
-          value="${p.rating}"
-          onchange="setParam('${c.id}','rating',this.value)">
-      </div>
-
-      <div class="field">
-        <label>Restriction Factor</label>
-
-        <input type="number"
-          step=".1"
-          value="${p.restriction}"
-          onchange="setParam('${c.id}','restriction',this.value)">
-      </div>
-    `;
+    html+=numberField("Pressure Rating","rating",p.rating,"bar",mode);
+    html+=numberField("Restriction","restriction",p.restriction,"bar",mode);
   }
 
   if(c.type==="cylinder"){
 
-    html+=`
-
-      <div class="field">
-        <label>Bore Diameter (mm)</label>
-
-        <input type="number"
-          value="${p.bore}"
-          onchange="setParam('${c.id}','bore',this.value)">
-      </div>
-
-      <div class="field">
-        <label>Rod Diameter (mm)</label>
-
-        <input type="number"
-          value="${p.rod}"
-          onchange="setParam('${c.id}','rod',this.value)">
-      </div>
-
-      <div class="field">
-        <label>Stroke (mm)</label>
-
-        <input type="number"
-          value="${p.stroke}"
-          onchange="setParam('${c.id}','stroke',this.value)">
-      </div>
-
-      <div class="field">
-        <label>Load (N)</label>
-
-        <input type="number"
-          value="${p.load}"
-          onchange="setParam('${c.id}','load',this.value)">
-      </div>
-
-      <div class="field">
-        <label>Friction (N)</label>
-
-        <input type="number"
-          value="${p.friction}"
-          onchange="setParam('${c.id}','friction',this.value)">
-      </div>
-
-      <div class="field">
-        <label>Position (mm)</label>
-
-        <input type="number"
-          min="0"
-          max="${p.stroke}"
-          value="${p.position}"
-          onchange="setParam('${c.id}','position',this.value)">
-      </div>
-
-      <div class="field">
-        <label>Maximum Speed (mm/s)</label>
-
-        <input type="number"
-          value="${p.maxSpeed}"
-          onchange="setParam('${c.id}','maxSpeed',this.value)">
-      </div>
-    `;
+    html+=numberField("Bore","bore",p.bore,"mm",mode);
+    html+=numberField("Rod","rod",p.rod,"mm",mode);
+    html+=numberField("Stroke","stroke",p.stroke,"mm",mode);
+    html+=numberField("Load","load",p.load,"N",mode);
+    html+=numberField("Friction","friction",p.friction,"N",mode);
+    html+=numberField("Position","position",p.position,"mm",mode);
+    html+=numberField("Maximum Speed","maxSpeed",p.maxSpeed,"mm/s",mode);
   }
 
   if(c.type==="motor"){
 
-    html+=`
-
-      <div class="field">
-        <label>Displacement (cc/rev)</label>
-
-        <input type="number"
-          value="${p.displacement}"
-          onchange="setParam('${c.id}','displacement',this.value)">
-      </div>
-
-      <div class="field">
-        <label>Load Torque (Nm)</label>
-
-        <input type="number"
-          value="${p.loadTorque}"
-          onchange="setParam('${c.id}','loadTorque',this.value)">
-      </div>
-
-      <div class="field">
-        <label>Speed Limit (rpm)</label>
-
-        <input type="number"
-          value="${p.speedLimit}"
-          onchange="setParam('${c.id}','speedLimit',this.value)">
-      </div>
-    `;
+    html+=numberField("Displacement","displacement",p.displacement,"cc/rev",mode);
+    html+=numberField("Load Torque","loadTorque",p.loadTorque,"Nm",mode);
+    html+=numberField("Speed Limit","speedLimit",p.speedLimit,"rpm",mode);
   }
 
-  return html;
-}
+  html+=`
+    </div>
 
-function liveComponentData(c){
+    <div class="inspectorCard">
+      <button class="btn danger"
+        style="width:100%;min-height:44px"
+        onclick="deleteSelected()">
+        Delete Component
+      </button>
 
-  let html=`
-
-    <div class="metricGrid">
-
-      <div class="metric">
-        <span>Pressure A</span>
-        <strong>${fmt(c.state.pressureA,1)}</strong>
-        <span>bar</span>
-      </div>
-
-      <div class="metric">
-        <span>Pressure B</span>
-        <strong>${fmt(c.state.pressureB,1)}</strong>
-        <span>bar</span>
-      </div>
-
-      <div class="metric">
-        <span>Flow</span>
-        <strong>${fmt(c.state.flow,1)}</strong>
-        <span>L/min</span>
-      </div>
-
-      <div class="metric">
-        <span>Speed</span>
-        <strong>${fmt(c.state.speed,1)}</strong>
-        <span>${c.type==="cylinder"?"mm/s":"rpm"}</span>
-      </div>
-
+      <button class="btn"
+        style="width:100%;margin-top:7px;min-height:44px"
+        onclick="duplicateSelected()">
+        Duplicate
+      </button>
     </div>
   `;
 
-  if(c.type==="cylinder"){
-
-    html+=`
-
-      <div style="margin-top:9px;color:#94a3b8;font-size:10px">
-        Position: ${fmt(c.params.position,1)}
-        / ${fmt(c.params.stroke,0)} mm
-      </div>
-
-      <div style="margin-top:5px;color:#94a3b8;font-size:10px">
-        Required pressure:
-        ${fmt(cylinderRequiredPressure(c),1)} bar
-      </div>
-    `;
-  }
-
-  if(c.type==="motor"){
-
-    html+=`
-
-      <div style="margin-top:9px;color:#94a3b8;font-size:10px">
-        Estimated motor speed:
-        ${fmt(c.state.speed,0)} rpm
-      </div>
-    `;
-  }
-
   return html;
 }
 
-function setName(id,value){
+function numberField(label,key,value,unit,mode,percent=false){
 
-  const c=getC(id);
+  let v=value;
+
+  if(percent && typeof v==="number"){
+    v=v;
+  }
+
+  return `
+    <div class="field">
+      <label>${label}${unit?` (${unit})`:""}</label>
+      <input
+        type="number"
+        step="any"
+        value="${v}"
+        onchange="setNumericProperty('${selectedId}','${key}',this.value,${percent})"
+      >
+    </div>
+  `;
+}
+
+function rangeField(label,key,value,min,max,unit,updateKey,mode){
+
+  return `
+    <div class="field">
+      <label>${label}</label>
+      <div class="rangeRow">
+        <input
+          type="range"
+          min="${min}"
+          max="${max}"
+          step="1"
+          value="${value}"
+          oninput="setProperty('${selectedId}','${key}',Number(this.value),true)"
+        >
+        <div class="rangeValue">
+          <span id="${mode}-${updateKey}-value">${Math.round(value)}</span>${unit}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function setNumericProperty(id,key,value,percent=false){
+
+  const c=getComponent(id);
 
   if(!c) return;
 
-  c.name=value||COMPONENTS[c.type].name;
-
   pushHistory();
+
+  let v=Number(value);
+
+  if(percent && key==="efficiency"){
+    v=clamp(v,0,100)/100;
+  }
+
+  if(!Number.isFinite(v)) return;
+
+  c.properties[key]=v;
+
   render();
 }
 
-function setParam(id,key,value){
+function setProperty(id,key,value,live=false){
 
-  const c=getC(id);
+  const c=getComponent(id);
 
   if(!c) return;
 
-  if(
-    typeof value==="string" &&
-    !isNaN(value) &&
-    value.trim()!==""
-  ){
-    c.params[key]=Number(value);
-  }else{
-    c.params[key]=value;
-  }
+  if(!live) pushHistory();
 
-  if(key==="position" &&
-     ["extend","retract"].includes(value)){
-    c.params.position=value;
-  }
+  c.properties[key]=value;
 
-  pushHistory();
-  calculateSystem();
-  render();
-}
-
-function setFault(id,value){
-
-  const c=getC(id);
-
-  if(!c) return;
-
-  c.fault=value||null;
-
-  pushHistory();
-  render();
-
-  showToast(
-    c.fault
-    ?"Fault injected: "+c.fault
-    :"Fault cleared"
-  );
-}
-
-/* =========================================================
-   SAVE / LOAD
-========================================================= */
-
-function saveProject(){
-
-  const data={
-    version:4,
-    app:"Hydraulic Studio",
-    components,
-    connections
-  };
-
-  const blob=new Blob(
-    [JSON.stringify(data,null,2)],
-    {type:"application/json"}
-  );
-
-  const url=URL.createObjectURL(blob);
-
-  const a=document.createElement("a");
-
-  a.href=url;
-  a.download="hydraulic-studio-project.json";
-
-  a.click();
-
-  URL.revokeObjectURL(url);
-
-  showToast("Project saved");
-}
-
-document
-  .getElementById("fileInput")
-  .addEventListener("change",e=>{
-
-    const file=e.target.files[0];
-
-    if(!file) return;
-
-    const reader=new FileReader();
-
-    reader.onload=()=>{
-
-      try{
-
-        const data=
-          JSON.parse(reader.result);
-
-        components=
-          Array.isArray(data.components)
-          ?data.components:[ ];
-
-        connections=
-          Array.isArray(data.connections)
-          ?data.connections:[ ];
-
-        selectedId=null;
-
-        pushHistory();
-        render();
-
-        showToast("Project loaded");
-
-      }catch(err){
-
-        alert("Could not load project.");
-      }
-    };
-
-    reader.readAsText(file);
-
-    e.target.value="";
-  });
-
-function newProject(){
-
-  if(
-    components.length &&
-    !confirm("Start a new project? Unsaved changes will be lost.")
-  ){
-    return;
-  }
-
-  components=[];
-  connections=[];
-  selectedId=null;
-
-  zoom=1;
-  panX=0;
-  panY=0;
-
-  history=[];
-  historyIndex=-1;
-
-  pushHistory();
-
-  render();
-
-  showToast("New project created");
-}
-
-/* =========================================================
-   EXAMPLE CIRCUIT
-========================================================= */
-
-function loadExample(){
-
-  components=[];
-  connections=[];
-
-  const tank=makeComponent(
-    "tank",
-    50,
-    300
-  );
-
-  const pump=makeComponent(
-    "variablePump",
-    230,
-    280
-  );
-
-  pump.params.swash=75;
-  pump.params.compensator=250;
-
-  const filter=makeComponent(
-    "filter",
-    430,
-    280
-  );
-
-  const valve=makeComponent(
-    "valve43",
-    650,
-    260
-  );
-
-  valve.params.position="extend";
-  valve.params.centre="closed";
-
-  const cylinder=makeComponent(
-    "cylinder",
-    900,
-    260
-  );
-
-  cylinder.params.bore=100;
-  cylinder.params.rod=50;
-  cylinder.params.stroke=500;
-  cylinder.params.load=50000;
-  cylinder.params.friction=1500;
-
-  const relief=makeComponent(
-    "relief",
-    430,
-    460
-  );
-
-  relief.params.setting=210;
-
-  const gauge=makeComponent(
-    "gauge",
-    470,
-    190
-  );
-
-  const flowmeter=makeComponent(
-    "flowmeter",
-    780,
-    180
-  );
-
-  components=[
-    tank,
-    pump,
-    filter,
-    valve,
-    cylinder,
-    relief,
-    gauge,
-    flowmeter
-  ];
-
-  function connect(a,ap,b,bp){
-
-    connections.push({
-      id:uid(),
-      a:{id:a.id,port:ap},
-      b:{id:b.id,port:bp}
-    });
-  }
-
-  connect(
-    tank,"P",
-    pump,"IN"
-  );
-
-  connect(
-    pump,"OUT",
-    filter,"IN"
-  );
-
-  connect(
-    filter,"OUT",
-    valve,"P"
-  );
-
-  connect(
-    valve,"A",
-    cylinder,"A"
-  );
-
-  connect(
-    cylinder,"B",
-    valve,"B"
-  );
-
-  connect(
-    valve,"T",
-    tank,"P"
-  );
-
-  connect(
-    pump,"OUT",
-    relief,"IN"
-  );
-
-  connect(
-    relief,"OUT",
-    tank,"P"
-  );
-
-  connect(
-    pump,"OUT",
-    gauge,"P"
-  );
-
-  connect(
-    valve,"A",
-    flowmeter,"IN"
-  );
-
-  connect(
-    flowmeter,"OUT",
-    cylinder,"A"
-  );
-
-  selectedId=null;
-
-  zoom=1;
-  panX=0;
-  panY=0;
-
-  history=[];
-  historyIndex=-1;
-
-  pushHistory();
-
-  fitView();
-
-  render();
-
-  showToast("Example hydraulic circuit loaded");
-}
-
-/* =========================================================
-   SIMULATION
-========================================================= */
-
-function simulationStep(dt){
-
-  calculateSystem();
-
-  for(const c of components){
-
-    if(c.type==="cylinder"){
-      updateCylinder(c,dt);
-    }
-
-    if(c.type==="motor"){
-      updateMotor(c,dt);
-    }
-  }
-
-  updateTemperature(dt);
-
-  simulation.tankLevel=
-    clamp(
-      simulation.tankLevel,
-      0,
-      100
-    );
-}
-
-function simulationLoop(now){
-
-  const dt=
-    Math.min(
-      now-lastTime,
-      100
-    );
-
-  lastTime=now;
-
-  if(running){
-
-    simulationStep(dt);
-
-    updateMetrics();
-
-    renderWires();
-
-    if(
-      selectedId &&
-      getC(selectedId)
-    ){
-      updateInspector();
-    }
-  }
-
-  requestAnimationFrame(simulationLoop);
-}
-
-function toggleSimulation(){
-
-  running=!running;
-
-  updateRunButton();
-
-  if(running){
-
-    showToast("Simulation running");
-
-  }else{
-
-    showToast("Simulation paused");
-  }
-}
-
-function updateRunButton(){
-
-  const desktop=
-    document.getElementById("desktopRun");
-
-  const mobile=
-    document.getElementById("mobileRun");
-
-  if(running){
-
-    desktop.textContent="■ Stop";
-    desktop.classList.remove("success");
-    desktop.classList.add("danger");
-
-    mobile.textContent="■";
-    mobile.classList.add("running");
-
-    document
-      .getElementById("statusDot")
-      .classList.remove("off");
-
-    document
-      .getElementById("statusText")
-      .textContent="Simulation running";
-
-  }else{
-
-    desktop.textContent="▶ Run";
-    desktop.classList.remove("danger");
-    desktop.classList.add("success");
-
-    mobile.textContent="▶";
-    mobile.classList.remove("running");
-
-    document
-      .getElementById("statusDot")
-      .classList.add("off");
-
-    document
-      .getElementById("statusText")
-      .textContent="Simulation stopped";
-  }
-}
-
-function resetSimulation(){
-
-  for(const c of components){
-
-    if(c.type==="cylinder"){
-
-      c.params.position=100;
-
-      c.state.pressureA=0;
-      c.state.pressureB=0;
-      c.state.flow=0;
-      c.state.speed=0;
-    }
-
-    if(c.type==="motor"){
-
-      c.state.speed=0;
-      c.state.flow=0;
-      c.state.pressureA=0;
-      c.state.pressureB=0;
-    }
-  }
-
-  simulation={
-    pressure:0,
-    flow:0,
-    power:0,
-    temperature:25,
-    tankLevel:75,
-    cavitation:false,
-    reliefOpen:false
-  };
-
-  render();
-
-  showToast("Simulation reset");
-}
-
-/* =========================================================
-   METRICS
-========================================================= */
-
-function updateMetrics(){
-
-  const p=getSystemPressure();
-  const f=getSystemFlow();
-
-  document.getElementById(
-    "statusPressure"
-  ).textContent=fmt(p,1)+" bar";
-
-  document.getElementById(
-    "statusFlow"
-  ).textContent=fmt(f,1)+" L/min";
+  renderCanvas();
+  renderInspector();
+  renderMobileSheet();
 }
 
 /* =========================================================
@@ -4815,1141 +2264,1351 @@ function setMobileTab(tab){
 
   mobileTab=tab;
 
-  mobileSheetOpen=true;
-
-  updateMobileNav();
+  document.querySelectorAll(".mobileNav button")
+    .forEach(b=>{
+      b.classList.toggle(
+        "active",
+        b.dataset.tab===tab
+      );
+    });
 
   renderMobileSheet();
 
-  document
-    .getElementById("mobileSheet")
+  document.getElementById("mobileSheet")
     .classList.add("open");
 }
 
 function closeMobileSheet(){
 
-  mobileSheetOpen=false;
-
-  document
-    .getElementById("mobileSheet")
+  document.getElementById("mobileSheet")
     .classList.remove("open");
 
-  updateMobileNav();
-}
+  document.querySelectorAll(".mobileNav button")
+    .forEach(b=>b.classList.remove("active"));
 
-function updateMobileNav(){
-
-  document
-    .querySelectorAll(".mobileNavBtn")
-    .forEach(btn=>{
-
-      btn.classList.toggle(
-        "active",
-        btn.dataset.tab===mobileTab &&
-        mobileSheetOpen
-      );
-    });
+  mobileTab=null;
 }
 
 function renderMobileSheet(){
 
-  const title=
-    document.getElementById("sheetTitle");
+  if(window.innerWidth>850) return;
 
-  const content=
-    document.getElementById("sheetContent");
+  const sheet=document.getElementById("mobileSheet");
+  const content=document.getElementById("mobileSheetContent");
+
+  if(!mobileTab){
+    content.innerHTML="";
+    return;
+  }
+
+  let html="";
 
   if(mobileTab==="components"){
 
-    title.textContent="Add Component";
+    html=`
+      <div class="sheetHeader">
+        <h2>Components</h2>
+        <button class="closeSheet" onclick="closeMobileSheet()">✕</button>
+      </div>
 
-    content.innerHTML=`
+      <div class="mobileComponentGrid">
+        ${componentOrder.map(type=>{
+          const d=componentDefs[type];
 
-      <input
-        id="mobileComponentSearch"
-        class="search mobileComponentSearch"
-        placeholder="Search components..."
-        oninput="renderMobileComponents()"
-      >
-
-      <div id="mobileComponentGrid"
-           class="mobileComponentGrid">
+          return `
+            <button class="mobileComponent"
+              onclick="addComponent('${type}')">
+              <span class="ico">${d.icon}</span>
+              <span class="nm">${d.name}</span>
+            </button>
+          `;
+        }).join("")}
       </div>
     `;
-
-    renderMobileComponents();
-
-    return;
   }
 
   if(mobileTab==="circuit"){
 
-    title.textContent="Circuit Tools";
-
-    content.innerHTML=`
-
-      <div class="mobileSection">
-
-        <div class="mobileSectionTitle">
-          Connection
-        </div>
-
-        <div style="color:#94a3b8;font-size:10px;line-height:1.5">
-          Tap one hydraulic port, then tap another
-          hydraulic port to create a connection.
-        </div>
-
-        <div style="margin-top:10px">
-
-          <button
-            class="mobileRun"
-            style="min-height:50px;font-size:13px"
-            onclick="cancelConnection()"
-          >
-            ✕ Cancel Connection
-          </button>
-
-        </div>
-
+    html=`
+      <div class="sheetHeader">
+        <h2>Circuit Tools</h2>
+        <button class="closeSheet" onclick="closeMobileSheet()">✕</button>
       </div>
 
       <div class="mobileToolGrid">
 
-        <button class="bigTool" onclick="zoomBy(1.25)">
-          <span style="font-size:24px">＋</span>
-          <span>
-            <b>Zoom In</b>
-            <small>Enlarge circuit</small>
-          </span>
+        <button class="mobileTool" onclick="fitCircuit()">
+          <strong>⌗ Fit Circuit</strong>
+          <small>Fit everything on screen</small>
         </button>
 
-        <button class="bigTool" onclick="zoomBy(.8)">
-          <span style="font-size:24px">−</span>
-          <span>
-            <b>Zoom Out</b>
-            <small>Reduce circuit</small>
-          </span>
+        <button class="mobileTool" onclick="zoomIn()">
+          <strong>＋ Zoom In</strong>
+          <small>Increase workspace scale</small>
         </button>
 
-        <button class="bigTool" onclick="fitView()">
-          <span style="font-size:24px">⌗</span>
-          <span>
-            <b>Fit Circuit</b>
-            <small>Show everything</small>
-          </span>
+        <button class="mobileTool" onclick="zoomOut()">
+          <strong>－ Zoom Out</strong>
+          <small>Decrease workspace scale</small>
         </button>
 
-        <button class="bigTool" onclick="deleteSelected()">
-          <span style="font-size:24px">⌫</span>
-          <span>
-            <b>Delete</b>
-            <small>Selected component</small>
-          </span>
+        <button class="mobileTool" onclick="resetView()">
+          <strong>⌂ Reset View</strong>
+          <small>Return to default view</small>
         </button>
 
-      </div>
+        <button class="mobileTool" onclick="undo()">
+          <strong>↶ Undo</strong>
+          <small>Undo last change</small>
+        </button>
 
-      <div class="mobileSection" style="margin-top:9px">
+        <button class="mobileTool" onclick="redo()">
+          <strong>↷ Redo</strong>
+          <small>Redo change</small>
+        </button>
 
-        <div class="mobileSectionTitle">
-          Project
-        </div>
+        <button class="mobileTool" onclick="loadExample()">
+          <strong>🧪 Example</strong>
+          <small>Load hydraulic example</small>
+        </button>
 
-        <div class="mobileActionRow">
+        <button class="mobileTool" onclick="clearCircuit()">
+          <strong>🗑 Clear</strong>
+          <small>Remove all components</small>
+        </button>
 
-          <button onclick="newProject()">
-            ＋ New
-          </button>
+        <button class="mobileTool" onclick="saveProject()">
+          <strong>💾 Save</strong>
+          <small>Save project locally</small>
+        </button>
 
-          <button onclick="loadExample()">
-            ⚙ Example
-          </button>
-
-          <button onclick="undo()">
-            ↶ Undo
-          </button>
-
-          <button onclick="redo()">
-            ↷ Redo
-          </button>
-
-          <button onclick="saveProject()">
-            💾 Save
-          </button>
-
-          <button onclick="document.getElementById('fileInput').click()">
-            📂 Load
-          </button>
-
-        </div>
+        <button class="mobileTool" onclick="runDiagnostics()">
+          <strong>🔍 Diagnostics</strong>
+          <small>Check circuit faults</small>
+        </button>
 
       </div>
     `;
-
-    return;
   }
 
   if(mobileTab==="simulate"){
 
-    title.textContent="Simulation";
-
-    const p=getSystemPressure();
-    const f=getSystemFlow();
-
-    content.innerHTML=`
-
-      <button
-        class="mobileRun ${running?"running":""}"
-        onclick="toggleSimulation();renderMobileSheet()"
-      >
-        ${running?"■  STOP SIMULATION":"▶  RUN SIMULATION"}
-      </button>
-
-      <button
-        class="mobileReset"
-        onclick="resetSimulation()"
-      >
-        ↻ Reset Simulation
-      </button>
-
-      <div class="mobileMetrics" style="margin-top:10px">
-
-        <div class="mobileMetric">
-          <span>System Pressure</span>
-          <strong>${fmt(p,1)}</strong>
-          <small>bar</small>
-        </div>
-
-        <div class="mobileMetric">
-          <span>System Flow</span>
-          <strong>${fmt(f,1)}</strong>
-          <small>L/min</small>
-        </div>
-
-        <div class="mobileMetric">
-          <span>Hydraulic Power</span>
-          <strong>${fmt(simulation.power,1)}</strong>
-          <small>kW</small>
-        </div>
-
-        <div class="mobileMetric">
-          <span>Oil Temperature</span>
-          <strong>${fmt(simulation.temperature,1)}</strong>
-          <small>°C</small>
-        </div>
-
+    html=`
+      <div class="sheetHeader">
+        <h2>Simulation</h2>
+        <button class="closeSheet" onclick="closeMobileSheet()">✕</button>
       </div>
 
-      <div class="mobileSection" style="margin-top:10px">
-
-        <div class="mobileSectionTitle">
-          Simulation Status
-        </div>
-
-        <div class="mobileDiag ${running?"good":"warn"}">
-          ${running
-            ?"Simulation is running continuously."
-            :"Simulation is paused."
-          }
-        </div>
-
-        ${
-          simulation.reliefOpen
-          ?`<div class="mobileDiag warn">
-              Relief valve is at/near setting.
-            </div>`
-          :""
-        }
-
-      </div>
-    `;
-
-    return;
-  }
-
-  if(mobileTab==="monitor"){
-
-    title.textContent="Monitor & Diagnostics";
-
-    const d=diagnostics();
-
-    const selected=getC(selectedId);
-
-    content.innerHTML=`
+      <button
+        class="mobileRun ${simulationRunning?"pause":""}"
+        onclick="toggleSimulation()">
+        ${simulationRunning?"⏸ PAUSE SIMULATION":"▶ START SIMULATION"}
+      </button>
 
       <div class="mobileMetrics">
 
         <div class="mobileMetric">
-          <span>Pressure</span>
-          <strong>${fmt(getSystemPressure(),1)}</strong>
-          <small>bar</small>
+          <small>System Pressure</small>
+          <strong id="mobilePressure">0 bar</strong>
         </div>
 
         <div class="mobileMetric">
-          <span>Flow</span>
-          <strong>${fmt(getSystemFlow(),1)}</strong>
-          <small>L/min</small>
+          <small>System Flow</small>
+          <strong id="mobileFlow">0 L/min</strong>
         </div>
 
         <div class="mobileMetric">
-          <span>Power</span>
-          <strong>${fmt(simulation.power,1)}</strong>
-          <small>kW</small>
+          <small>Hydraulic Power</small>
+          <strong id="mobilePower">0 kW</strong>
         </div>
 
         <div class="mobileMetric">
-          <span>Temperature</span>
-          <strong>${fmt(simulation.temperature,1)}</strong>
-          <small>°C</small>
+          <small>Simulation Time</small>
+          <strong id="mobileTime">0.0 s</strong>
         </div>
 
       </div>
 
-      ${
-        selected
-        ?`
+      <div style="height:10px"></div>
 
-          <div class="mobileSection" style="margin-top:10px">
-
-            <div class="mobileSectionTitle">
-              ${escapeHtml(selected.name)}
-            </div>
-
-            ${liveComponentData(selected)}
-
-          </div>
-        `
-        :""
-      }
-
-      <div class="mobileSection">
-
-        <div class="mobileSectionTitle">
-          Diagnostics
-        </div>
-
-        ${
-          d.map(x=>
-            `<div class="mobileDiag ${x.type}">
-              ${escapeHtml(x.text)}
-            </div>`
-          ).join("")
-        }
-
-      </div>
-
-      <button
-        class="mobileReset"
-        onclick="runDiagnostics()"
-      >
-        🔎 Run Full Diagnostics
+      <button class="mobileTool"
+        style="width:100%"
+        onclick="resetSimulation()">
+        <strong>↺ Reset Simulation</strong>
+        <small>Return cylinders and motors to initial state</small>
       </button>
     `;
+  }
 
-    return;
+  if(mobileTab==="monitor"){
+
+    html=`
+      <div class="sheetHeader">
+        <h2>Live Monitor</h2>
+        <button class="closeSheet" onclick="closeMobileSheet()">✕</button>
+      </div>
+
+      ${renderMobileMonitor()}
+    `;
   }
 
   if(mobileTab==="properties"){
 
-    title.textContent="Properties";
+    html=`
+      <div class="sheetHeader">
+        <h2>Properties</h2>
+        <button class="closeSheet" onclick="closeMobileSheet()">✕</button>
+      </div>
 
-    const c=getC(selectedId);
-
-    if(!c){
-
-      content.innerHTML=`
-
-        <div class="emptyState">
-
-          <div style="font-size:36px;margin-bottom:10px">
-            ☷
+      ${
+        selectedId
+        ? `
+          <div class="mobileProperties">
+            ${propertyEditorHTML(
+              getComponent(selectedId),
+              "mobile"
+            )}
           </div>
-
-          Select a component on the circuit
-          to edit its engineering properties.
-
-          <div style="margin-top:15px">
-
-            <button
-              class="mobileReset"
-              onclick="setMobileTab('components')"
-            >
-              ＋ Add Component
-            </button>
-
+        `
+        : `
+          <div class="inspectorCard">
+            <h3>No component selected</h3>
+            <div style="font-size:12px;color:#94a3b8">
+              Tap a component on the circuit to edit it.
+            </div>
           </div>
-
-        </div>
-      `;
-
-      return;
-    }
-
-    content.innerHTML=`
-
-      <div class="mobileSection">
-
-        <div class="mobileSectionTitle">
-          ${escapeHtml(c.name)}
-        </div>
-
-        ${mobilePropertyEditor(c)}
-
-      </div>
-
-      <div class="mobileSection">
-
-        <div class="mobileSectionTitle">
-          Live Data
-        </div>
-
-        ${liveComponentData(c)}
-
-      </div>
-
-      <div class="mobileSection">
-
-        <div class="mobileSectionTitle">
-          Fault Injection
-        </div>
-
-        <select
-          class="mobileField"
-          style="width:100%;min-height:48px;background:#0c1322;color:white;border:1px solid var(--line);border-radius:10px;padding:10px"
-          onchange="setFault('${c.id}',this.value);renderMobileSheet()"
-        >
-
-          <option value="">No fault</option>
-
-          ${
-            c.type==="pump"||
-            c.type==="variablePump"
-            ?`<option value="pumpWear"
-              ${c.fault==="pumpWear"?"selected":""}>
-              Pump wear
-            </option>`:""
-          }
-
-          ${
-            c.type==="filter"
-            ?`<option value="blockedFilter"
-              ${c.fault==="blockedFilter"?"selected":""}>
-              Blocked filter
-            </option>`:""
-          }
-
-          ${
-            c.type==="cylinder"
-            ?`<option value="cylinderLeakage"
-              ${c.fault==="cylinderLeakage"?"selected":""}>
-              Internal leakage
-            </option>`:""
-          }
-
-          ${
-            c.type==="valve43"||
-            c.type==="valve42"||
-            c.type==="proportional"
-            ?`<option value="valveStuck"
-              ${c.fault==="valveStuck"?"selected":""}>
-              Valve stuck
-            </option>`:""
-          }
-
-        </select>
-
-      </div>
-
-      <button
-        class="mobileReset"
-        onclick="deleteSelected();closeMobileSheet()"
-      >
-        🗑 Delete Component
-      </button>
+        `
+      }
     `;
+  }
+
+  content.innerHTML=html;
+
+  updateMobileLiveValues();
+}
+
+function openProperties(){
+
+  if(window.innerWidth<=850){
+    setMobileTab("properties");
   }
 }
 
-function renderMobileComponents(){
+function updateSelectedBadge(){
 
-  const box=
-    document.getElementById(
-      "mobileComponentGrid"
-    );
+  const el=document.getElementById("selectedBadge");
 
-  if(!box) return;
+  if(window.innerWidth>850 || !selectedId){
 
-  const search=
-    (
-      document.getElementById(
-        "mobileComponentSearch"
-      )?.value||""
-    ).toLowerCase();
+    el.style.display="none";
+    return;
+  }
 
-  let html="";
+  const c=getComponent(selectedId);
 
-  const cats={};
+  if(!c){
+    el.style.display="none";
+    return;
+  }
 
-  Object.entries(COMPONENTS).forEach(
-    ([type,spec])=>{
+  el.textContent=
+    componentDefs[c.type].icon+
+    " "+
+    componentName(c.type);
 
-      if(
-        search &&
-        !(
-          spec.name.toLowerCase().includes(search)||
-          type.toLowerCase().includes(search)
-        )
-      ){
-        return;
-      }
+  el.style.display="block";
+}
 
-      if(!cats[spec.category]){
-        cats[spec.category]=[];
-      }
+function mobileMenu(){
 
-      cats[spec.category].push(
-        [type,spec]
-      );
-    }
+  setMobileTab("circuit");
+}
+
+/* =========================================================
+   VIEW
+========================================================= */
+
+function zoomIn(){
+  zoom=clamp(zoom*1.2,.35,3);
+  renderCanvas();
+}
+
+function zoomOut(){
+  zoom=clamp(zoom/1.2,.35,3);
+  renderCanvas();
+}
+
+function resetView(){
+  zoom=1;
+  panX=0;
+  panY=0;
+  renderCanvas();
+}
+
+function fitCircuit(){
+
+  if(!components.length){
+    resetView();
+    return;
+  }
+
+  const xs=components.map(c=>c.x);
+  const ys=components.map(c=>c.y);
+
+  const minX=Math.min(...xs)-100;
+  const maxX=Math.max(...xs)+100;
+  const minY=Math.min(...ys)-100;
+  const maxY=Math.max(...ys)+100;
+
+  const width=maxX-minX;
+  const height=maxY-minY;
+
+  const cw=canvasWrap.clientWidth;
+  const ch=canvasWrap.clientHeight;
+
+  zoom=Math.min(cw/width,ch/height);
+
+  zoom=clamp(zoom,.35,1.5);
+
+  panX=(cw-width*zoom)/2-minX*zoom;
+  panY=(ch-height*zoom)/2-minY*zoom;
+
+  renderCanvas();
+}
+
+/* =========================================================
+   HYDRAULIC SOLVER
+========================================================= */
+
+function pumpFlow(c){
+
+  const p=c.properties;
+
+  const theoretical=
+    (p.displacement*p.rpm)/1000;
+
+  return theoretical*(p.efficiency||.9);
+}
+
+function variablePumpFlow(c){
+
+  const p=c.properties;
+
+  const theoretical=
+    (p.displacement*p.rpm)/1000;
+
+  return theoretical*
+    (clamp(p.swash,0,100)/100)*
+    (p.efficiency||.9);
+}
+
+function cylinderAreaA(c){
+
+  const bore=c.properties.bore;
+
+  return Math.PI*Math.pow(bore/1000,2)/4;
+}
+
+function cylinderAreaB(c){
+
+  const bore=c.properties.bore;
+  const rod=c.properties.rod;
+
+  return Math.PI*(
+    Math.pow(bore/1000,2)-
+    Math.pow(rod/1000,2)
+  )/4;
+}
+
+function getSystemPressureRaw(){
+
+  const pumps=components.filter(
+    c=>c.type==="pump"||c.type==="variablePump"
   );
 
-  for(const [category,items] of Object.entries(cats)){
+  if(!pumps.length) return 0;
 
-    html+=`
-      <div style="grid-column:1/-1;color:#94a3b8;font-size:10px;font-weight:800;margin-top:7px">
-        ${category}
-      </div>
-    `;
+  let pumpFlow=0;
 
-    for(const [type,spec] of items){
+  pumps.forEach(c=>{
+    pumpFlow+=
+      c.type==="pump"
+      ?pumpFlowFor(c)
+      :variablePumpFlow(c);
+  });
 
-      html+=`
+  const cylinders=components.filter(c=>c.type==="cylinder");
 
-        <button
-          class="mobileComponent"
-          onclick="addComponent('${type}')"
-        >
+  if(!cylinders.length){
 
-          <span class="componentIcon">
-            ${spec.icon}
-          </span>
+    const relief=components.find(c=>c.type==="relief");
 
-          <span>
-            <strong>${escapeHtml(spec.name)}</strong>
-            <small>Tap to add</small>
-          </span>
-
-        </button>
-      `;
-    }
+    return relief
+      ?Math.min(relief.properties.setting,80)
+      :50;
   }
 
-  box.innerHTML=
-    html ||
-    `<div class="emptyState">
-      No components found.
-    </div>`;
+  let required=0;
+
+  cylinders.forEach(c=>{
+
+    const area=cylinderAreaA(c);
+
+    required+=
+      c.properties.load/
+      Math.max(area,0.00001)/
+      100000;
+  });
+
+  const flowFactor=clamp(
+    pumpFlow/100,
+    .15,
+    1.2
+  );
+
+  let pressure=
+    required/flowFactor;
+
+  const relief=components.find(c=>c.type==="relief");
+
+  if(relief){
+    pressure=Math.min(
+      pressure,
+      relief.properties.setting
+    );
+  }
+
+  return clamp(pressure,0,350);
 }
 
-function mobilePropertyEditor(c){
+function pumpFlowFor(c){
 
-  const p=c.params;
+  let q=pumpFlow(c);
 
-  let html=`
+  if(hasFault(c.id,"pumpWear")){
+    q*=.55;
+  }
 
-    <div class="mobileField">
+  return q;
+}
 
-      <label>Component Name</label>
+function getSystemFlow(){
 
-      <input
-        value="${escapeHtml(c.name)}"
-        onchange="setName('${c.id}',this.value);renderMobileSheet()"
-      >
+  let q=0;
 
-    </div>
-  `;
+  components.forEach(c=>{
 
-  if(
-    c.type==="pump"||
-    c.type==="variablePump"
-  ){
-
-    html+=`
-
-      <div class="mobileField">
-        <label>Displacement (cc/rev)</label>
-        <input
-          type="number"
-          value="${p.displacement}"
-          onchange="setParam('${c.id}','displacement',this.value);renderMobileSheet()"
-        >
-      </div>
-
-      <div class="mobileField">
-        <label>Speed (rpm)</label>
-        <input
-          type="number"
-          value="${p.rpm}"
-          onchange="setParam('${c.id}','rpm',this.value);renderMobileSheet()"
-        >
-      </div>
-
-      <div class="mobileField">
-        <label>Efficiency</label>
-        <input
-          type="number"
-          step=".01"
-          min=".1"
-          max="1"
-          value="${p.efficiency}"
-          onchange="setParam('${c.id}','efficiency',this.value);renderMobileSheet()"
-        >
-      </div>
-    `;
+    if(c.type==="pump"){
+      q+=pumpFlowFor(c);
+    }
 
     if(c.type==="variablePump"){
+      q+=variablePumpFlow(c);
+    }
+  });
 
-      html+=`
+  if(!simulationRunning) q*=.25;
 
-        <div class="mobileField">
+  const filter=components.find(c=>c.type==="filter");
 
-          <label>
-            Swash Plate: ${p.swash}%
-          </label>
+  if(filter && hasFault(filter.id,"blockedFilter")){
+    q*=.15;
+  }
 
-          <input
-            type="range"
-            min="0"
-            max="100"
-            value="${p.swash}"
-            oninput="setParam('${c.id}','swash',this.value);renderMobileSheet()"
-          >
+  const flowControls=
+    components.filter(
+      c=>c.type==="flowControl"||
+         c.type==="throttleCheck"
+    );
 
-        </div>
+  flowControls.forEach(c=>{
+    q*=clamp(c.properties.opening/100,.02,1);
+  });
 
-        <div class="mobileField">
+  const valves=
+    components.filter(
+      c=>c.type==="valve43"||
+         c.type==="valve42"||
+         c.type==="proportional"
+    );
 
-          <label>
-            Pressure Compensator (bar)
-          </label>
+  valves.forEach(v=>{
 
-          <input
-            type="number"
-            value="${p.compensator}"
-            onchange="setParam('${c.id}','compensator',this.value);renderMobileSheet()"
-          >
+    if(v.type==="proportional"){
+      q*=clamp(v.properties.command/100,.05,1);
+    }
 
-        </div>
-      `;
+    if(v.type==="valve43"){
+      q*=v.properties.position==="center"
+        ?0
+        :.95;
+    }
+  });
+
+  return clamp(q,0,500);
+}
+
+function getHydraulicPower(){
+
+  const pressure=getSystemPressureRaw();
+
+  const flow=getSystemFlow();
+
+  return pressure*flow/600;
+}
+
+/* =========================================================
+   CYLINDER SIMULATION
+========================================================= */
+
+function simulateCylinder(c,dt){
+
+  const p=c.properties;
+
+  const valve=components.find(
+    x=>x.type==="valve43"||
+       x.type==="valve42"||
+       x.type==="proportional"
+  );
+
+  let direction=0;
+
+  if(valve){
+
+    if(valve.type==="proportional"){
+
+      if(valve.properties.command>55)
+        direction=1;
+
+      if(valve.properties.command<45)
+        direction=-1;
+    }
+    else{
+
+      if(valve.properties.position==="extend")
+        direction=1;
+
+      if(valve.properties.position==="retract")
+        direction=-1;
     }
   }
 
-  if(c.type==="valve43"){
-
-    html+=`
-
-      <div class="mobileField">
-
-        <label>Valve Position</label>
-
-        <div class="mobileSegment">
-
-          <button
-            class="${p.position==="retract"?"active":""}"
-            onclick="setParam('${c.id}','position','retract');renderMobileSheet()">
-            RETRACT
-          </button>
-
-          <button
-            class="${p.position==="centre"?"active":""}"
-            onclick="setParam('${c.id}','position','centre');renderMobileSheet()">
-            CENTRE
-          </button>
-
-          <button
-            class="${p.position==="extend"?"active":""}"
-            onclick="setParam('${c.id}','position','extend');renderMobileSheet()">
-            EXTEND
-          </button>
-
-        </div>
-
-      </div>
-
-      <div class="mobileField">
-
-        <label>Centre Condition</label>
-
-        <div class="mobileSegment">
-
-          <button
-            class="${p.centre==="closed"?"active":""}"
-            onclick="setParam('${c.id}','centre','closed');renderMobileSheet()">
-            CLOSED
-          </button>
-
-          <button
-            class="${p.centre==="open"?"active":""}"
-            onclick="setParam('${c.id}','centre','open');renderMobileSheet()">
-            OPEN
-          </button>
-
-          <button
-            class="${p.centre==="float"?"active":""}"
-            onclick="setParam('${c.id}','centre','float');renderMobileSheet()">
-            FLOAT
-          </button>
-
-        </div>
-
-      </div>
-    `;
+  if(hasFault(c.id,"valveStuck")){
+    direction=0;
   }
 
-  if(c.type==="valve42"){
+  const pressure=getSystemPressureRaw();
 
-    html+=`
+  const area=
+    direction>=0
+    ?cylinderAreaA(c)
+    :cylinderAreaB(c);
 
-      <div class="mobileField">
+  const force=pressure*100000*area;
 
-        <label>Valve Position</label>
+  const netForce=
+    direction*force-
+    direction*p.load-
+    direction*p.friction;
 
-        <div class="mobileSegment">
+  let speed=
+    Math.max(0,netForce)/
+    Math.max(p.load+p.friction,1)*
+    p.maxSpeed;
 
-          <button
-            class="${p.position==="retract"?"active":""}"
-            onclick="setParam('${c.id}','position','retract');renderMobileSheet()">
-            RETRACT
-          </button>
+  speed*=clamp(getSystemFlow()/100,.05,1.5);
 
-          <button
-            class="${p.position==="extend"?"active":""}"
-            onclick="setParam('${c.id}','position','extend');renderMobileSheet()">
-            EXTEND
-          </button>
-
-        </div>
-
-      </div>
-    `;
+  if(hasFault(c.id,"cylinderLeakage")){
+    speed*=.65;
   }
 
-  if(c.type==="proportional"){
+  speed=clamp(speed,0,p.maxSpeed);
 
-    html+=`
+  if(direction===1){
 
-      <div class="mobileField">
+    p.position+=speed*dt;
 
-        <label>
-          Command: ${p.command}%
-        </label>
-
-        <input
-          type="range"
-          min="0"
-          max="100"
-          value="${p.command}"
-          oninput="setParam('${c.id}','command',this.value);renderMobileSheet()"
-        >
-
-      </div>
-    `;
-  }
-
-  if(
-    c.type==="relief"||
-    c.type==="reducing"||
-    c.type==="sequence"||
-    c.type==="counterbalance"
-  ){
-
-    html+=`
-
-      <div class="mobileField">
-
-        <label>
-          Pressure Setting (bar)
-        </label>
-
-        <input
-          type="number"
-          value="${p.setting}"
-          onchange="setParam('${c.id}','setting',this.value);renderMobileSheet()"
-        >
-
-      </div>
-    `;
-
-    if(c.type==="counterbalance"){
-
-      html+=`
-
-        <div class="mobileField">
-
-          <label>Pilot Ratio</label>
-
-          <input
-            type="number"
-            step=".1"
-            value="${p.pilotRatio}"
-            onchange="setParam('${c.id}','pilotRatio',this.value);renderMobileSheet()"
-          >
-
-        </div>
-      `;
+    if(p.position>=p.stroke){
+      p.position=p.stroke;
     }
   }
 
-  if(
-    c.type==="flowControl"||
-    c.type==="throttleCheck"
-  ){
+  if(direction===-1){
 
-    html+=`
+    p.position-=speed*dt;
 
-      <div class="mobileField">
+    if(p.position<=0){
+      p.position=0;
+    }
+  }
+}
 
-        <label>
-          Opening: ${p.opening}%
-        </label>
+/* =========================================================
+   MOTOR SIMULATION
+========================================================= */
 
-        <input
-          type="range"
-          min="0"
-          max="100"
-          value="${p.opening}"
-          oninput="setParam('${c.id}','opening',this.value);renderMobileSheet()"
-        >
+function simulateMotor(c,dt){
 
-      </div>
+  const p=c.properties;
 
-      <div class="mobileField">
+  const pressure=getSystemPressureRaw();
 
-        <label>
-          Maximum Flow (L/min)
-        </label>
+  const theoreticalTorque=
+    pressure*100000*
+    (p.displacement/1e6)/
+    (2*Math.PI);
 
-        <input
-          type="number"
-          value="${p.maxFlow}"
-          onchange="setParam('${c.id}','maxFlow',this.value);renderMobileSheet()"
-        >
+  let torque=
+    theoreticalTorque-
+    p.loadTorque;
 
-      </div>
+  if(torque<0) torque=0;
 
-      <div class="mobileField">
+  let rpm=
+    torque/
+    Math.max(p.loadTorque,1)*
+    1000;
 
-        <label>Control Mode</label>
+  rpm=clamp(rpm,0,p.speedLimit);
 
-        <select
-          onchange="setParam('${c.id}','mode',this.value);renderMobileSheet()"
-        >
+  c.runtimeRPM=rpm;
+}
 
-          <option
-            value="meter-in"
-            ${p.mode==="meter-in"?"selected":""}>
-            Meter-in
-          </option>
+/* =========================================================
+   SIMULATION LOOP
+========================================================= */
 
-          <option
-            value="meter-out"
-            ${p.mode==="meter-out"?"selected":""}>
-            Meter-out
-          </option>
+function toggleSimulation(){
 
-        </select>
+  simulationRunning=!simulationRunning;
 
-      </div>
-    `;
+  updateSimulationUI();
+
+  if(simulationRunning){
+
+    if(!animationFrame){
+      animationFrame=requestAnimationFrame(simulationLoop);
+    }
+
+    toast("Simulation running");
+
+  }else{
+
+    toast("Simulation paused");
+  }
+}
+
+let lastFrame=performance.now();
+
+function simulationLoop(now){
+
+  const dt=Math.min(
+    (now-lastFrame)/1000,
+    .05
+  );
+
+  lastFrame=now;
+
+  if(simulationRunning){
+
+    simulationTime+=dt;
+
+    components.forEach(c=>{
+
+      if(c.type==="cylinder"){
+        simulateCylinder(c,dt);
+      }
+
+      if(c.type==="motor"){
+        simulateMotor(c,dt);
+      }
+    });
+
+    renderCanvas();
+    updateLiveDisplays();
   }
 
-  if(c.type==="filter"){
+  animationFrame=requestAnimationFrame(simulationLoop);
+}
 
-    html+=`
+function resetSimulation(){
 
-      <div class="mobileField">
+  simulationTime=0;
 
-        <label>Filter Rating (bar)</label>
+  components.forEach(c=>{
 
-        <input
-          type="number"
-          value="${p.rating}"
-          onchange="setParam('${c.id}','rating',this.value);renderMobileSheet()"
-        >
+    if(c.type==="cylinder"){
+      c.properties.position=100;
+    }
 
-      </div>
+    if(c.type==="motor"){
+      c.runtimeRPM=0;
+    }
+  });
 
-      <div class="mobileField">
+  render();
+  toast("Simulation reset");
+}
 
-        <label>Restriction Factor</label>
+function updateSimulationUI(){
 
-        <input
-          type="number"
-          step=".1"
-          value="${p.restriction}"
-          onchange="setParam('${c.id}','restriction',this.value);renderMobileSheet()"
-        >
+  const desktopState=
+    document.getElementById("desktopState");
 
-      </div>
-    `;
+  if(desktopState){
+    desktopState.textContent=
+      simulationRunning
+      ?"RUNNING"
+      :"STOPPED";
   }
 
-  if(c.type==="check"){
+  const btn=
+    document.getElementById("mobileRunBtn");
 
-    html+=`
+  if(btn){
 
-      <div class="mobileField">
+    btn.textContent=
+      simulationRunning
+      ?"⏸"
+      :"▶";
 
-        <label>Cracking Pressure (bar)</label>
+    btn.classList.toggle(
+      "run",
+      !simulationRunning
+    );
+  }
+}
 
-        <input
-          type="number"
-          step=".1"
-          value="${p.cracking}"
-          onchange="setParam('${c.id}','cracking',this.value);renderMobileSheet()"
-        >
+/* =========================================================
+   MONITOR
+========================================================= */
+
+function renderDesktopMonitor(){
+
+  return `
+    <div class="panelTitle">Live Monitor</div>
+
+    <div class="inspectorCard">
+      <div class="metricGrid">
+
+        <div class="metric">
+          <small>Pressure</small>
+          <strong id="desktopPressure">0 bar</strong>
+        </div>
+
+        <div class="metric">
+          <small>Flow</small>
+          <strong id="desktopFlow">0 L/min</strong>
+        </div>
+
+        <div class="metric">
+          <small>Power</small>
+          <strong id="desktopPower">0 kW</strong>
+        </div>
+
+        <div class="metric">
+          <small>Time</small>
+          <strong id="desktopTime">0.0 s</strong>
+        </div>
 
       </div>
-    `;
-  }
+    </div>
+  `;
+}
+
+function renderMobileMonitor(){
+
+  return `
+    <div class="mobileMetrics">
+
+      <div class="mobileMetric">
+        <small>System Pressure</small>
+        <strong id="mobilePressure">0 bar</strong>
+      </div>
+
+      <div class="mobileMetric">
+        <small>System Flow</small>
+        <strong id="mobileFlow">0 L/min</strong>
+      </div>
+
+      <div class="mobileMetric">
+        <small>Hydraulic Power</small>
+        <strong id="mobilePower">0 kW</strong>
+      </div>
+
+      <div class="mobileMetric">
+        <small>Simulation Time</small>
+        <strong id="mobileTime">0.0 s</strong>
+      </div>
+
+    </div>
+
+    <div style="height:10px"></div>
+
+    ${renderDiagnosticsHTML()}
+  `;
+}
+
+function updateLiveDisplays(){
+
+  const pressure=getSystemPressureRaw();
+  const flow=getSystemFlow();
+  const power=getHydraulicPower();
+
+  const dP=document.getElementById("desktopPressure");
+  const dF=document.getElementById("desktopFlow");
+  const dW=document.getElementById("desktopPower");
+  const dT=document.getElementById("desktopTime");
+
+  if(dP) dP.textContent=fmt(pressure)+" bar";
+  if(dF) dF.textContent=fmt(flow)+" L/min";
+  if(dW) dW.textContent=fmt(power)+" kW";
+  if(dT) dT.textContent=fmt(simulationTime,1)+" s";
+
+  updateMobileLiveValues();
+}
+
+function updateMobileLiveValues(){
+
+  const pressure=getSystemPressureRaw();
+  const flow=getSystemFlow();
+  const power=getHydraulicPower();
+
+  const p=document.getElementById("mobilePressure");
+  const f=document.getElementById("mobileFlow");
+  const w=document.getElementById("mobilePower");
+  const t=document.getElementById("mobileTime");
+
+  if(p) p.textContent=fmt(pressure)+" bar";
+  if(f) f.textContent=fmt(flow)+" L/min";
+  if(w) w.textContent=fmt(power)+" kW";
+  if(t) t.textContent=fmt(simulationTime,1)+" s";
+}
+
+function renderComponentMetrics(c){
+
+  const pressure=getSystemPressureRaw();
+  const flow=getSystemFlow();
+
+  let html=`
+    <div class="inspectorCard">
+      <h3>Live Values</h3>
+
+      <div class="metricGrid">
+        <div class="metric">
+          <small>Pressure</small>
+          <strong>${fmt(pressure)} bar</strong>
+        </div>
+
+        <div class="metric">
+          <small>Flow</small>
+          <strong>${fmt(flow)} L/min</strong>
+        </div>
+  `;
 
   if(c.type==="cylinder"){
 
     html+=`
+        <div class="metric">
+          <small>Position</small>
+          <strong>${fmt(c.properties.position)} mm</strong>
+        </div>
 
-      <div class="mobileField">
-        <label>Bore Diameter (mm)</label>
-        <input type="number"
-          value="${p.bore}"
-          onchange="setParam('${c.id}','bore',this.value);renderMobileSheet()">
-      </div>
-
-      <div class="mobileField">
-        <label>Rod Diameter (mm)</label>
-        <input type="number"
-          value="${p.rod}"
-          onchange="setParam('${c.id}','rod',this.value);renderMobileSheet()">
-      </div>
-
-      <div class="mobileField">
-        <label>Stroke (mm)</label>
-        <input type="number"
-          value="${p.stroke}"
-          onchange="setParam('${c.id}','stroke',this.value);renderMobileSheet()">
-      </div>
-
-      <div class="mobileField">
-        <label>Load (N)</label>
-        <input type="number"
-          value="${p.load}"
-          onchange="setParam('${c.id}','load',this.value);renderMobileSheet()">
-      </div>
-
-      <div class="mobileField">
-        <label>Friction (N)</label>
-        <input type="number"
-          value="${p.friction}"
-          onchange="setParam('${c.id}','friction',this.value);renderMobileSheet()">
-      </div>
-
-      <div class="mobileField">
-        <label>Position (mm)</label>
-        <input type="number"
-          min="0"
-          max="${p.stroke}"
-          value="${p.position}"
-          onchange="setParam('${c.id}','position',this.value);renderMobileSheet()">
-      </div>
-
-      <div class="mobileField">
-        <label>Maximum Speed (mm/s)</label>
-        <input type="number"
-          value="${p.maxSpeed}"
-          onchange="setParam('${c.id}','maxSpeed',this.value);renderMobileSheet()">
-      </div>
+        <div class="metric">
+          <small>Speed</small>
+          <strong>${simulationRunning?"Live":"0"} mm/s</strong>
+        </div>
     `;
   }
 
   if(c.type==="motor"){
 
     html+=`
-
-      <div class="mobileField">
-        <label>Displacement (cc/rev)</label>
-        <input type="number"
-          value="${p.displacement}"
-          onchange="setParam('${c.id}','displacement',this.value);renderMobileSheet()">
-      </div>
-
-      <div class="mobileField">
-        <label>Load Torque (Nm)</label>
-        <input type="number"
-          value="${p.loadTorque}"
-          onchange="setParam('${c.id}','loadTorque',this.value);renderMobileSheet()">
-      </div>
-
-      <div class="mobileField">
-        <label>Speed Limit (rpm)</label>
-        <input type="number"
-          value="${p.speedLimit}"
-          onchange="setParam('${c.id}','speedLimit',this.value);renderMobileSheet()">
-      </div>
+        <div class="metric">
+          <small>Motor Speed</small>
+          <strong>${fmt(c.runtimeRPM||0)} rpm</strong>
+        </div>
     `;
   }
+
+  html+=`
+      </div>
+    </div>
+  `;
 
   return html;
 }
 
-function updateMobileSheetIfOpen(){
+/* =========================================================
+   DIAGNOSTICS
+========================================================= */
 
-  if(
-    window.innerWidth<=850 &&
-    mobileSheetOpen
-  ){
-    renderMobileSheet();
+let faults={};
+
+function hasFault(id,fault){
+  return !!faults[id]?.includes(fault);
+}
+
+function injectFault(id,fault){
+
+  if(!faults[id]){
+    faults[id]=[];
+  }
+
+  if(!faults[id].includes(fault)){
+    faults[id].push(fault);
   }
 }
 
-/* =========================================================
-   MENU
-========================================================= */
-
-function openMenu(){
-
-  document
-    .getElementById("menuOverlay")
-    .classList.add("show");
+function clearFaults(){
+  faults={};
 }
 
-function closeMenu(){
+function diagnostics(){
 
-  document
-    .getElementById("menuOverlay")
-    .classList.remove("show");
-}
+  const results=[];
 
-/* =========================================================
-   LIBRARY
-========================================================= */
-
-function iconFor(type){
-
-  return COMPONENTS[type]?.icon || "⚙";
-}
-
-function renderLibrary(){
-
-  const box=
-    document.getElementById(
-      "libraryContent"
+  const pumps=
+    components.filter(
+      c=>c.type==="pump"||c.type==="variablePump"
     );
 
-  const search=
-    (
-      document.getElementById(
-        "librarySearch"
-      )?.value||""
-    ).toLowerCase();
+  const tanks=
+    components.filter(c=>c.type==="tank");
 
-  const cats={};
+  const cylinders=
+    components.filter(c=>c.type==="cylinder");
 
-  Object.entries(COMPONENTS)
-    .forEach(([type,spec])=>{
+  const relief=
+    components.find(c=>c.type==="relief");
 
-      if(
-        search &&
-        !(
-          spec.name.toLowerCase().includes(search)||
-          type.toLowerCase().includes(search)
-        )
-      ){
-        return;
-      }
-
-      if(!cats[spec.category]){
-        cats[spec.category]=[];
-      }
-
-      cats[spec.category].push(
-        [type,spec]
-      );
+  if(!pumps.length){
+    results.push({
+      type:"bad",
+      text:"No pump detected."
     });
-
-  let html="";
-
-  for(
-    const [category,items]
-    of Object.entries(cats)
-  ){
-
-    html+=`
-      <div class="category">
-        <div class="categoryTitle">
-          ${category}
-        </div>
-    `;
-
-    for(
-      const [type,spec]
-      of items
-    ){
-
-      html+=`
-
-        <button
-          class="componentItem"
-          onclick="addComponent('${type}')"
-        >
-
-          <div class="componentIcon">
-            ${spec.icon}
-          </div>
-
-          <div class="componentInfo">
-            <strong>
-              ${escapeHtml(spec.name)}
-            </strong>
-
-            <span>
-              ${spec.ports.join(" • ")}
-            </span>
-          </div>
-
-        </button>
-      `;
-    }
-
-    html+="</div>";
   }
 
-  box.innerHTML=
-    html ||
-    `<div class="emptyState">
-      No components found.
-    </div>`;
+  if(!tanks.length){
+    results.push({
+      type:"bad",
+      text:"No hydraulic tank detected."
+    });
+  }
+
+  if(pumps.length && !tanks.length){
+    results.push({
+      type:"bad",
+      text:"Pump has no visible reservoir."
+    });
+  }
+
+  if(!components.length){
+    results.push({
+      type:"warn",
+      text:"Circuit is empty."
+    });
+  }
+
+  if(pumps.length && cylinders.length){
+
+    const flow=getSystemFlow();
+
+    if(flow<1){
+
+      results.push({
+        type:"bad",
+        text:"Very low flow. Check pump, valve position and restrictions."
+      });
+    }
+  }
+
+  if(relief){
+
+    const pressure=getSystemPressureRaw();
+
+    if(pressure>=relief.properties.setting*.98){
+
+      results.push({
+        type:"warn",
+        text:"System pressure is approaching relief setting."
+      });
+    }
+  }
+
+  components.forEach(c=>{
+
+    if(hasFault(c.id,"pumpWear")){
+      results.push({
+        type:"warn",
+        text:`${componentName(c.type)}: pump wear fault active.`
+      });
+    }
+
+    if(hasFault(c.id,"blockedFilter")){
+      results.push({
+        type:"bad",
+        text:`${componentName(c.type)}: blocked filter fault active.`
+      });
+    }
+
+    if(hasFault(c.id,"cylinderLeakage")){
+      results.push({
+        type:"warn",
+        text:`${componentName(c.type)}: internal leakage fault active.`
+      });
+    }
+
+    if(hasFault(c.id,"valveStuck")){
+      results.push({
+        type:"bad",
+        text:`${componentName(c.type)}: valve stuck fault active.`
+      });
+    }
+  });
+
+  if(!results.length){
+
+    results.push({
+      type:"good",
+      text:"No major diagnostic faults detected."
+    });
+  }
+
+  return results;
+}
+
+function renderDiagnosticsHTML(){
+
+  return diagnostics().map(r=>
+    `<div class="diagnostic ${r.type}">${r.text}</div>`
+  ).join("");
+}
+
+function runDiagnostics(){
+
+  const results=diagnostics();
+
+  const message=results
+    .map(r=>
+      (r.type==="bad"?"❌ ":
+       r.type==="warn"?"⚠️ ":"✅ ")+
+      r.text
+    )
+    .join("\n");
+
+  alert(
+    "HYDRAULIC STUDIO DIAGNOSTICS\n\n"+
+    message
+  );
+
+  if(window.innerWidth<=850){
+
+    if(mobileTab==="monitor"){
+      renderMobileSheet();
+    }else{
+      setMobileTab("monitor");
+    }
+  }
 }
 
 /* =========================================================
-   TOAST
+   EXAMPLE CIRCUIT
 ========================================================= */
 
-let toastTimer=null;
+function loadExample(){
 
-function showToast(text){
+  pushHistory();
 
-  const t=
-    document.getElementById("toast");
+  components=[];
+  connections=[];
 
-  t.textContent=text;
+  const add=(type,x,y,props={})=>{
 
-  t.classList.add("show");
+    const c={
+      id:uid(),
+      type,
+      x,
+      y,
+      rotation:0,
+      properties:{
+        ...clone(componentDefs[type].defaults),
+        ...props
+      }
+    };
 
-  clearTimeout(toastTimer);
+    components.push(c);
 
-  toastTimer=setTimeout(
-    ()=>t.classList.remove("show"),
-    1800
+    return c;
+  };
+
+  const tank=add("tank",120,430);
+
+  const pump=add(
+    "variablePump",
+    270,
+    430,
+    {
+      displacement:32,
+      rpm:1450,
+      swash:75,
+      compensator:250
+    }
   );
+
+  const filter=add("filter",420,430);
+
+  const valve=add(
+    "valve43",
+    590,
+    430,
+    {
+      position:"extend",
+      centre:"closed",
+      flowRating:120
+    }
+  );
+
+  const cylinder=add(
+    "cylinder",
+    800,
+    360,
+    {
+      bore:100,
+      rod:50,
+      stroke:500,
+      load:50000,
+      friction:1500,
+      position:100
+    }
+  );
+
+  const relief=add(
+    "relief",
+    590,
+    580,
+    {
+      setting:210
+    }
+  );
+
+  const gauge=add("gauge",430,300);
+
+  const flowmeter=add("flowmeter",690,300);
+
+  connections=[
+    wire(tank,"T",pump.id,"IN"),
+    wire(pump,"OUT",filter.id,"IN"),
+    wire(filter,"OUT",valve.id,"P"),
+    wire(valve,"A",cylinder.id,"A"),
+    wire(cylinder,"B",valve.id,"B"),
+    wire(valve,"T",tank.id,"T"),
+    wire(pump,"OUT",relief.id,"P"),
+    wire(relief,"T",tank.id,"T"),
+    wire(pump,"OUT",gauge.id,"P"),
+    wire(valve,"A",flowmeter.id,"IN"),
+    wire(flowmeter.id,"OUT",cylinder.id,"A")
+  ];
+
+  /*
+    Remove duplicate accidental flowmeter/cylinder wire.
+  */
+  connections=connections.filter((w,i,a)=>
+    i===a.findIndex(x=>
+      JSON.stringify(x.a)===JSON.stringify(w.a) &&
+      JSON.stringify(x.b)===JSON.stringify(w.b)
+    )
+  );
+
+  selectedId=valve.id;
+
+  fitCircuit();
+  render();
+
+  toast("Example hydraulic circuit loaded");
+}
+
+function wire(a,ap,b,bp){
+
+  const aid=
+    typeof a==="string"
+    ?a
+    :a.id;
+
+  const bid=
+    typeof b==="string"
+    ?b
+    :b.id;
+
+  return {
+    id:uid("w"),
+    a:{
+      component:aid,
+      port:ap
+    },
+    b:{
+      component:bid,
+      port:bp
+    }
+  };
+}
+
+/* =========================================================
+   SAVE / LOAD
+========================================================= */
+
+function projectData(){
+
+  return {
+    version:4,
+    name:"Hydraulic Studio Project",
+    components,
+    connections,
+    faults,
+    view:{
+      zoom,
+      panX,
+      panY
+    }
+  };
+}
+
+function saveProject(){
+
+  const data=JSON.stringify(
+    projectData(),
+    null,
+    2
+  );
+
+  localStorage.setItem(
+    "hydraulicStudioProject",
+    data
+  );
+
+  document.getElementById("projectText").value=data;
+
+  toast("Project saved");
+
+  /*
+    Also provide a downloadable JSON file on desktop.
+  */
+  if(window.innerWidth>850){
+
+    const blob=new Blob(
+      [data],
+      {type:"application/json"}
+    );
+
+    const url=URL.createObjectURL(blob);
+
+    const a=document.createElement("a");
+
+    a.href=url;
+    a.download="hydraulic-studio-project.json";
+
+    a.click();
+
+    URL.revokeObjectURL(url);
+  }
+}
+
+function loadProject(){
+
+  const saved=
+    localStorage.getItem(
+      "hydraulicStudioProject"
+    );
+
+  if(saved){
+
+    try{
+
+      importData(JSON.parse(saved));
+
+      toast("Saved project loaded");
+
+      return;
+
+    }catch(e){}
+  }
+
+  document.getElementById("projectText").value="";
+
+  document.getElementById("modal")
+    .classList.add("open");
+}
+
+function importProject(){
+
+  const text=
+    document.getElementById("projectText").value;
+
+  try{
+
+    importData(JSON.parse(text));
+
+    closeModal();
+
+    toast("Project imported");
+
+  }catch(e){
+
+    alert("Invalid project JSON.");
+  }
+}
+
+function importData(data){
+
+  pushHistory();
+
+  components=clone(data.components||[]);
+  connections=clone(data.connections||[]);
+  faults=clone(data.faults||{});
+
+  if(data.view){
+
+    zoom=data.view.zoom||1;
+    panX=data.view.panX||0;
+    panY=data.view.panY||0;
+  }
+
+  selectedId=null;
+
+  render();
+}
+
+function closeModal(){
+
+  document.getElementById("modal")
+    .classList.remove("open");
+}
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function updateStatus(){
+
+  const status=document.getElementById("statusText");
+  const metrics=document.getElementById("statusMetrics");
+
+  if(status){
+
+    status.textContent=
+      simulationRunning
+      ?"Simulation running"
+      :"Ready";
+  }
+
+  if(metrics){
+
+    metrics.textContent=
+      `${components.length} components • ${connections.length} connections`;
+  }
+
+  updateSelectedBadge();
+  updateSimulationUI();
 }
 
 /* =========================================================
@@ -5958,44 +3617,25 @@ function showToast(text){
 
 document.addEventListener("keydown",e=>{
 
-  if(
-    e.key==="Delete"||
-    e.key==="Backspace"
-  ){
-
-    const active=
-      document.activeElement;
-
-    if(
-      active &&
-      (
-        active.tagName==="INPUT"||
-        active.tagName==="SELECT"||
-        active.tagName==="TEXTAREA"
-      )
-    ){
-      return;
-    }
-
-    deleteSelected();
-  }
+  const tag=e.target.tagName;
 
   if(
-    (e.ctrlKey||e.metaKey)&&
+    tag==="INPUT"||
+    tag==="TEXTAREA"||
+    tag==="SELECT"
+  ) return;
+
+  if(
+    (e.ctrlKey||e.metaKey) &&
     e.key.toLowerCase()==="z"
   ){
 
     e.preventDefault();
-
-    if(e.shiftKey){
-      redo();
-    }else{
-      undo();
-    }
+    undo();
   }
 
   if(
-    (e.ctrlKey||e.metaKey)&&
+    (e.ctrlKey||e.metaKey) &&
     e.key.toLowerCase()==="y"
   ){
 
@@ -6004,9 +3644,14 @@ document.addEventListener("keydown",e=>{
   }
 
   if(
-    e.code==="Space" &&
-    document.activeElement.tagName!=="INPUT"
+    e.key==="Delete"||
+    e.key==="Backspace"
   ){
+
+    deleteSelected();
+  }
+
+  if(e.code==="Space"){
 
     e.preventDefault();
     toggleSimulation();
@@ -6014,91 +3659,156 @@ document.addEventListener("keydown",e=>{
 
   if(e.key==="Escape"){
     cancelConnection();
-    closeMenu();
+    closeMobileSheet();
   }
 });
 
 /* =========================================================
-   RESPONSIVE
+   CANVAS BACKGROUND
 ========================================================= */
 
-window.addEventListener(
-  "resize",
-  ()=>{
-    render();
+svg.addEventListener("click",e=>{
+
+  if(e.target===svg){
+
+    selectedId=null;
+
+    renderInspector();
+    updateSelectedBadge();
   }
-);
+});
 
 /* =========================================================
-   MOBILE SWIPE / SHEET CLOSE
+   BASIC TWO-FINGER PINCH ZOOM
 ========================================================= */
 
-let sheetTouchStartY=null;
+let touches=[];
 
-document
-  .getElementById("mobileSheet")
-  .addEventListener(
-    "touchstart",
-    e=>{
-      sheetTouchStartY=
-        e.touches[0].clientY;
-    },
-    {passive:true}
+svg.addEventListener("touchstart",e=>{
+
+  if(e.touches.length===2){
+
+    touches=[
+      {
+        x:e.touches[0].clientX,
+        y:e.touches[0].clientY
+      },
+      {
+        x:e.touches[1].clientX,
+        y:e.touches[1].clientY
+      }
+    ];
+  }
+},{passive:false});
+
+svg.addEventListener("touchmove",e=>{
+
+  if(e.touches.length!==2) return;
+
+  e.preventDefault();
+
+  const a=e.touches[0];
+  const b=e.touches[1];
+
+  const dx=a.clientX-b.clientX;
+  const dy=a.clientY-b.clientY;
+
+  const distance=Math.sqrt(
+    dx*dx+dy*dy
   );
 
-document
-  .getElementById("mobileSheet")
-  .addEventListener(
-    "touchend",
-    e=>{
+  if(!window.lastPinchDistance){
+    window.lastPinchDistance=distance;
+    return;
+  }
 
-      if(sheetTouchStartY===null) return;
+  const delta=distance-window.lastPinchDistance;
 
-      const y=e.changedTouches[0].clientY;
+  if(Math.abs(delta)>1){
 
-      if(
-        y-sheetTouchStartY>70
-      ){
-        closeMobileSheet();
+    zoom=clamp(
+      zoom*(1+delta*.002),
+      .35,
+      3
+    );
+
+    renderCanvas();
+  }
+
+  window.lastPinchDistance=distance;
+
+},{passive:false});
+
+svg.addEventListener("touchend",()=>{
+
+  window.lastPinchDistance=null;
+
+},{passive:false});
+
+/* =========================================================
+   RESIZE
+========================================================= */
+
+window.addEventListener("resize",()=>{
+
+  renderCanvas();
+
+  if(window.innerWidth<=850){
+    renderMobileSheet();
+  }
+});
+
+/* =========================================================
+   START
+========================================================= */
+
+function init(){
+
+  render();
+
+  /*
+    Start animation loop once so live values update
+    without forcing the simulation to run.
+  */
+  animationFrame=requestAnimationFrame(simulationLoop);
+
+  /*
+    Load saved project automatically if available.
+  */
+  const saved=
+    localStorage.getItem(
+      "hydraulicStudioProject"
+    );
+
+  if(saved){
+
+    try{
+
+      const data=JSON.parse(saved);
+
+      components=clone(data.components||[]);
+      connections=clone(data.connections||[]);
+      faults=clone(data.faults||{});
+
+      if(data.view){
+
+        zoom=data.view.zoom||1;
+        panX=data.view.panX||0;
+        panY=data.view.panY||0;
       }
 
-      sheetTouchStartY=null;
-    },
-    {passive:true}
-  );
+      render();
 
-/* =========================================================
-   INITIALISE
-========================================================= */
+    }catch(e){}
+  }
 
-drawGrid();
-
-renderLibrary();
-
-loadExample();
-
-updateRunButton();
-
-requestAnimationFrame(
-  simulationLoop
-);
-
-/* Start with clean desktop view / closed mobile sheet */
-
-if(window.innerWidth<=850){
-
-  closeMobileSheet();
-
-  mobileTab="components";
-
-  updateMobileNav();
-
-}else{
-
-  fitView();
+  updateSimulationUI();
 }
+
+init();
 
 </script>
 
 </body>
 </html>
+```
