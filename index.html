@@ -10,7 +10,15 @@
 
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:Arial,Helvetica,sans-serif;background:#0b1020;color:#e5e7eb}
+html,body{
+ margin:0;
+ width:100%;
+ height:100%;
+ overflow:hidden;
+ font-family:Arial,Helvetica,sans-serif;
+ background:#0b1020;
+ color:#e5e7eb;
+}
 button,input,select{font:inherit}
 button{cursor:pointer}
 
@@ -51,7 +59,10 @@ button{cursor:pointer}
  font-weight:600;
 }
 .topBtn:hover{background:#293548}
-.topBtn.active{background:#2563eb;border-color:#3b82f6}
+.topBtn.active{
+ background:#2563eb;
+ border-color:#3b82f6;
+}
 
 #modeSwitch{
  display:flex;
@@ -225,7 +236,8 @@ button{cursor:pointer}
  color:#94a3b8;
 }
 
-.field input,.field select{
+.field input,
+.field select{
  width:100%;
  height:34px;
  background:#0b1220;
@@ -268,16 +280,23 @@ button{cursor:pointer}
  color:#94a3b8;
  font-size:11px;
  margin-left:auto;
+ white-space:nowrap;
 }
 
-#mobileLibrary,#mobileInspector{
+#mobileLibrary,
+#mobileInspector{
  display:none;
 }
 
 @media(max-width:900px){
- #library{display:none}
- #rightPanel{display:none}
- #mobileLibrary,#mobileInspector{
+
+ #library,
+ #rightPanel{
+  display:none;
+ }
+
+ #mobileLibrary,
+ #mobileInspector{
   display:block;
   position:absolute;
   top:8px;
@@ -289,14 +308,25 @@ button{cursor:pointer}
   background:#111827;
   color:#fff;
  }
+
  #mobileLibrary{left:8px}
  #mobileInspector{right:8px}
+
  #bottom{
   overflow-x:auto;
  }
- #bottom .status{display:none}
- .logo{font-size:14px}
- .topBtn{padding:0 9px}
+
+ #bottom .status{
+  display:none;
+ }
+
+ .logo{
+  font-size:14px;
+ }
+
+ .topBtn{
+  padding:0 9px;
+ }
 }
 
 #mobileDrawer{
@@ -311,7 +341,11 @@ button{cursor:pointer}
  border-right:1px solid #334155;
  box-shadow:10px 0 30px #0008;
 }
-#mobileDrawer.open{display:flex;flex-direction:column}
+
+#mobileDrawer.open{
+ display:flex;
+ flex-direction:column;
+}
 
 #mobileInspectorDrawer{
  display:none;
@@ -326,7 +360,10 @@ button{cursor:pointer}
  box-shadow:-10px 0 30px #0008;
  overflow:auto;
 }
-#mobileInspectorDrawer.open{display:block}
+
+#mobileInspectorDrawer.open{
+ display:block;
+}
 
 .drawerClose{
  margin:8px;
@@ -335,15 +372,6 @@ button{cursor:pointer}
  background:#1f2937;
  color:#fff;
  border-radius:6px;
-}
-
-.badge{
- display:inline-block;
- font-size:9px;
- padding:3px 6px;
- border-radius:4px;
- background:#1e3a8a;
- color:#bfdbfe;
 }
 
 #valveModal{
@@ -356,7 +384,10 @@ button{cursor:pointer}
  justify-content:center;
  padding:20px;
 }
-#valveModal.open{display:flex}
+
+#valveModal.open{
+ display:flex;
+}
 
 .modal{
  width:min(480px,100%);
@@ -369,13 +400,16 @@ button{cursor:pointer}
  box-shadow:0 20px 60px #000;
 }
 
-.modal h2{margin:0 0 14px}
+.modal h2{
+ margin:0 0 14px;
+}
 
 .modalActions{
  display:flex;
  gap:8px;
  margin-top:15px;
 }
+
 .modalActions button{
  flex:1;
  height:40px;
@@ -384,6 +418,7 @@ button{cursor:pointer}
  background:#1f2937;
  color:#fff;
 }
+
 .modalActions .primary{
  background:#2563eb;
  border-color:#3b82f6;
@@ -414,6 +449,7 @@ svg text{
  stroke:#d7dce2;
  stroke-width:1;
 }
+
 .gridMajor{
  stroke:#c4cad2;
  stroke-width:1.2;
@@ -425,6 +461,7 @@ svg text{
  stroke-linejoin:round;
  pointer-events:stroke;
 }
+
 .connection.soft{stroke:#0ea5e9}
 .connection.hard{stroke:#475569}
 .connection.steel{stroke:#64748b}
@@ -445,6 +482,7 @@ svg text{
  stroke:#111827;
  stroke-width:2;
 }
+
 .componentSelected .componentBody{
  stroke:#2563eb;
  stroke-width:3;
@@ -454,10 +492,13 @@ svg text{
  fill:#fff;
  stroke:#111827;
  stroke-width:2;
+ cursor:pointer;
 }
+
 .port:hover{
  fill:#fbbf24;
 }
+
 .port.active{
  fill:#22c55e;
  stroke:#166534;
@@ -486,7 +527,7 @@ svg text{
  stroke:#f97316 !important;
  stroke-width:5 !important;
  stroke-dasharray:10 8;
- animation:flow 0.7s linear infinite;
+ animation:flow .7s linear infinite;
 }
 
 @keyframes flow{
@@ -504,12 +545,15 @@ svg text{
  transform-origin:center;
  animation:spin .8s linear infinite;
 }
-@keyframes spin{to{transform:rotate(360deg)}}
 
 .motorSpin{
  transform-box:fill-box;
  transform-origin:center;
  animation:spin .5s linear infinite;
+}
+
+@keyframes spin{
+ to{transform:rotate(360deg)}
 }
 
 #selectionInfo{
@@ -526,6 +570,7 @@ svg text{
  font-size:10px;
  font-weight:800;
 }
+
 #simBadge.running{
  background:#166534;
  color:#dcfce7;
@@ -534,9 +579,11 @@ svg text{
 </head>
 
 <body>
+
 <div id="app">
 
 <header id="topbar">
+
  <div class="logo">⚙ Hydraulic Studio</div>
 
  <button class="topBtn" id="undoBtn">↶</button>
@@ -552,136 +599,245 @@ svg text{
   <button class="active" data-mode="hydraulic">Hydraulic</button>
   <button data-mode="pneumatic">Pneumatic</button>
  </div>
+
 </header>
 
 <div id="workspace">
 
- <aside id="library">
-  <div class="panelTitle">Component Library</div>
-  <input id="search" placeholder="Search components...">
-  <div id="libraryScroll"></div>
- </aside>
+<aside id="library">
 
- <main id="main">
+ <div class="panelTitle">Component Library</div>
 
-  <button id="mobileLibrary">☰</button>
-  <button id="mobileInspector">☷</button>
+ <input id="search" placeholder="Search components...">
 
-  <svg id="canvas">
-   <defs>
-    <pattern id="gridSmall" width="20" height="20" patternUnits="userSpaceOnUse">
-     <path d="M20 0H0V20" fill="none" class="gridLine"/>
-    </pattern>
-    <pattern id="gridLarge" width="100" height="100" patternUnits="userSpaceOnUse">
-     <rect width="100" height="100" fill="url(#gridSmall)"/>
-     <path d="M100 0H0V100" fill="none" class="gridMajor"/>
-    </pattern>
-   </defs>
+ <div id="libraryScroll"></div>
 
-   <rect id="background" x="-100000" y="-100000" width="200000" height="200000" fill="url(#gridLarge)"/>
-   <g id="world"></g>
-  </svg>
+</aside>
 
- </main>
+<main id="main">
 
- <aside id="rightPanel">
-  <div class="panelTitle">Engineering Inspector</div>
-  <div class="inspector" id="inspector">
-   <div class="section">
-    <h3>Selection</h3>
-    <div id="selectionInfo">Select a component, port or hose.</div>
+ <button id="mobileLibrary">☰</button>
+ <button id="mobileInspector">☷</button>
+
+ <svg id="canvas">
+
+  <defs>
+
+   <pattern id="gridSmall"
+            width="20"
+            height="20"
+            patternUnits="userSpaceOnUse">
+
+    <path d="M20 0H0V20"
+          fill="none"
+          class="gridLine"/>
+
+   </pattern>
+
+   <pattern id="gridLarge"
+            width="100"
+            height="100"
+            patternUnits="userSpaceOnUse">
+
+    <rect width="100"
+          height="100"
+          fill="url(#gridSmall)"/>
+
+    <path d="M100 0H0V100"
+          fill="none"
+          class="gridMajor"/>
+
+   </pattern>
+
+  </defs>
+
+  <rect id="background"
+        x="-100000"
+        y="-100000"
+        width="200000"
+        height="200000"
+        fill="url(#gridLarge)"/>
+
+  <g id="world"></g>
+
+ </svg>
+
+</main>
+
+<aside id="rightPanel">
+
+ <div class="panelTitle">Engineering Inspector</div>
+
+ <div class="inspector" id="inspector">
+
+  <div class="section">
+
+   <h3>Selection</h3>
+
+   <div id="selectionInfo">
+    Select a component, port or hose.
    </div>
+
   </div>
- </aside>
+
+ </div>
+
+</aside>
 
 </div>
 
 <footer id="bottom">
+
  <button class="topBtn active" id="selectTool">Select</button>
  <button class="topBtn" id="hoseTool">Hose</button>
  <button class="topBtn" id="pipeTool">Hard Pipe</button>
  <button class="topBtn" id="deleteTool">Delete</button>
  <button class="topBtn" id="rotateTool">Rotate</button>
  <button class="topBtn" id="simBtn">▶ Simulate</button>
+
  <span id="simBadge">STOPPED</span>
- <span class="status" id="status">0 components · 0 connections</span>
+
+ <span class="status" id="status">
+  0 components · 0 connections
+ </span>
+
 </footer>
 
+</div>
+
 <div id="mobileDrawer">
- <button class="drawerClose" id="closeLibrary">Close Library</button>
- <input id="mobileSearch" class="search" style="margin:0 10px 10px;height:38px;background:#0b1220;border:1px solid #334155;border-radius:6px;color:white;padding:0 10px" placeholder="Search components...">
- <div id="mobileLibraryScroll" style="overflow:auto;padding:4px 8px 16px"></div>
+
+ <button class="drawerClose" id="closeLibrary">
+  Close Library
+ </button>
+
+ <input
+  id="mobileSearch"
+  style="margin:0 10px 10px;height:38px;background:#0b1220;border:1px solid #334155;border-radius:6px;color:white;padding:0 10px"
+  placeholder="Search components..."
+ >
+
+ <div
+  id="mobileLibraryScroll"
+  style="overflow:auto;padding:4px 8px 16px">
+ </div>
+
 </div>
 
 <div id="mobileInspectorDrawer">
- <button class="drawerClose" id="closeInspector">Close</button>
- <div class="inspector" id="mobileInspectorContent"></div>
+
+ <button class="drawerClose" id="closeInspector">
+  Close
+ </button>
+
+ <div
+  class="inspector"
+  id="mobileInspectorContent">
+ </div>
+
 </div>
 
 <div id="valveModal">
+
  <div class="modal">
+
   <h2>Directional Valve Builder</h2>
 
   <div class="row">
+
    <div class="field">
+
     <label>Valve</label>
+
     <select id="vType">
+
      <option value="4/2">4/2</option>
      <option value="4/3">4/3</option>
      <option value="3/2">3/2</option>
      <option value="5/2">5/2</option>
      <option value="2/2">2/2</option>
+
     </select>
+
    </div>
 
    <div class="field">
+
     <label>Centre</label>
+
     <select id="vCentre">
+
      <option value="closed">Closed</option>
      <option value="open">Open</option>
      <option value="tandem">Tandem</option>
      <option value="float">Float</option>
      <option value="pt">P→T</option>
      <option value="ab">A/B→T</option>
+
     </select>
+
    </div>
+
   </div>
 
   <div class="row">
+
    <div class="field">
+
     <label>Actuation</label>
+
     <select id="vActuation">
+
      <option>Lever</option>
      <option>Solenoid</option>
      <option>Push Button</option>
      <option>Pilot</option>
      <option>Pedal</option>
+
     </select>
+
    </div>
 
    <div class="field">
+
     <label>Spring Return</label>
+
     <select id="vSpring">
+
      <option value="yes">Yes</option>
      <option value="no">No</option>
+
     </select>
+
    </div>
+
   </div>
 
   <div class="field full">
+
    <label>Valve position</label>
+
    <select id="vPosition">
+
     <option value="left">Left</option>
     <option value="centre">Centre</option>
     <option value="right">Right</option>
+
    </select>
+
   </div>
 
   <div class="modalActions">
+
    <button id="cancelValve">Cancel</button>
-   <button class="primary" id="createValve">Create Valve</button>
+   <button class="primary" id="createValve">
+    Create Valve
+   </button>
+
   </div>
+
  </div>
+
 </div>
 
 <div id="toast"></div>
@@ -691,35 +847,53 @@ svg text{
 
 /* ============================================================
    HYDRAULIC STUDIO
-   Single-file engineering schematic editor
+   Clean single-file editor
    ============================================================ */
 
-const svg = document.getElementById("canvas");
-const world = document.getElementById("world");
-const background = document.getElementById("background");
+const svg=document.getElementById("canvas");
+const world=document.getElementById("world");
+const background=document.getElementById("background");
 
-const state = {
+const state={
  mode:"hydraulic",
+
  components:[],
  connections:[],
+
  selected:null,
  selectedConnection:null,
+
  tool:"select",
+
  running:false,
+
  grid:true,
+
  nextId:1,
+
  history:[],
  future:[],
+
  hoseStart:null,
- pointerMap:new Map(),
+
  drag:null,
  pan:null,
- camera:{x:0,y:0,zoom:1},
+
+ camera:{
+  x:0,
+  y:0,
+  zoom:1
+ },
+
  simTime:0,
  lastTime:0
 };
 
-const COMPONENTS = [
+/* ============================================================
+   COMPONENT LIBRARY
+   ============================================================ */
+
+const COMPONENTS=[
 
  {
   category:"Hydraulic Sources",
@@ -816,15 +990,15 @@ const COMPONENTS = [
 ];
 
 /* ============================================================
-   BASIC HELPERS
+   HELPERS
    ============================================================ */
 
 function uid(prefix="C"){
- return prefix + (state.nextId++);
+ return prefix+(state.nextId++);
 }
 
-function clamp(v,a,b){
- return Math.max(a,Math.min(b,v));
+function clamp(v,min,max){
+ return Math.max(min,Math.min(max,v));
 }
 
 function snap(v){
@@ -832,62 +1006,89 @@ function snap(v){
  return Math.round(v/20)*20;
 }
 
-function toast(msg){
- const t=document.getElementById("toast");
- t.textContent=msg;
- t.style.display="block";
- clearTimeout(toast.timer);
- toast.timer=setTimeout(()=>t.style.display="none",1800);
-}
-
 function clone(obj){
  return JSON.parse(JSON.stringify(obj));
 }
 
 function findComponent(id){
- return state.components.find(c=>c.id===id);
+ return state.components.find(c=>c.id===id)||null;
+}
+
+function toast(message){
+
+ const box=document.getElementById("toast");
+
+ box.textContent=message;
+ box.style.display="block";
+
+ clearTimeout(toast.timer);
+
+ toast.timer=setTimeout(()=>{
+  box.style.display="none";
+ },1800);
+}
+
+function escapeAttr(value){
+
+ return String(value)
+  .replace(/&/g,"&amp;")
+  .replace(/"/g,"&quot;")
+  .replace(/</g,"&lt;")
+  .replace(/>/g,"&gt;");
 }
 
 function componentTypeName(type){
- const map={
+
+ const names={
+
   pump:"Fixed Pump",
   pumpVariable:"Variable Pump",
   reservoir:"Reservoir",
   accumulator:"Accumulator",
+
   cylinder:"Double Cylinder",
   singleCylinder:"Single Cylinder",
   motor:"Hydraulic Motor",
+
   directional:"Directional Valve",
   check:"Check Valve",
   pilotCheck:"Pilot Check",
   shuttle:"Shuttle Valve",
   sequence:"Sequence Valve",
-  counterbalance:"Counterbalance",
+  counterbalance:"Counterbalance Valve",
+
   relief:"Relief Valve",
   reducing:"Reducing Valve",
   flow:"Flow Control",
   needle:"Needle Valve",
+
   gauge:"Pressure Gauge",
   flowmeter:"Flow Meter",
+
   filter:"Filter",
   strainer:"Strainer",
   cooler:"Cooler",
   heater:"Heater",
+
   compressor:"Compressor",
   airTank:"Air Receiver",
   frl:"FRL",
+
   airCylinder:"Pneumatic Cylinder",
   airMotor:"Pneumatic Motor",
+
   pneumaticValve:"Pneumatic Valve",
   airCheck:"Air Check",
   airFlow:"Air Flow Control",
   airRelief:"Air Relief",
+
   pressureSwitch:"Pressure Switch",
   tempSensor:"Temperature Sensor",
   limitSwitch:"Limit Switch",
   proximity:"Proximity Sensor"
  };
- return map[type]||type;
+
+ return names[type]||type;
 }
 
 /* ============================================================
@@ -895,61 +1096,95 @@ function componentTypeName(type){
    ============================================================ */
 
 function worldToScreen(x,y){
- return {
+
+ return{
   x:x*state.camera.zoom+state.camera.x,
   y:y*state.camera.zoom+state.camera.y
  };
 }
 
-function screenToWorld(x,y){
- const r=svg.getBoundingClientRect();
- return {
-  x:(x-r.left-state.camera.x)/state.camera.zoom,
-  y:(y-r.top-state.camera.y)/state.camera.zoom
+function screenToWorld(clientX,clientY){
+
+ const rect=svg.getBoundingClientRect();
+
+ return{
+  x:(clientX-rect.left-state.camera.x)/state.camera.zoom,
+  y:(clientY-rect.top-state.camera.y)/state.camera.zoom
  };
 }
 
 function applyCamera(){
- const z=state.camera.zoom;
- background.setAttribute("transform",`translate(${state.camera.x} ${state.camera.y}) scale(${z})`);
- world.setAttribute("transform",`translate(${state.camera.x} ${state.camera.y}) scale(${z})`);
+
+ const transform=
+  `translate(${state.camera.x} ${state.camera.y}) scale(${state.camera.zoom})`;
+
+ background.setAttribute(
+  "transform",
+  transform
+ );
+
+ world.setAttribute(
+  "transform",
+  transform
+ );
 }
 
 function fitView(){
+
  if(!state.components.length){
-  state.camera={x:svg.clientWidth/2,y:svg.clientHeight/2,zoom:1};
+
+  state.camera={
+   x:svg.clientWidth/2,
+   y:svg.clientHeight/2,
+   zoom:1
+  };
+
   applyCamera();
+  render();
+
   return;
  }
 
- let minX=Infinity,minY=Infinity,maxX=-Infinity,maxY=-Infinity;
+ let minX=Infinity;
+ let minY=Infinity;
+ let maxX=-Infinity;
+ let maxY=-Infinity;
 
  state.components.forEach(c=>{
-  minX=Math.min(minX,c.x-100);
-  minY=Math.min(minY,c.y-70);
-  maxX=Math.max(maxX,c.x+100);
-  maxY=Math.max(maxY,c.y+70);
+
+  minX=Math.min(minX,c.x-120);
+  minY=Math.min(minY,c.y-100);
+
+  maxX=Math.max(maxX,c.x+120);
+  maxY=Math.max(maxY,c.y+100);
+
  });
 
- const w=Math.max(300,maxX-minX);
- const h=Math.max(200,maxY-minY);
+ const width=Math.max(300,maxX-minX);
+ const height=Math.max(200,maxY-minY);
 
- const z=Math.min(
-  svg.clientWidth/(w+80),
-  svg.clientHeight/(h+80),
+ const zoom=Math.min(
+  svg.clientWidth/(width+80),
+  svg.clientHeight/(height+80),
   1.4
  );
 
- state.camera.zoom=clamp(z,.35,1.8);
- state.camera.x=svg.clientWidth/2-(minX+w/2)*state.camera.zoom;
- state.camera.y=svg.clientHeight/2-(minY+h/2)*state.camera.zoom;
+ state.camera.zoom=clamp(zoom,.3,2);
+
+ state.camera.x=
+  svg.clientWidth/2-
+  (minX+width/2)*state.camera.zoom;
+
+ state.camera.y=
+  svg.clientHeight/2-
+  (minY+height/2)*state.camera.zoom;
 
  applyCamera();
  render();
 }
 
 /* ============================================================
-   PORT SYSTEM
+   PORTS
    ============================================================ */
 
 function portDefs(c){
@@ -959,44 +1194,46 @@ function portDefs(c){
   case "pump":
   case "pumpVariable":
   case "compressor":
-   return [
-    {id:"OUT",x:90,y:0,dir:"out"},
-    {id:"IN",x:-90,y:0,dir:"in"}
+
+   return[
+    {id:"IN",x:-90,y:0,dir:"inout"},
+    {id:"OUT",x:90,y:0,dir:"out"}
    ];
 
   case "reservoir":
   case "airTank":
-   return [
-    {id:"P",x:0,y:-55,dir:"inout"}
-   ];
-
   case "accumulator":
-   return [
+
+   return[
     {id:"P",x:0,y:-55,dir:"inout"}
    ];
 
   case "cylinder":
   case "airCylinder":
-   return [
+
+   return[
     {id:"A",x:-90,y:0,dir:"inout"},
     {id:"B",x:90,y:0,dir:"inout"}
    ];
 
   case "singleCylinder":
-   return [
+
+   return[
     {id:"A",x:-90,y:0,dir:"inout"}
    ];
 
   case "motor":
   case "airMotor":
-   return [
+
+   return[
     {id:"A",x:-75,y:0,dir:"inout"},
     {id:"B",x:75,y:0,dir:"inout"}
    ];
 
   case "directional":
   case "pneumaticValve":
-   return [
+
+   return[
     {id:"P",x:-90,y:0,dir:"inout"},
     {id:"T",x:90,y:0,dir:"inout"},
     {id:"A",x:0,y:-75,dir:"inout"},
@@ -1019,7 +1256,8 @@ function portDefs(c){
   case "strainer":
   case "cooler":
   case "heater":
-   return [
+
+   return[
     {id:"A",x:-65,y:0,dir:"inout"},
     {id:"B",x:65,y:0,dir:"inout"}
    ];
@@ -1030,18 +1268,21 @@ function portDefs(c){
   case "tempSensor":
   case "limitSwitch":
   case "proximity":
-   return [
+
+   return[
     {id:"P",x:0,y:50,dir:"inout"}
    ];
 
   case "frl":
-   return [
-    {id:"IN",x:-80,y:0,dir:"in"},
+
+   return[
+    {id:"IN",x:-80,y:0,dir:"inout"},
     {id:"OUT",x:80,y:0,dir:"out"}
    ];
 
   default:
-   return [
+
+   return[
     {id:"A",x:-60,y:0,dir:"inout"},
     {id:"B",x:60,y:0,dir:"inout"}
    ];
@@ -1056,11 +1297,17 @@ function transformPort(c,p){
  if(c.flipX)x=-x;
  if(c.flipY)y=-y;
 
- const a=(c.rotation||0)*Math.PI/180;
- const rx=x*Math.cos(a)-y*Math.sin(a);
- const ry=x*Math.sin(a)+y*Math.cos(a);
+ const angle=(c.rotation||0)*Math.PI/180;
 
- return {
+ const rx=
+  x*Math.cos(angle)-
+  y*Math.sin(angle);
+
+ const ry=
+  x*Math.sin(angle)+
+  y*Math.cos(angle);
+
+ return{
   x:c.x+rx,
   y:c.y+ry,
   id:p.id,
@@ -1069,85 +1316,147 @@ function transformPort(c,p){
 }
 
 function getPort(c,id){
+
  const p=portDefs(c).find(x=>x.id===id);
+
  return p?transformPort(c,p):null;
 }
 
-function nearestPort(worldPos,maxDist=28){
+function nearestPort(worldPos,maxDistance=30){
+
  let best=null;
- let bd=maxDist;
+ let bestDistance=maxDistance;
 
  state.components.forEach(c=>{
+
   portDefs(c).forEach(p=>{
+
    const q=transformPort(c,p);
-   const d=Math.hypot(q.x-worldPos.x,q.y-worldPos.y);
-   if(d<bd){
-    bd=d;
-    best={component:c,port:p};
+
+   const distance=
+    Math.hypot(
+     q.x-worldPos.x,
+     q.y-worldPos.y
+    );
+
+   if(distance<bestDistance){
+
+    bestDistance=distance;
+
+    best={
+     component:c,
+     port:p
+    };
    }
+
   });
+
  });
 
  return best;
 }
 
 /* ============================================================
-   COMPONENT CREATION
+   COMPONENT PARAMETERS
    ============================================================ */
 
 function defaultParams(type){
 
  const p={
+
   pressure:210,
   flow:30,
+
   diameter:25,
+
   bore:80,
   rod:40,
   stroke:500,
+
   displacement:40,
+
   relief:180,
   reduction:100,
   maxFlow:60,
+
   temperature:35,
   rpm:1500,
-  speed:100,
+
   centre:"closed",
   valveType:"4/3",
   position:"centre",
+
   actuation:"Lever",
   spring:"yes",
+
   fault:"none"
  };
 
- if(type==="pump")p.flow=40;
- if(type==="pumpVariable")p.flow=80;
- if(type==="compressor")p.flow=500;
- if(type==="cylinder"||type==="singleCylinder"||type==="airCylinder"){
+ if(type==="pump"){
+  p.flow=40;
+ }
+
+ if(type==="pumpVariable"){
+  p.flow=80;
+ }
+
+ if(type==="compressor"){
+  p.flow=500;
+  p.pressure=8;
+ }
+
+ if(
+  type==="cylinder"||
+  type==="singleCylinder"||
+  type==="airCylinder"
+ ){
   p.bore=80;
   p.rod=40;
   p.stroke=500;
  }
+
  if(type==="motor"||type==="airMotor"){
+
   p.displacement=40;
   p.rpm=1000;
  }
- if(type==="directional"||type==="pneumaticValve"){
-  p.valveType=type==="pneumaticValve"?"5/2":"4/3";
+
+ if(type==="directional"){
+
+  p.valveType="4/3";
  }
+
+ if(type==="pneumaticValve"){
+
+  p.valveType="5/2";
+ }
+
  return p;
 }
 
 function createComponent(type,x,y,extra={}){
+
  const c={
+
   id:uid(),
-  type,
+
+  type:type,
+
   x:snap(x),
   y:snap(y),
+
   rotation:0,
+
   flipX:false,
   flipY:false,
+
   label:componentTypeName(type),
-  params:{...defaultParams(type),...extra},
+
+  params:{
+   ...defaultParams(type),
+   ...extra
+  },
+
   sim:{
    pressure:0,
    flow:0,
@@ -1158,22 +1467,57 @@ function createComponent(type,x,y,extra={}){
  };
 
  state.components.push(c);
+
  state.selected=c.id;
+ state.selectedConnection=null;
+
  return c;
 }
 
 function addComponent(type){
- const centre=screenToWorld(svg.clientWidth/2,svg.clientHeight/2);
+
+ const centre=screenToWorld(
+  svg.clientWidth/2,
+  svg.clientHeight/2
+ );
 
  if(type==="directional"){
+
   openValveBuilder();
+
   return;
  }
 
- const c=createComponent(type,centre.x,centre.y);
+ if(type==="pneumaticValve"){
+
+  const c=createComponent(
+   type,
+   centre.x,
+   centre.y
+  );
+
+  historyPush();
+
+  render();
+
+  toast("Pneumatic valve added");
+
+  return;
+ }
+
+ createComponent(
+  type,
+  centre.x,
+  centre.y
+ );
+
  historyPush();
+
  render();
- toast(`${componentTypeName(type)} added — drag it into position`);
+
+ toast(
+  `${componentTypeName(type)} added`
+ );
 }
 
 /* ============================================================
@@ -1183,50 +1527,110 @@ function addComponent(type){
 let editingValve=null;
 
 function openValveBuilder(existing=null){
+
  editingValve=existing;
 
- document.getElementById("valveModal").classList.add("open");
+ const modal=document.getElementById("valveModal");
+
+ modal.classList.add("open");
 
  if(existing){
-  document.getElementById("vType").value=existing.params.valveType||"4/3";
-  document.getElementById("vCentre").value=existing.params.centre||"closed";
-  document.getElementById("vActuation").value=existing.params.actuation||"Lever";
-  document.getElementById("vSpring").value=existing.params.spring||"yes";
-  document.getElementById("vPosition").value=existing.params.position||"centre";
+
+  document.getElementById("vType").value=
+   existing.params.valveType||"4/3";
+
+  document.getElementById("vCentre").value=
+   existing.params.centre||"closed";
+
+  document.getElementById("vActuation").value=
+   existing.params.actuation||"Lever";
+
+  document.getElementById("vSpring").value=
+   existing.params.spring||"yes";
+
+  document.getElementById("vPosition").value=
+   existing.params.position||"centre";
+
+ }else{
+
+  document.getElementById("vType").value="4/3";
+  document.getElementById("vCentre").value="closed";
+  document.getElementById("vActuation").value="Lever";
+  document.getElementById("vSpring").value="yes";
+  document.getElementById("vPosition").value="centre";
  }
 }
 
 function closeValveBuilder(){
+
  editingValve=null;
- document.getElementById("valveModal").classList.remove("open");
+
+ document
+  .getElementById("valveModal")
+  .classList.remove("open");
 }
 
-document.getElementById("cancelValve").onclick=closeValveBuilder;
+document.getElementById("cancelValve").onclick=
+ closeValveBuilder;
 
 document.getElementById("createValve").onclick=()=>{
 
  const data={
-  valveType:document.getElementById("vType").value,
-  centre:document.getElementById("vCentre").value,
-  actuation:document.getElementById("vActuation").value,
-  spring:document.getElementById("vSpring").value,
-  position:document.getElementById("vPosition").value
+
+  valveType:
+   document.getElementById("vType").value,
+
+  centre:
+   document.getElementById("vCentre").value,
+
+  actuation:
+   document.getElementById("vActuation").value,
+
+  spring:
+   document.getElementById("vSpring").value,
+
+  position:
+   document.getElementById("vPosition").value
  };
 
  if(editingValve){
+
   historyPush();
-  editingValve.params={...editingValve.params,...data};
+
+  editingValve.params={
+   ...editingValve.params,
+   ...data
+  };
+
   closeValveBuilder();
+
   render();
+
+  toast("Valve updated");
+
   return;
  }
 
- const centre=screenToWorld(svg.clientWidth/2,svg.clientHeight/2);
- createComponent("directional",centre.x,centre.y,data);
+ const centre=screenToWorld(
+  svg.clientWidth/2,
+  svg.clientHeight/2
+ );
+
+ const valve=createComponent(
+  "directional",
+  centre.x,
+  centre.y,
+  data
+ );
+
+ state.selected=valve.id;
+
  historyPush();
 
  closeValveBuilder();
+
  render();
+
  toast("Directional valve created");
 };
 
@@ -1235,54 +1639,94 @@ document.getElementById("createValve").onclick=()=>{
    ============================================================ */
 
 function snapshot(){
- return {
+
+ return{
   components:clone(state.components),
   connections:clone(state.connections),
   nextId:state.nextId
  };
 }
 
-function restore(s){
- state.components=clone(s.components);
- state.connections=clone(s.connections);
- state.nextId=s.nextId;
+function restore(snapshotData){
+
+ state.components=
+  clone(snapshotData.components||[]);
+
+ state.connections=
+  clone(snapshotData.connections||[]);
+
+ state.nextId=
+  snapshotData.nextId||1;
+
  state.selected=null;
  state.selectedConnection=null;
+ state.hoseStart=null;
+
  render();
 }
 
 function historyPush(){
+
  state.history.push(snapshot());
- if(state.history.length>50)state.history.shift();
+
+ if(state.history.length>50){
+  state.history.shift();
+ }
+
  state.future=[];
 }
 
 function undo(){
- if(!state.history.length)return;
+
+ if(!state.history.length){
+  return;
+ }
+
  state.future.push(snapshot());
- const s=state.history.pop();
- restore(s);
+
+ const previous=state.history.pop();
+
+ restore(previous);
 }
 
 function redo(){
- if(!state.future.length)return;
+
+ if(!state.future.length){
+  return;
+ }
+
  state.history.push(snapshot());
- const s=state.future.pop();
- restore(s);
+
+ const next=state.future.pop();
+
+ restore(next);
 }
 
 /* ============================================================
-   SVG HELPERS
+   SVG
    ============================================================ */
 
 function el(name,attrs={},text=""){
- const e=document.createElementNS("http://www.w3.org/2000/svg",name);
- Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,v));
- if(text)e.textContent=text;
- return e;
+
+ const element=
+  document.createElementNS(
+   "http://www.w3.org/2000/svg",
+   name
+  );
+
+ Object.entries(attrs).forEach(([key,value])=>{
+  element.setAttribute(key,value);
+ });
+
+ if(text){
+  element.textContent=text;
+ }
+
+ return element;
 }
 
 function group(attrs={}){
+
  return el("g",attrs);
 }
 
@@ -1290,58 +1734,59 @@ function group(attrs={}){
    SYMBOL DRAWING
    ============================================================ */
 
-function drawSymbol(c,g){
+function drawSymbol(c,parent){
 
- const s=group({
-  transform:`translate(${c.x} ${c.y}) rotate(${c.rotation||0}) scale(${c.flipX?-1:1} ${c.flipY?-1:1})`
+ const transform=
+  `translate(${c.x} ${c.y})
+   rotate(${c.rotation||0})
+   scale(${c.flipX?-1:1} ${c.flipY?-1:1})`;
+
+ const symbol=group({
+  transform:transform
  });
 
- g.appendChild(s);
-
- const body=el("g",{"class":"componentBody"});
-
- s.appendChild(body);
+ parent.appendChild(symbol);
 
  switch(c.type){
 
   case "pump":
   case "pumpVariable":
-   drawPump(body,c);
+   drawPump(symbol,c);
    break;
 
   case "compressor":
-   drawCompressor(body,c);
+   drawCompressor(symbol,c);
    break;
 
   case "reservoir":
   case "airTank":
-   drawTank(body,c);
+   drawTank(symbol,c);
    break;
 
   case "accumulator":
-   drawAccumulator(body,c);
+   drawAccumulator(symbol,c);
    break;
 
   case "cylinder":
-  case "airCylinder":
   case "singleCylinder":
-   drawCylinder(body,c);
+  case "airCylinder":
+   drawCylinder(symbol,c);
    break;
 
   case "motor":
   case "airMotor":
-   drawMotor(body,c);
+   drawMotor(symbol,c);
    break;
 
   case "directional":
   case "pneumaticValve":
-   drawDirectional(body,c);
+   drawDirectional(symbol,c);
    break;
 
   case "check":
-  case "airCheck":
   case "pilotCheck":
-   drawCheck(body,c);
+  case "airCheck":
+   drawCheck(symbol,c);
    break;
 
   case "relief":
@@ -1349,381 +1794,1055 @@ function drawSymbol(c,g){
   case "sequence":
   case "counterbalance":
   case "reducing":
-   drawPressureValve(body,c);
+   drawPressureValve(symbol,c);
    break;
 
   case "flow":
   case "needle":
   case "airFlow":
-   drawFlowValve(body,c);
+   drawFlowValve(symbol,c);
    break;
 
   case "filter":
   case "strainer":
-   drawFilter(body,c);
+   drawFilter(symbol,c);
    break;
 
   case "cooler":
-   drawCooler(body,c);
+   drawCooler(symbol,c);
    break;
 
   case "heater":
-   drawHeater(body,c);
+   drawHeater(symbol,c);
    break;
 
   case "gauge":
   case "flowmeter":
   case "pressureSwitch":
-   drawGauge(body,c);
+   drawGauge(symbol,c);
    break;
 
   case "tempSensor":
   case "limitSwitch":
   case "proximity":
-   drawSensor(body,c);
+   drawSensor(symbol,c);
    break;
 
   case "frl":
-   drawFRL(body,c);
+   drawFRL(symbol,c);
    break;
 
   default:
-   drawGeneric(body,c);
+   drawGeneric(symbol,c);
  }
 
- const label=el("text",{
-  x:0,
-  y:90,
-  class:"componentLabel"
- },c.label);
+ drawLabels(symbol,c);
+ drawPorts(symbol,c);
 
- s.appendChild(label);
+ if(c.sim.active&&state.running){
 
- const val=el("text",{
-  x:0,
-  y:104,
-  class:"componentValue"
- },valueText(c));
-
- s.appendChild(val);
-
- if(c.sim.active && state.running){
-  const active=el("circle",{cx:0,cy:-48,r:5,fill:"#22c55e"});
-  s.appendChild(active);
+  symbol.appendChild(
+   el("circle",{
+    cx:0,
+    cy:-48,
+    r:5,
+    fill:"#22c55e"
+   })
+  );
  }
 
- const ports=group();
+ symbol.addEventListener("pointerdown",event=>{
 
- portDefs(c).forEach(p=>{
-  const q=transformPort(c,p);
-  const localX=p.x;
-  const localY=p.y;
+  event.stopPropagation();
 
-  const port=el("circle",{
-   cx:localX,
-   cy:localY,
-   r:7,
-   class:"port"+(state.hoseStart &&
-     state.hoseStart.component===c.id &&
-     state.hoseStart.port===p.id ? " active":""),
-   "data-component":c.id,
-   "data-port":p.id
-  });
+  if(
+   state.tool==="hose"||
+   state.tool==="pipe"
+  ){
+   return;
+  }
 
-  port.addEventListener("pointerdown",e=>{
-   e.stopPropagation();
-   handlePortPointer(c,p,e);
-  });
-
-  ports.appendChild(port);
-
-  const txt=el("text",{
-   x:localX,
-   y:localY-10,
-   "font-size":"8",
-   fill:"#475569",
-   "text-anchor":"middle"
-  },p.id);
-
-  ports.appendChild(txt);
- });
-
- s.appendChild(ports);
-
- s.addEventListener("pointerdown",e=>{
-  if(state.tool==="hose"||state.tool==="pipe")return;
-  e.stopPropagation();
   selectComponent(c.id);
 
   if(state.tool==="delete"){
+
    deleteComponent(c.id);
+
    return;
   }
 
   if(state.tool==="rotate"){
+
    historyPush();
-   c.rotation=(c.rotation+90)%360;
+
+   c.rotation=
+    ((c.rotation||0)+90)%360;
+
+   state.tool="select";
+
+   updateToolButtons();
+
    render();
+
    return;
   }
 
-  if(e.button!==2){
-   startComponentDrag(c,e);
+  if(event.button===2){
+   return;
   }
+
+  startComponentDrag(c,event);
  });
 
- s.addEventListener("dblclick",e=>{
-  e.stopPropagation();
+ symbol.addEventListener("dblclick",event=>{
 
-  if(c.type==="directional"||c.type==="pneumaticValve"){
+  event.stopPropagation();
+
+  if(
+   c.type==="directional"||
+   c.type==="pneumaticValve"
+  ){
+
    openValveBuilder(c);
-  }else{
-   selectComponent(c.id);
+
   }
+
  });
 
 }
 
-/* ---------- individual symbols ---------- */
+function drawLabels(symbol,c){
+
+ symbol.appendChild(
+  el(
+   "text",
+   {
+    x:0,
+    y:90,
+    class:"componentLabel"
+   },
+   c.label
+  )
+ );
+
+ symbol.appendChild(
+  el(
+   "text",
+   {
+    x:0,
+    y:104,
+    class:"componentValue"
+   },
+   valueText(c)
+  )
+ );
+}
+
+function drawPorts(symbol,c){
+
+ const ports=group();
+
+ portDefs(c).forEach(p=>{
+
+  const port=el(
+   "circle",
+   {
+    cx:p.x,
+    cy:p.y,
+    r:8,
+    class:
+     "port"+
+     (
+      state.hoseStart&&
+      state.hoseStart.component===c.id&&
+      state.hoseStart.port===p.id
+       ?" active"
+       :""
+     ),
+    "data-component":c.id,
+    "data-port":p.id
+   }
+  );
+
+  port.addEventListener(
+   "pointerdown",
+   event=>{
+    event.stopPropagation();
+    handlePortPointer(c,p,event);
+   }
+  );
+
+  ports.appendChild(port);
+
+  ports.appendChild(
+   el(
+    "text",
+    {
+     x:p.x,
+     y:p.y-11,
+     "font-size":"8",
+     fill:"#475569",
+     "text-anchor":"middle"
+    },
+    p.id
+   )
+  );
+
+ });
+
+ symbol.appendChild(ports);
+}
+
+/* ============================================================
+   SYMBOLS
+   ============================================================ */
 
 function drawPump(g,c){
- const circle=el("circle",{cx:0,cy:0,r:34,class:"componentBody"});
- g.appendChild(circle);
 
- const tri=el("path",{
-  d:"M-13 -18 L18 0 L-13 18 Z",
-  fill:"#fff",
-  stroke:"#111827",
-  "stroke-width":2,
-  class:state.running?"pumpSpin":""
- });
- g.appendChild(tri);
+ g.appendChild(
+  el("circle",{
+   cx:0,
+   cy:0,
+   r:34,
+   class:"componentBody"
+  })
+ );
+
+ const triangle=el(
+  "path",
+  {
+   d:"M-13 -18 L18 0 L-13 18 Z",
+   fill:"#fff",
+   stroke:"#111827",
+   "stroke-width":2,
+   class:state.running?"pumpSpin":""
+  }
+ );
+
+ g.appendChild(triangle);
 
  if(c.type==="pumpVariable"){
-  g.appendChild(el("line",{x1:-28,y1:-40,x2:28,y2:40,stroke:"#111827","stroke-width":2}));
+
+  g.appendChild(
+   el("line",{
+    x1:-28,
+    y1:-40,
+    x2:28,
+    y2:40,
+    stroke:"#111827",
+    "stroke-width":2
+   })
+  );
  }
 
- g.appendChild(el("line",{x1:-90,y1:0,x2:-34,y2:0,stroke:"#111827","stroke-width":2}));
- g.appendChild(el("line",{x1:34,y1:0,x2:90,y2:0,stroke:"#111827","stroke-width":2}));
+ g.appendChild(
+  el("line",{
+   x1:-90,
+   y1:0,
+   x2:-34,
+   y2:0,
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
+
+ g.appendChild(
+  el("line",{
+   x1:34,
+   y1:0,
+   x2:90,
+   y2:0,
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
 }
 
-function drawCompressor(g,c){
- g.appendChild(el("circle",{cx:0,cy:0,r:34,class:"componentBody"}));
- g.appendChild(el("path",{d:"M-14 -18 L18 0 L-14 18 Z",fill:"none",stroke:"#111827","stroke-width":2}));
- g.appendChild(el("line",{x1:-90,y1:0,x2:-34,y2:0,stroke:"#111827","stroke-width":2}));
- g.appendChild(el("line",{x1:34,y1:0,x2:90,y2:0,stroke:"#111827","stroke-width":2}));
+function drawCompressor(g){
+
+ g.appendChild(
+  el("circle",{
+   cx:0,
+   cy:0,
+   r:34,
+   class:"componentBody"
+  })
+ );
+
+ g.appendChild(
+  el("path",{
+   d:"M-14 -18 L18 0 L-14 18 Z",
+   fill:"none",
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
+
+ g.appendChild(
+  el("line",{
+   x1:-90,
+   y1:0,
+   x2:-34,
+   y2:0,
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
+
+ g.appendChild(
+  el("line",{
+   x1:34,
+   y1:0,
+   x2:90,
+   y2:0,
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
 }
 
-function drawTank(g,c){
- g.appendChild(el("path",{
-  d:"M-55 15 L55 15 L45 55 L-45 55 Z",
-  fill:"#e5e7eb",
-  stroke:"#111827",
-  "stroke-width":2
- }));
- g.appendChild(el("line",{x1:0,y1:-55,x2:0,y2:15,stroke:"#111827","stroke-width":2}));
+function drawTank(g){
+
+ g.appendChild(
+  el("path",{
+   d:"M-55 15 L55 15 L45 55 L-45 55 Z",
+   fill:"#e5e7eb",
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
+
+ g.appendChild(
+  el("line",{
+   x1:0,
+   y1:-55,
+   x2:0,
+   y2:15,
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
 }
 
-function drawAccumulator(g,c){
- g.appendChild(el("rect",{x:-32,y:-48,width:64,height:96,rx:28,class:"componentBody"}));
- g.appendChild(el("line",{x1:-20,y1:0,x2:20,y2:0,stroke:"#111827","stroke-width":2}));
- g.appendChild(el("line",{x1:0,y1:-55,x2:0,y2:-48,stroke:"#111827","stroke-width":2}));
+function drawAccumulator(g){
+
+ g.appendChild(
+  el("rect",{
+   x:-32,
+   y:-48,
+   width:64,
+   height:96,
+   rx:28,
+   class:"componentBody"
+  })
+ );
+
+ g.appendChild(
+  el("line",{
+   x1:-20,
+   y1:0,
+   x2:20,
+   y2:0,
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
+
+ g.appendChild(
+  el("line",{
+   x1:0,
+   y1:-55,
+   x2:0,
+   y2:-48,
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
 }
 
 function drawCylinder(g,c){
- const w=120;
- const h=44;
 
- g.appendChild(el("rect",{x:-w/2,y:-h/2,width:w,height:h,rx:3,class:"componentBody"}));
+ const width=120;
+ const height=44;
 
- const pos=c.sim.position||0;
- const rodX=-20+Math.max(0,Math.min(45,pos*45));
+ g.appendChild(
+  el("rect",{
+   x:-width/2,
+   y:-height/2,
+   width:width,
+   height:height,
+   rx:3,
+   class:"componentBody"
+  })
+ );
 
- g.appendChild(el("rect",{
-  x:rodX,
-  y:-7,
-  width:100,
-  height:14,
-  class:"cylinderRod"
- }));
+ const position=
+  clamp(c.sim.position||0,0,1);
 
- g.appendChild(el("line",{x1:-60,y1:-22,x2:-60,y2:22,stroke:"#111827","stroke-width":3}));
- g.appendChild(el("line",{x1:60,y1:-22,x2:60,y2:22,stroke:"#111827","stroke-width":3}));
+ const rodX=
+  -20+
+  position*45;
+
+ g.appendChild(
+  el("rect",{
+   x:rodX,
+   y:-7,
+   width:100,
+   height:14,
+   class:"cylinderRod"
+  })
+ );
+
+ g.appendChild(
+  el("line",{
+   x1:-60,
+   y1:-22,
+   x2:-60,
+   y2:22,
+   stroke:"#111827",
+   "stroke-width":3
+  })
+ );
+
+ g.appendChild(
+  el("line",{
+   x1:60,
+   y1:-22,
+   x2:60,
+   y2:22,
+   stroke:"#111827",
+   "stroke-width":3
+  })
+ );
 }
 
 function drawMotor(g,c){
- g.appendChild(el("circle",{cx:0,cy:0,r:38,class:"componentBody"}));
 
- const a=state.running?c.sim.position*360:45;
+ g.appendChild(
+  el("circle",{
+   cx:0,
+   cy:0,
+   r:38,
+   class:"componentBody"
+  })
+ );
 
- const rotor=el("g",{transform:`rotate(${a})`});
- rotor.appendChild(el("line",{x1:0,y1:-27,x2:0,y2:27,stroke:"#111827","stroke-width":4}));
- rotor.appendChild(el("line",{x1:-27,y1:0,x2:27,y2:0,stroke:"#111827","stroke-width":4}));
+ const angle=
+  state.running
+   ?c.sim.position*360
+   :45;
+
+ const rotor=el(
+  "g",
+  {
+   transform:`rotate(${angle})`,
+   class:state.running?"motorSpin":""
+  }
+ );
+
+ rotor.appendChild(
+  el("line",{
+   x1:0,
+   y1:-27,
+   x2:0,
+   y2:27,
+   stroke:"#111827",
+   "stroke-width":4
+  })
+ );
+
+ rotor.appendChild(
+  el("line",{
+   x1:-27,
+   y1:0,
+   x2:27,
+   y2:0,
+   stroke:"#111827",
+   "stroke-width":4
+  })
+ );
+
  g.appendChild(rotor);
 
- g.appendChild(el("line",{x1:-75,y1:0,x2:-38,y2:0,stroke:"#111827","stroke-width":2}));
- g.appendChild(el("line",{x1:38,y1:0,x2:75,y2:0,stroke:"#111827","stroke-width":2}));
+ g.appendChild(
+  el("line",{
+   x1:-75,
+   y1:0,
+   x2:-38,
+   y2:0,
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
+
+ g.appendChild(
+  el("line",{
+   x1:38,
+   y1:0,
+   x2:75,
+   y2:0,
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
 }
 
 function drawDirectional(g,c){
 
  const type=c.params.valveType||"4/3";
- const boxes=type==="4/3"?3:2;
- const w=54;
+
+ let boxes=2;
+
+ if(type==="4/3"){
+  boxes=3;
+ }
+
+ const width=54;
 
  for(let i=0;i<boxes;i++){
-  const x=(i-(boxes-1)/2)*w;
 
-  g.appendChild(el("rect",{
-   x:x-w/2,
-   y:-35,
-   width:w,
-   height:70,
-   class:"valveBox"
-  }));
+  const x=
+   (i-(boxes-1)/2)*width;
 
-  let mode="";
+  g.appendChild(
+   el("rect",{
+    x:x-width/2,
+    y:-35,
+    width:width,
+    height:70,
+    class:"valveBox"
+   })
+  );
+
+  let symbol="";
 
   if(type==="4/3"){
-   if(i===0)mode="↙ ↗";
-   else if(i===1)mode=centreSymbol(c.params.centre);
-   else mode="↘ ↖";
+
+   if(i===0){
+    symbol="↙ ↗";
+   }else if(i===1){
+    symbol=centreSymbol(c.params.centre);
+   }else{
+    symbol="↘ ↖";
+   }
+
   }else{
-   mode=i===0?"↙ ↗":"↘ ↖";
+
+   symbol=
+    i===0
+     ?"↙ ↗"
+     :"↘ ↖";
   }
 
-  g.appendChild(el("text",{
-   x:x,
-   y:5,
-   "font-size":18,
-   "text-anchor":"middle",
-   fill:"#111827"
-  },mode));
+  g.appendChild(
+   el(
+    "text",
+    {
+     x:x,
+     y:5,
+     "font-size":18,
+     "text-anchor":"middle",
+     fill:"#111827"
+    },
+    symbol
+   )
+  );
  }
 
- g.appendChild(el("line",{
-  x1:-boxes*w/2-20,
-  y1:-25,
-  x2:-boxes*w/2,
-  y2:-25,
-  stroke:"#111827",
-  "stroke-width":3
- }));
+ g.appendChild(
+  el("line",{
+   x1:-boxes*width/2-20,
+   y1:-25,
+   x2:-boxes*width/2,
+   y2:-25,
+   stroke:"#111827",
+   "stroke-width":3
+  })
+ );
 
- g.appendChild(el("line",{
-  x1:boxes*w/2,
-  y1:25,
-  x2:boxes*w/2+20,
-  y2:25,
-  stroke:"#111827",
-  "stroke-width":3
- }));
+ g.appendChild(
+  el("line",{
+   x1:boxes*width/2,
+   y1:25,
+   x2:boxes*width/2+20,
+   y2:25,
+   stroke:"#111827",
+   "stroke-width":3
+  })
+ );
 }
 
-function centreSymbol(c){
- switch(c){
-  case "open":return "┼";
-  case "tandem":return "P→T";
-  case "float":return "A↔T";
-  case "pt":return "P→T";
-  case "ab":return "A/B→T";
-  default:return "×";
+function centreSymbol(value){
+
+ switch(value){
+
+  case "open":
+   return "┼";
+
+  case "tandem":
+   return "P→T";
+
+  case "float":
+   return "A↔T";
+
+  case "pt":
+   return "P→T";
+
+  case "ab":
+   return "A/B→T";
+
+  default:
+   return "×";
  }
 }
 
-function drawCheck(g,c){
- g.appendChild(el("path",{
-  d:"M-30 -22 L30 0 L-30 22 Z",
-  fill:"#fff",
-  stroke:"#111827",
-  "stroke-width":2
- }));
- g.appendChild(el("line",{x1:-65,y1:0,x2:-30,y2:0,stroke:"#111827","stroke-width":2}));
- g.appendChild(el("line",{x1:30,y1:0,x2:65,y2:0,stroke:"#111827","stroke-width":2}));
+function drawCheck(g){
+
+ g.appendChild(
+  el("path",{
+   d:"M-30 -22 L30 0 L-30 22 Z",
+   fill:"#fff",
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
+
+ g.appendChild(
+  el("line",{
+   x1:-65,
+   y1:0,
+   x2:-30,
+   y2:0,
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
+
+ g.appendChild(
+  el("line",{
+   x1:30,
+   y1:0,
+   x2:65,
+   y2:0,
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
 }
 
-function drawPressureValve(g,c){
- g.appendChild(el("rect",{x:-34,y:-30,width:68,height:60,rx:4,class:"componentBody"}));
- g.appendChild(el("path",{d:"M-18 18 L0 -18 L18 18 Z",fill:"none",stroke:"#111827","stroke-width":2}));
- g.appendChild(el("line",{x1:-65,y1:0,x2:-34,y2:0,stroke:"#111827","stroke-width":2}));
- g.appendChild(el("line",{x1:34,y1:0,x2:65,y2:0,stroke:"#111827","stroke-width":2}));
-}
+function drawPressureValve(g){
 
-function drawFlowValve(g,c){
- g.appendChild(el("rect",{x:-34,y:-30,width:68,height:60,rx:4,class:"componentBody"}));
- g.appendChild(el("line",{x1:-20,y1:20,x2:20,y2:-20,stroke:"#111827","stroke-width":3}));
- g.appendChild(el("circle",{cx:0,cy:0,r:8,fill:"#fff",stroke:"#111827","stroke-width":2}));
- g.appendChild(el("line",{x1:-65,y1:0,x2:-34,y2:0,stroke:"#111827","stroke-width":2}));
- g.appendChild(el("line",{x1:34,y1:0,x2:65,y2:0,stroke:"#111827","stroke-width":2}));
-}
-
-function drawFilter(g,c){
- g.appendChild(el("path",{
-  d:"M-30 -35 L30 -35 L12 0 L30 35 L-30 35 L-12 0 Z",
-  fill:"#fff",
-  stroke:"#111827",
-  "stroke-width":2
- }));
- g.appendChild(el("line",{x1:-65,y1:0,x2:-30,y2:0,stroke:"#111827","stroke-width":2}));
- g.appendChild(el("line",{x1:30,y1:0,x2:65,y2:0,stroke:"#111827","stroke-width":2}));
-}
-
-function drawCooler(g,c){
- g.appendChild(el("rect",{x:-40,y:-30,width:80,height:60,class:"componentBody"}));
- for(let x=-25;x<=25;x+=12){
-  g.appendChild(el("line",{x1:x,y1:-20,x2:x,y2:20,stroke:"#111827","stroke-width":2}));
- }
- g.appendChild(el("line",{x1:-65,y1:0,x2:-40,y2:0,stroke:"#111827","stroke-width":2}));
- g.appendChild(el("line",{x1:40,y1:0,x2:65,y2:0,stroke:"#111827","stroke-width":2}));
-}
-
-function drawHeater(g,c){
- g.appendChild(el("rect",{x:-40,y:-30,width:80,height:60,class:"componentBody"}));
- g.appendChild(el("path",{d:"M-25 10 Q-12 -20 0 10 T25 10",fill:"none",stroke:"#111827","stroke-width":2}));
- g.appendChild(el("line",{x1:-65,y1:0,x2:-40,y2:0,stroke:"#111827","stroke-width":2}));
- g.appendChild(el("line",{x1:40,y1:0,x2:65,y2:0,stroke:"#111827","stroke-width":2}));
-}
-
-function drawGauge(g,c){
- g.appendChild(el("circle",{cx:0,cy:0,r:35,class:"componentBody"}));
- g.appendChild(el("line",{x1:0,y1:0,x2:0,y2:-22,stroke:"#111827","stroke-width":3}));
- g.appendChild(el("line",{x1:0,y1:35,x2:0,y2:50,stroke:"#111827","stroke-width":2}));
-}
-
-function drawSensor(g,c){
- g.appendChild(el("rect",{x:-28,y:-28,width:56,height:56,rx:4,class:"componentBody"}));
- g.appendChild(el("circle",{cx:0,cy:0,r:12,fill:"none",stroke:"#111827","stroke-width":2}));
- g.appendChild(el("line",{x1:0,y1:28,x2:0,y2:50,stroke:"#111827","stroke-width":2}));
-}
-
-function drawFRL(g,c){
- ["-45","0","45"].forEach((x,i)=>{
-  g.appendChild(el("rect",{
-   x:Number(x)-25,
-   y:-28,
-   width:50,
-   height:56,
+ g.appendChild(
+  el("rect",{
+   x:-34,
+   y:-30,
+   width:68,
+   height:60,
+   rx:4,
    class:"componentBody"
-  }));
- });
- g.appendChild(el("line",{x1:-80,y1:0,x2:-70,y2:0,stroke:"#111827","stroke-width":2}));
- g.appendChild(el("line",{x1:70,y1:0,x2:80,y2:0,stroke:"#111827","stroke-width":2}));
+  })
+ );
+
+ g.appendChild(
+  el("path",{
+   d:"M-18 18 L0 -18 L18 18 Z",
+   fill:"none",
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
+
+ g.appendChild(
+  el("line",{
+   x1:-65,
+   y1:0,
+   x2:-34,
+   y2:0,
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
+
+ g.appendChild(
+  el("line",{
+   x1:34,
+   y1:0,
+   x2:65,
+   y2:0,
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
 }
 
-function drawGeneric(g,c){
- g.appendChild(el("rect",{x:-45,y:-30,width:90,height:60,rx:5,class:"componentBody"}));
- g.appendChild(el("line",{x1:-60,y1:0,x2:-45,y2:0,stroke:"#111827","stroke-width":2}));
- g.appendChild(el("line",{x1:45,y1:0,x2:60,y2:0,stroke:"#111827","stroke-width":2}));
+function drawFlowValve(g){
+
+ g.appendChild(
+  el("rect",{
+   x:-34,
+   y:-30,
+   width:68,
+   height:60,
+   rx:4,
+   class:"componentBody"
+  })
+ );
+
+ g.appendChild(
+  el("line",{
+   x1:-20,
+   y1:20,
+   x2:20,
+   y2:-20,
+   stroke:"#111827",
+   "stroke-width":3
+  })
+ );
+
+ g.appendChild(
+  el("circle",{
+   cx:0,
+   cy:0,
+   r:8,
+   fill:"#fff",
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
+
+ g.appendChild(
+  el("line",{
+   x1:-65,
+   y1:0,
+   x2:-34,
+   y2:0,
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
+
+ g.appendChild(
+  el("line",{
+   x1:34,
+   y1:0,
+   x2:65,
+   y2:0,
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
+}
+
+function drawFilter(g){
+
+ g.appendChild(
+  el("path",{
+   d:"M-30 -35 L30 -35 L12 0 L30 35 L-30 35 L-12 0 Z",
+   fill:"#fff",
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
+
+ g.appendChild(
+  el("line",{
+   x1:-65,
+   y1:0,
+   x2:-30,
+   y2:0,
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
+
+ g.appendChild(
+  el("line",{
+   x1:30,
+   y1:0,
+   x2:65,
+   y2:0,
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
+}
+
+function drawCooler(g){
+
+ g.appendChild(
+  el("rect",{
+   x:-40,
+   y:-30,
+   width:80,
+   height:60,
+   class:"componentBody"
+  })
+ );
+
+ for(let x=-25;x<=25;x+=12){
+
+  g.appendChild(
+   el("line",{
+    x1:x,
+    y1:-20,
+    x2:x,
+    y2:20,
+    stroke:"#111827",
+    "stroke-width":2
+   })
+  );
+ }
+
+ g.appendChild(
+  el("line",{
+   x1:-65,
+   y1:0,
+   x2:-40,
+   y2:0,
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
+
+ g.appendChild(
+  el("line",{
+   x1:40,
+   y1:0,
+   x2:65,
+   y2:0,
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
+}
+
+function drawHeater(g){
+
+ g.appendChild(
+  el("rect",{
+   x:-40,
+   y:-30,
+   width:80,
+   height:60,
+   class:"componentBody"
+  })
+ );
+
+ g.appendChild(
+  el("path",{
+   d:"M-25 10 Q-12 -20 0 10 T25 10",
+   fill:"none",
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
+
+ g.appendChild(
+  el("line",{
+   x1:-65,
+   y1:0,
+   x2:-40,
+   y2:0,
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
+
+ g.appendChild(
+  el("line",{
+   x1:40,
+   y1:0,
+   x2:65,
+   y2:0,
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
+}
+
+function drawGauge(g){
+
+ g.appendChild(
+  el("circle",{
+   cx:0,
+   cy:0,
+   r:35,
+   class:"componentBody"
+  })
+ );
+
+ g.appendChild(
+  el("line",{
+   x1:0,
+   y1:0,
+   x2:0,
+   y2:-22,
+   stroke:"#111827",
+   "stroke-width":3
+  })
+ );
+
+ g.appendChild(
+  el("line",{
+   x1:0,
+   y1:35,
+   x2:0,
+   y2:50,
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
+}
+
+function drawSensor(g){
+
+ g.appendChild(
+  el("rect",{
+   x:-28,
+   y:-28,
+   width:56,
+   height:56,
+   rx:4,
+   class:"componentBody"
+  })
+ );
+
+ g.appendChild(
+  el("circle",{
+   cx:0,
+   cy:0,
+   r:12,
+   fill:"none",
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
+
+ g.appendChild(
+  el("line",{
+   x1:0,
+   y1:28,
+   x2:0,
+   y2:50,
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
+}
+
+function drawFRL(g){
+
+ [-45,0,45].forEach(x=>{
+
+  g.appendChild(
+   el("rect",{
+    x:x-25,
+    y:-28,
+    width:50,
+    height:56,
+    class:"componentBody"
+   })
+  );
+ });
+
+ g.appendChild(
+  el("line",{
+   x1:-80,
+   y1:0,
+   x2:-70,
+   y2:0,
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
+
+ g.appendChild(
+  el("line",{
+   x1:70,
+   y1:0,
+   x2:80,
+   y2:0,
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
+}
+
+function drawGeneric(g){
+
+ g.appendChild(
+  el("rect",{
+   x:-45,
+   y:-30,
+   width:90,
+   height:60,
+   rx:5,
+   class:"componentBody"
+  })
+ );
+
+ g.appendChild(
+  el("line",{
+   x1:-60,
+   y1:0,
+   x2:-45,
+   y2:0,
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
+
+ g.appendChild(
+  el("line",{
+   x1:45,
+   y1:0,
+   x2:60,
+   y2:0,
+   stroke:"#111827",
+   "stroke-width":2
+  })
+ );
 }
 
 function valueText(c){
 
- if(c.type==="pump"||c.type==="pumpVariable")return `${c.params.flow} L/min · ${c.params.rpm} rpm`;
- if(c.type==="cylinder"||c.type==="singleCylinder"||c.type==="airCylinder")return `${c.params.bore} / ${c.params.rod} mm · ${c.params.stroke} mm`;
- if(c.type==="motor"||c.type==="airMotor")return `${c.params.displacement} cc/rev`;
- if(c.type==="relief"||c.type==="reducing")return `${c.params.relief||c.params.reduction} bar`;
- if(c.type==="gauge")return `${(c.sim.pressure||0).toFixed(1)} bar`;
- if(c.type==="flowmeter")return `${(c.sim.flow||0).toFixed(1)} L/min`;
+ if(
+  c.type==="pump"||
+  c.type==="pumpVariable"
+ ){
+  return `${c.params.flow} L/min · ${c.params.rpm} rpm`;
+ }
+
+ if(
+  c.type==="cylinder"||
+  c.type==="singleCylinder"||
+  c.type==="airCylinder"
+ ){
+  return `${c.params.bore} / ${c.params.rod} mm · ${c.params.stroke} mm`;
+ }
+
+ if(
+  c.type==="motor"||
+  c.type==="airMotor"
+ ){
+  return `${c.params.displacement} cc/rev`;
+ }
+
+ if(
+  c.type==="relief"||
+  c.type==="reducing"
+ ){
+  return `${c.params.relief||c.params.reduction} bar`;
+ }
+
+ if(c.type==="gauge"){
+  return `${(c.sim.pressure||0).toFixed(1)} bar`;
+ }
+
+ if(c.type==="flowmeter"){
+  return `${(c.sim.flow||0).toFixed(1)} L/min`;
+ }
+
  return "";
 }
 
@@ -1731,48 +2850,111 @@ function valueText(c){
    CONNECTIONS
    ============================================================ */
 
-function handlePortPointer(c,p,e){
+function handlePortPointer(c,p,event){
 
  if(state.tool==="delete"){
-  deletePortConnections(c.id,p.id);
-  return;
- }
 
- if(!state.hoseStart){
-  state.hoseStart={component:c.id,port:p.id};
-  render();
-  toast(`Start: ${c.label} ${p.id} — select another port`);
+  deletePortConnections(c.id,p.id);
+
   return;
  }
 
  if(
-  state.hoseStart.component===c.id &&
-  state.hoseStart.port===p.id
+  state.tool!=="hose"&&
+  state.tool!=="pipe"
  ){
-  state.hoseStart=null;
+
+  state.tool="hose";
+  updateToolButtons();
+ }
+
+ if(!state.hoseStart){
+
+  state.hoseStart={
+   component:c.id,
+   port:p.id
+  };
+
   render();
+
+  toast(
+   `Start: ${c.label} ${p.id}`
+  );
+
   return;
  }
 
- const a=state.hoseStart;
+ const start=state.hoseStart;
 
- if(connectionExists(a.component,a.port,c.id,p.id)){
+ if(
+  start.component===c.id&&
+  start.port===p.id
+ ){
+
+  state.hoseStart=null;
+
+  render();
+
+  return;
+ }
+
+ if(
+  connectionExists(
+   start.component,
+   start.port,
+   c.id,
+   p.id
+  )
+ ){
+
+  state.hoseStart=null;
+
+  render();
+
   toast("Those ports are already connected");
+
+  return;
+ }
+
+ const from=findComponent(start.component);
+
+ if(!from){
+
   state.hoseStart=null;
   render();
+
   return;
  }
 
  historyPush();
 
  state.connections.push({
+
   id:uid("H"),
-  from:{component:a.component,port:a.port},
-  to:{component:c.id,port:p.id},
-  type:state.tool==="pipe"?"hard":"soft",
-  diameter:state.tool==="pipe"?16:12,
+
+  from:{
+   component:start.component,
+   port:start.port
+  },
+
+  to:{
+   component:c.id,
+   port:p.id
+  },
+
+  type:
+   state.tool==="pipe"
+    ?"hard"
+    :"soft",
+
+  diameter:
+   state.tool==="pipe"
+    ?16
+    :12,
+
   length:1000,
   rating:250,
+
   flow:0,
   pressureDrop:0
  });
@@ -1780,32 +2962,64 @@ function handlePortPointer(c,p,e){
  state.hoseStart=null;
 
  render();
+
  toast("Connection created");
 }
 
 function connectionExists(a,ap,b,bp){
+
  return state.connections.some(h=>
-  (h.from.component===a&&h.from.port===ap&&h.to.component===b&&h.to.port===bp) ||
-  (h.from.component===b&&h.from.port===bp&&h.to.component===a&&h.to.port===ap)
+
+  (
+   h.from.component===a&&
+   h.from.port===ap&&
+   h.to.component===b&&
+   h.to.port===bp
+  )||
+
+  (
+   h.from.component===b&&
+   h.from.port===bp&&
+   h.to.component===a&&
+   h.to.port===ap
+  )
  );
 }
 
 function deletePortConnections(cid,pid){
- const before=state.connections.length;
- if(before===0)return;
+
+ const before=
+  state.connections.length;
+
+ const remaining=
+  state.connections.filter(h=>
+   !(
+    (
+     h.from.component===cid&&
+     h.from.port===pid
+    )||
+    (
+     h.to.component===cid&&
+     h.to.port===pid
+    )
+   )
+  );
+
+ if(
+  remaining.length===before
+ ){
+  return;
+ }
 
  historyPush();
 
- state.connections=state.connections.filter(h=>
-  !(
-   (h.from.component===cid&&h.from.port===pid) ||
-   (h.to.component===cid&&h.to.port===pid)
-  )
- );
+ state.connections=remaining;
+
+ state.selectedConnection=null;
 
  render();
 
- if(state.connections.length<before)toast("Connection removed");
+ toast("Connection removed");
 }
 
 function drawConnections(){
@@ -1822,45 +3036,89 @@ function drawConnections(){
 
   if(!pa||!pb)return;
 
-  const mx=(pa.x+pb.x)/2;
+  const midpointX=
+   (pa.x+pb.x)/2;
 
-  const d=`M ${pa.x} ${pa.y}
-           L ${mx} ${pa.y}
-           L ${mx} ${pb.y}
-           L ${pb.x} ${pb.y}`;
+  const d=
+   `M ${pa.x} ${pa.y}
+    L ${midpointX} ${pa.y}
+    L ${midpointX} ${pb.y}
+    L ${pb.x} ${pb.y}`;
 
-  const path=el("path",{
-   d,
-   class:`connection ${h.type}${state.selectedConnection===h.id?" selected":""}${state.running&&h.flow>0.01?" simFlow":""}`,
-   "stroke-width":h.type==="soft"?4:3
-  });
+  const path=el(
+   "path",
+   {
+    d:d,
 
-  path.addEventListener("pointerdown",e=>{
-   e.stopPropagation();
-   state.selectedConnection=h.id;
-   state.selected=null;
-   render();
-  });
+    class:
+     `connection ${h.type}`+
+     (
+      state.selectedConnection===h.id
+       ?" selected"
+       :""
+     )+
+     (
+      state.running&&h.flow>0.01
+       ?" simFlow"
+       :""
+     ),
+
+    "stroke-width":
+     h.type==="soft"
+      ?4
+      :3
+   }
+  );
+
+  path.addEventListener(
+   "pointerdown",
+   event=>{
+
+    event.stopPropagation();
+
+    state.selectedConnection=h.id;
+    state.selected=null;
+    state.hoseStart=null;
+
+    render();
+   }
+  );
 
   world.appendChild(path);
 
-  if(state.running&&h.flow>0.01){
+  if(
+   state.running&&
+   h.flow>0.01
+  ){
 
    const dx=pb.x-pa.x;
    const dy=pb.y-pa.y;
-   const len=Math.hypot(dx,dy);
 
-   if(len>30){
-    const t=(state.simTime%1000)/1000;
-    const x=pa.x+dx*t;
-    const y=pa.y+dy*t;
+   const length=
+    Math.hypot(dx,dy);
 
-    world.appendChild(el("circle",{
-     cx:x,
-     cy:y,
-     r:5,
-     class:"flowDot"
-    }));
+   if(length>30){
+
+    const progress=
+     (state.simTime%1000)/1000;
+
+    const x=
+     pa.x+dx*progress;
+
+    const y=
+     pa.y+dy*progress;
+
+    world.appendChild(
+     el(
+      "circle",
+      {
+       cx:x,
+       cy:y,
+       r:5,
+       class:"flowDot"
+      }
+     )
+    );
    }
   }
  });
@@ -1878,14 +3136,20 @@ function render(){
 
  state.components.forEach(c=>{
 
-  const g=group({
+  const componentGroup=group({
    "data-id":c.id,
-   class:state.selected===c.id?"componentSelected":""
+   class:
+    state.selected===c.id
+     ?"componentSelected"
+     :""
   });
 
-  drawSymbol(c,g);
+  drawSymbol(
+   c,
+   componentGroup
+  );
 
-  world.appendChild(g);
+  world.appendChild(componentGroup);
  });
 
  applyCamera();
@@ -1895,89 +3159,175 @@ function render(){
 }
 
 function updateStatus(){
+
  document.getElementById("status").textContent=
   `${state.components.length} components · ${state.connections.length} connections`;
 }
 
 /* ============================================================
-   SELECTION / INSPECTOR
+   INSPECTOR
    ============================================================ */
 
 function selectComponent(id){
+
  state.selected=id;
  state.selectedConnection=null;
+
  render();
 }
 
 function updateInspector(){
 
- const target=document.getElementById("inspector");
- const mobile=document.getElementById("mobileInspectorContent");
+ const desktop=
+  document.getElementById("inspector");
+
+ const mobile=
+  document.getElementById("mobileInspectorContent");
 
  const html=inspectorHTML();
 
- target.innerHTML=html;
+ desktop.innerHTML=html;
  mobile.innerHTML=html;
 
- bindInspector(target);
+ bindInspector(desktop);
  bindInspector(mobile);
 }
 
 function inspectorHTML(){
 
  if(state.selectedConnection){
-  const h=state.connections.find(x=>x.id===state.selectedConnection);
 
-  if(!h)return `<div class="section"><div id="selectionInfo">Connection not found.</div></div>`;
+  const h=
+   state.connections.find(
+    x=>x.id===state.selectedConnection
+   );
+
+  if(!h){
+
+   return `
+    <div class="section">
+     <div id="selectionInfo">
+      Connection not found.
+     </div>
+    </div>
+   `;
+  }
 
   return `
+
    <div class="section">
+
     <h3>Connection</h3>
+
     <div id="selectionInfo">
+
      ${h.type.toUpperCase()} connection<br>
-     ${h.from.component}:${h.from.port} → ${h.to.component}:${h.to.port}
+
+     ${h.from.component}:${h.from.port}
+     →
+     ${h.to.component}:${h.to.port}
+
     </div>
+
    </div>
 
    <div class="section">
+
     <h3>Hose / Pipe</h3>
 
     <div class="row">
+
      <div class="field">
+
       <label>Type</label>
+
       <select data-conn="type">
-       <option value="soft" ${h.type==="soft"?"selected":""}>Soft Hose</option>
-       <option value="hard" ${h.type==="hard"?"selected":""}>Hard Pipe</option>
-       <option value="steel" ${h.type==="steel"?"selected":""}>Steel Tube</option>
-       <option value="flexible" ${h.type==="flexible"?"selected":""}>Flexible Hose</option>
+
+       <option value="soft"
+        ${h.type==="soft"?"selected":""}>
+        Soft Hose
+       </option>
+
+       <option value="hard"
+        ${h.type==="hard"?"selected":""}>
+        Hard Pipe
+       </option>
+
+       <option value="steel"
+        ${h.type==="steel"?"selected":""}>
+        Steel Tube
+       </option>
+
+       <option value="flexible"
+        ${h.type==="flexible"?"selected":""}>
+        Flexible Hose
+       </option>
+
       </select>
+
      </div>
 
      <div class="field">
+
       <label>Diameter mm</label>
-      <input data-conn="diameter" type="number" value="${h.diameter}">
+
+      <input
+       data-conn="diameter"
+       type="number"
+       value="${h.diameter}"
+      >
+
      </div>
+
     </div>
 
     <div class="row">
+
      <div class="field">
+
       <label>Length mm</label>
-      <input data-conn="length" type="number" value="${h.length}">
+
+      <input
+       data-conn="length"
+       type="number"
+       value="${h.length}"
+      >
+
      </div>
 
      <div class="field">
+
       <label>Rating bar</label>
-      <input data-conn="rating" type="number" value="${h.rating}">
+
+      <input
+       data-conn="rating"
+       type="number"
+       value="${h.rating}"
+      >
+
      </div>
+
     </div>
 
-    <button class="smallBtn danger" data-action="deleteConnection">Delete Connection</button>
+    <button
+     class="smallBtn danger"
+     data-action="deleteConnection">
+     Delete Connection
+    </button>
+
    </div>
 
    <div class="section">
+
     <h3>Live Data</h3>
-    Pressure: ${h.pressureDrop.toFixed(2)} bar drop<br>
-    Flow: ${h.flow.toFixed(2)} L/min
+
+    Pressure Drop:
+    <b>${Number(h.pressureDrop||0).toFixed(2)} bar</b>
+    <br>
+
+    Flow:
+    <b>${Number(h.flow||0).toFixed(2)} L/min</b>
+
    </div>
   `;
  }
@@ -1985,217 +3335,536 @@ function inspectorHTML(){
  const c=findComponent(state.selected);
 
  if(!c){
+
   return `
+
    <div class="section">
+
     <h3>Selection</h3>
+
     <div id="selectionInfo">
-     Select a component to inspect it.<br><br>
-     <b>Adding components:</b> tap a symbol in the library.<br>
-     <b>Moving:</b> drag a component.<br>
-     <b>Connecting:</b> choose Hose or Hard Pipe, then tap two ports.<br>
-     <b>Rotating:</b> select a component then press Rotate.
+
+     Select a component to inspect it.
+
+     <br><br>
+
+     <b>Adding:</b>
+     tap a component in the library.
+
+     <br>
+
+     <b>Moving:</b>
+     drag a component.
+
+     <br>
+
+     <b>Connecting:</b>
+     choose Hose or Hard Pipe,
+     then tap two ports.
+
+     <br>
+
+     <b>Rotating:</b>
+     select a component then press Rotate.
+
+     <br>
+
+     <b>Editing:</b>
+     double-tap a directional valve.
+
     </div>
+
    </div>
+
   `;
  }
 
  return `
+
   <div class="section">
+
    <h3>${componentTypeName(c.type)}</h3>
 
    <div class="field full">
+
     <label>Label</label>
-    <input data-field="label" value="${escapeAttr(c.label)}">
+
+    <input
+     data-field="label"
+     value="${escapeAttr(c.label)}"
+    >
+
    </div>
 
    <br>
 
    <div class="row">
+
     <div class="field">
+
      <label>X mm</label>
-     <input data-field="x" type="number" value="${Math.round(c.x)}">
+
+     <input
+      data-field="x"
+      type="number"
+      value="${Math.round(c.x)}"
+     >
+
     </div>
+
     <div class="field">
+
      <label>Y mm</label>
-     <input data-field="y" type="number" value="${Math.round(c.y)}">
+
+     <input
+      data-field="y"
+      type="number"
+      value="${Math.round(c.y)}"
+     >
+
     </div>
+
    </div>
 
    <div class="row">
+
     <div class="field">
+
      <label>Rotation</label>
+
      <select data-field="rotation">
-      ${[0,90,180,270].map(v=>`<option ${c.rotation===v?"selected":""}>${v}</option>`).join("")}
+
+      ${[0,90,180,270].map(v=>
+       `<option value="${v}"
+        ${c.rotation===v?"selected":""}>
+        ${v}°
+       </option>`
+      ).join("")}
+
      </select>
+
     </div>
 
     <div class="field">
+
      <label>Fault</label>
+
      <select data-param="fault">
-      ${["none","blocked","leak","burst","stuck","failed","overload","cavitation"].map(v=>`<option value="${v}" ${c.params.fault===v?"selected":""}>${v}</option>`).join("")}
+
+      ${[
+       "none",
+       "blocked",
+       "leak",
+       "burst",
+       "stuck",
+       "failed",
+       "overload",
+       "cavitation"
+      ].map(v=>
+       `<option value="${v}"
+        ${c.params.fault===v?"selected":""}>
+        ${v}
+       </option>`
+      ).join("")}
+
      </select>
+
     </div>
+
    </div>
 
    <div class="row">
-    <button class="smallBtn" data-action="flipX">Flip Horizontal</button>
-    <button class="smallBtn" data-action="flipY">Flip Vertical</button>
+
+    <button
+     class="smallBtn"
+     data-action="flipX">
+     Flip Horizontal
+    </button>
+
+    <button
+     class="smallBtn"
+     data-action="flipY">
+     Flip Vertical
+    </button>
+
    </div>
+
   </div>
 
   ${parameterHTML(c)}
 
   <div class="section">
+
    <h3>Live Engineering Data</h3>
 
-   Pressure: <b>${(c.sim.pressure||0).toFixed(1)} bar</b><br>
-   Flow: <b>${(c.sim.flow||0).toFixed(1)} L/min</b><br>
-   Position: <b>${(c.sim.position||0).toFixed(2)}</b><br>
-   Speed: <b>${(c.sim.speed||0).toFixed(1)}</b>
+   Pressure:
+   <b>${Number(c.sim.pressure||0).toFixed(1)} bar</b>
+
+   <br>
+
+   Flow:
+   <b>${Number(c.sim.flow||0).toFixed(1)} L/min</b>
+
+   <br>
+
+   Position:
+   <b>${Number(c.sim.position||0).toFixed(2)}</b>
+
+   <br>
+
+   Speed:
+   <b>${Number(c.sim.speed||0).toFixed(1)}</b>
+
   </div>
 
   <div class="section">
-   <button class="smallBtn danger" data-action="deleteComponent">Delete Component</button>
+
+   <button
+    class="smallBtn danger"
+    data-action="deleteComponent">
+    Delete Component
+   </button>
+
   </div>
  `;
-}
-
-function escapeAttr(s){
- return String(s).replace(/&/g,"&amp;").replace(/"/g,"&quot;");
 }
 
 function parameterHTML(c){
 
  const p=c.params;
 
- if(c.type==="pump"||c.type==="pumpVariable"){
+ if(
+  c.type==="pump"||
+  c.type==="pumpVariable"
+ ){
+
   return `
+
    <div class="section">
+
     <h3>Pump Parameters</h3>
+
     <div class="row">
+
      <div class="field">
+
       <label>Flow L/min</label>
-      <input data-param="flow" type="number" value="${p.flow}">
+
+      <input
+       data-param="flow"
+       type="number"
+       value="${p.flow}"
+      >
+
      </div>
+
      <div class="field">
+
       <label>Pressure bar</label>
-      <input data-param="pressure" type="number" value="${p.pressure}">
+
+      <input
+       data-param="pressure"
+       type="number"
+       value="${p.pressure}"
+      >
+
      </div>
+
     </div>
+
     <div class="row">
+
      <div class="field">
+
       <label>RPM</label>
-      <input data-param="rpm" type="number" value="${p.rpm}">
+
+      <input
+       data-param="rpm"
+       type="number"
+       value="${p.rpm}"
+      >
+
      </div>
+
      <div class="field">
+
       <label>Displacement cc/rev</label>
-      <input data-param="displacement" type="number" value="${p.displacement}">
+
+      <input
+       data-param="displacement"
+       type="number"
+       value="${p.displacement}"
+      >
+
      </div>
+
     </div>
+
    </div>
+
   `;
  }
 
- if(c.type==="cylinder"||c.type==="singleCylinder"||c.type==="airCylinder"){
+ if(
+  c.type==="cylinder"||
+  c.type==="singleCylinder"||
+  c.type==="airCylinder"
+ ){
+
   return `
+
    <div class="section">
+
     <h3>Cylinder Parameters</h3>
+
     <div class="row">
+
      <div class="field">
+
       <label>Bore mm</label>
-      <input data-param="bore" type="number" value="${p.bore}">
+
+      <input
+       data-param="bore"
+       type="number"
+       value="${p.bore}"
+      >
+
      </div>
+
      <div class="field">
+
       <label>Rod mm</label>
-      <input data-param="rod" type="number" value="${p.rod}">
+
+      <input
+       data-param="rod"
+       type="number"
+       value="${p.rod}"
+      >
+
      </div>
+
     </div>
+
     <div class="row">
+
      <div class="field">
+
       <label>Stroke mm</label>
-      <input data-param="stroke" type="number" value="${p.stroke}">
+
+      <input
+       data-param="stroke"
+       type="number"
+       value="${p.stroke}"
+      >
+
      </div>
+
      <div class="field">
-      <label>Max Pressure</label>
-      <input data-param="pressure" type="number" value="${p.pressure}">
+
+      <label>Max Pressure bar</label>
+
+      <input
+       data-param="pressure"
+       type="number"
+       value="${p.pressure}"
+      >
+
      </div>
+
     </div>
+
    </div>
+
   `;
  }
 
- if(c.type==="motor"||c.type==="airMotor"){
+ if(
+  c.type==="motor"||
+  c.type==="airMotor"
+ ){
+
   return `
+
    <div class="section">
+
     <h3>Motor Parameters</h3>
+
     <div class="row">
+
      <div class="field">
+
       <label>Displacement cc/rev</label>
-      <input data-param="displacement" type="number" value="${p.displacement}">
+
+      <input
+       data-param="displacement"
+       type="number"
+       value="${p.displacement}"
+      >
+
      </div>
+
      <div class="field">
+
       <label>RPM</label>
-      <input data-param="rpm" type="number" value="${p.rpm}">
+
+      <input
+       data-param="rpm"
+       type="number"
+       value="${p.rpm}"
+      >
+
      </div>
+
     </div>
+
    </div>
+
   `;
  }
 
- if(c.type==="directional"||c.type==="pneumaticValve"){
+ if(
+  c.type==="directional"||
+  c.type==="pneumaticValve"
+ ){
+
   return `
+
    <div class="section">
+
     <h3>Directional Valve</h3>
+
     <div class="row">
+
      <div class="field">
+
       <label>Type</label>
+
       <select data-param="valveType">
-       ${["2/2","3/2","4/2","4/3","5/2"].map(v=>`<option ${p.valveType===v?"selected":""}>${v}</option>`).join("")}
+
+       ${["2/2","3/2","4/2","4/3","5/2"].map(v=>
+        `<option value="${v}"
+         ${p.valveType===v?"selected":""}>
+         ${v}
+        </option>`
+       ).join("")}
+
       </select>
+
      </div>
 
      <div class="field">
+
       <label>Position</label>
+
       <select data-param="position">
-       ${["left","centre","right"].map(v=>`<option ${p.position===v?"selected":""}>${v}</option>`).join("")}
+
+       ${["left","centre","right"].map(v=>
+        `<option value="${v}"
+         ${p.position===v?"selected":""}>
+         ${v}
+        </option>`
+       ).join("")}
+
       </select>
+
      </div>
+
     </div>
 
     <div class="field full">
+
      <label>Centre Configuration</label>
+
      <select data-param="centre">
-      ${["closed","open","tandem","float","pt","ab"].map(v=>`<option value="${v}" ${p.centre===v?"selected":""}>${v}</option>`).join("")}
+
+      ${[
+       "closed",
+       "open",
+       "tandem",
+       "float",
+       "pt",
+       "ab"
+      ].map(v=>
+       `<option value="${v}"
+        ${p.centre===v?"selected":""}>
+        ${v}
+       </option>`
+      ).join("")}
+
      </select>
+
     </div>
 
     <br>
-    <button class="smallBtn" data-action="editValve">Open Valve Builder</button>
+
+    <button
+     class="smallBtn"
+     data-action="editValve">
+     Open Valve Builder
+    </button>
+
    </div>
+
   `;
  }
 
- if(["relief","reducing","sequence","counterbalance","airRelief"].includes(c.type)){
+ if([
+  "relief",
+  "reducing",
+  "sequence",
+  "counterbalance",
+  "airRelief"
+ ].includes(c.type)){
+
   return `
+
    <div class="section">
+
     <h3>Pressure Setting</h3>
+
     <div class="field full">
+
      <label>Pressure bar</label>
-     <input data-param="relief" type="number" value="${p.relief}">
+
+     <input
+      data-param="relief"
+      type="number"
+      value="${p.relief}"
+     >
+
     </div>
+
    </div>
+
   `;
  }
 
- if(["flow","needle","airFlow"].includes(c.type)){
+ if([
+  "flow",
+  "needle",
+  "airFlow"
+ ].includes(c.type)){
+
   return `
+
    <div class="section">
+
     <h3>Flow Control</h3>
+
     <div class="field full">
+
      <label>Maximum Flow L/min</label>
-     <input data-param="maxFlow" type="number" value="${p.maxFlow}">
+
+     <input
+      data-param="maxFlow"
+      type="number"
+      value="${p.maxFlow}"
+     >
+
     </div>
+
    </div>
+
   `;
  }
 
@@ -2204,85 +3873,191 @@ function parameterHTML(c){
 
 function bindInspector(root){
 
- root.querySelectorAll("[data-field]").forEach(input=>{
-  input.addEventListener("change",()=>{
-   const c=findComponent(state.selected);
-   if(!c)return;
+ root.querySelectorAll(
+  "[data-field]"
+ ).forEach(input=>{
 
-   historyPush();
+  input.addEventListener(
+   "change",
+   ()=>{
 
-   const f=input.dataset.field;
+    const c=
+     findComponent(state.selected);
 
-   if(f==="label")c.label=input.value;
-   else if(f==="x")c.x=snap(Number(input.value)||0);
-   else if(f==="y")c.y=snap(Number(input.value)||0);
-   else if(f==="rotation")c.rotation=Number(input.value)||0;
+    if(!c)return;
 
-   render();
-  });
- });
-
- root.querySelectorAll("[data-param]").forEach(input=>{
-  input.addEventListener("change",()=>{
-   const c=findComponent(state.selected);
-   if(!c)return;
-
-   historyPush();
-
-   const k=input.dataset.param;
-   let v=input.value;
-
-   if(input.type==="number")v=Number(v);
-
-   c.params[k]=v;
-
-   render();
-  });
- });
-
- root.querySelectorAll("[data-conn]").forEach(input=>{
-  input.addEventListener("change",()=>{
-   const h=state.connections.find(x=>x.id===state.selectedConnection);
-   if(!h)return;
-
-   historyPush();
-
-   let v=input.value;
-   if(input.type==="number")v=Number(v);
-
-   h[input.dataset.conn]=v;
-   render();
-  });
- });
-
- root.querySelectorAll("[data-action]").forEach(btn=>{
-  btn.addEventListener("click",()=>{
-   const a=btn.dataset.action;
-
-   if(a==="flipX"){
-    const c=findComponent(state.selected);
-    if(c){historyPush();c.flipX=!c.flipX;render();}
-   }
-
-   if(a==="flipY"){
-    const c=findComponent(state.selected);
-    if(c){historyPush();c.flipY=!c.flipY;render();}
-   }
-
-   if(a==="deleteComponent")deleteComponent(state.selected);
-
-   if(a==="deleteConnection"){
     historyPush();
-    state.connections=state.connections.filter(x=>x.id!==state.selectedConnection);
-    state.selectedConnection=null;
+
+    const field=
+     input.dataset.field;
+
+    if(field==="label"){
+
+     c.label=input.value;
+
+    }else if(field==="x"){
+
+     c.x=snap(
+      Number(input.value)||0
+     );
+
+    }else if(field==="y"){
+
+     c.y=snap(
+      Number(input.value)||0
+     );
+
+    }else if(field==="rotation"){
+
+     c.rotation=
+      Number(input.value)||0;
+    }
+
     render();
    }
+  );
+ });
 
-   if(a==="editValve"){
-    const c=findComponent(state.selected);
-    if(c)openValveBuilder(c);
+ root.querySelectorAll(
+  "[data-param]"
+ ).forEach(input=>{
+
+  input.addEventListener(
+   "change",
+   ()=>{
+
+    const c=
+     findComponent(state.selected);
+
+    if(!c)return;
+
+    historyPush();
+
+    const key=
+     input.dataset.param;
+
+    let value=input.value;
+
+    if(input.type==="number"){
+     value=Number(value);
+    }
+
+    c.params[key]=value;
+
+    render();
    }
-  });
+  );
+ });
+
+ root.querySelectorAll(
+  "[data-conn]"
+ ).forEach(input=>{
+
+  input.addEventListener(
+   "change",
+   ()=>{
+
+    const h=
+     state.connections.find(
+      x=>x.id===state.selectedConnection
+     );
+
+    if(!h)return;
+
+    historyPush();
+
+    let value=input.value;
+
+    if(input.type==="number"){
+     value=Number(value);
+    }
+
+    h[input.dataset.conn]=value;
+
+    render();
+   }
+  );
+ });
+
+ root.querySelectorAll(
+  "[data-action]"
+ ).forEach(button=>{
+
+  button.addEventListener(
+   "click",
+   ()=>{
+
+    const action=
+     button.dataset.action;
+
+    if(action==="flipX"){
+
+     const c=
+      findComponent(state.selected);
+
+     if(c){
+
+      historyPush();
+
+      c.flipX=!c.flipX;
+
+      render();
+     }
+    }
+
+    if(action==="flipY"){
+
+     const c=
+      findComponent(state.selected);
+
+     if(c){
+
+      historyPush();
+
+      c.flipY=!c.flipY;
+
+      render();
+     }
+    }
+
+    if(action==="deleteComponent"){
+
+     deleteComponent(
+      state.selected
+     );
+    }
+
+    if(action==="deleteConnection"){
+
+     if(!state.selectedConnection){
+      return;
+     }
+
+     historyPush();
+
+     state.connections=
+      state.connections.filter(
+       h=>h.id!==state.selectedConnection
+      );
+
+     state.selectedConnection=null;
+
+     render();
+
+     toast("Connection deleted");
+    }
+
+    if(action==="editValve"){
+
+     const c=
+      findComponent(state.selected);
+
+     if(c){
+      openValveBuilder(c);
+     }
+    }
+   }
+  );
  });
 }
 
@@ -2292,49 +4067,97 @@ function bindInspector(root){
 
 function deleteComponent(id){
 
- const c=findComponent(id);
- if(!c)return;
+ const component=
+  findComponent(id);
+
+ if(!component)return;
 
  historyPush();
 
- state.components=state.components.filter(x=>x.id!==id);
- state.connections=state.connections.filter(h=>
-  h.from.component!==id&&h.to.component!==id
- );
+ state.components=
+  state.components.filter(
+   c=>c.id!==id
+  );
+
+ state.connections=
+  state.connections.filter(
+   h=>
+    h.from.component!==id&&
+    h.to.component!==id
+  );
 
  state.selected=null;
+ state.selectedConnection=null;
+ state.hoseStart=null;
+
  render();
- toast(`${c.label} deleted`);
+
+ toast(
+  `${component.label} deleted`
+ );
 }
 
 /* ============================================================
    DRAGGING
    ============================================================ */
 
-function startComponentDrag(c,e){
+function startComponentDrag(c,event){
 
- const p=screenToWorld(e.clientX,e.clientY);
+ if(state.tool!=="select"){
+  return;
+ }
+
+ const position=
+  screenToWorld(
+   event.clientX,
+   event.clientY
+  );
 
  state.drag={
+
   component:c,
-  offsetX:p.x-c.x,
-  offsetY:p.y-c.y,
+
+  offsetX:
+   position.x-c.x,
+
+  offsetY:
+   position.y-c.y,
+
   startX:c.x,
-  startY:c.y
+  startY:c.y,
+
+  pointerId:event.pointerId
  };
 
- e.currentTarget.setPointerCapture?.(e.pointerId);
+ try{
+  event.currentTarget.setPointerCapture(
+   event.pointerId
+  );
+ }catch(error){}
 }
 
-function continueDrag(e){
+function continueDrag(event){
 
  if(!state.drag)return;
 
- const c=state.drag.component;
- const p=screenToWorld(e.clientX,e.clientY);
+ const c=
+  state.drag.component;
 
- c.x=snap(p.x-state.drag.offsetX);
- c.y=snap(p.y-state.drag.offsetY);
+ const position=
+  screenToWorld(
+   event.clientX,
+   event.clientY
+  );
+
+ c.x=
+  snap(
+   position.x-state.drag.offsetX
+  );
+
+ c.y=
+  snap(
+   position.y-state.drag.offsetY
+  );
 
  render();
 }
@@ -2343,140 +4166,316 @@ function finishDrag(){
 
  if(!state.drag)return;
 
- const d=state.drag;
+ const drag=state.drag;
 
- if(d.startX!==d.component.x||d.startY!==d.component.y){
+ const moved=
+  drag.startX!==drag.component.x||
+  drag.startY!==drag.component.y;
+
+ if(moved){
+
+  const after=snapshot();
+
   state.history.push({
-   components:clone(state.components).map(c=>
-    c.id===d.component.id
-    ? {...c,x:d.startX,y:d.startY}
-    : c
+   components:after.components.map(c=>
+    c.id===drag.component.id
+     ?{
+       ...c,
+       x:drag.startX,
+       y:drag.startY
+      }
+     :c
    ),
-   connections:clone(state.connections),
-   nextId:state.nextId
+
+   connections:after.connections,
+
+   nextId:after.nextId
   });
 
-  if(state.history.length>50)state.history.shift();
+  if(state.history.length>50){
+   state.history.shift();
+  }
+
   state.future=[];
  }
 
  state.drag=null;
+
+ render();
 }
 
 /* ============================================================
    POINTER / TOUCH
    ============================================================ */
 
-svg.addEventListener("pointerdown",e=>{
+svg.addEventListener(
+ "pointerdown",
+ event=>{
 
- state.pointerMap.set(e.pointerId,{x:e.clientX,y:e.clientY});
-
- if(e.target===svg||e.target===background){
+  if(event.target!==svg&&
+     event.target!==background){
+   return;
+  }
 
   if(state.tool==="select"){
+
    state.selected=null;
    state.selectedConnection=null;
+   state.hoseStart=null;
+
    render();
   }
 
   state.pan={
-   x:e.clientX,
-   y:e.clientY,
+   x:event.clientX,
+   y:event.clientY,
+
    cameraX:state.camera.x,
-   cameraY:state.camera.y
+   cameraY:state.camera.y,
+
+   pointerId:event.pointerId
   };
 
-  svg.setPointerCapture?.(e.pointerId);
+  try{
+   svg.setPointerCapture(
+    event.pointerId
+   );
+  }catch(error){}
  }
-});
+);
 
-svg.addEventListener("pointermove",e=>{
+svg.addEventListener(
+ "pointermove",
+ event=>{
 
- state.pointerMap.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(state.drag){
 
- if(state.drag){
-  continueDrag(e);
-  return;
+   continueDrag(event);
+
+   return;
+  }
+
+  if(
+   state.pan&&
+   state.pan.pointerId===event.pointerId
+  ){
+
+   state.camera.x=
+    state.pan.cameraX+
+    (
+     event.clientX-
+     state.pan.x
+    );
+
+   state.camera.y=
+    state.pan.cameraY+
+    (
+     event.clientY-
+     state.pan.y
+    );
+
+   applyCamera();
+  }
  }
+);
 
- if(state.pan&&state.pointerMap.size===1){
-  state.camera.x=state.pan.cameraX+(e.clientX-state.pan.x);
-  state.camera.y=state.pan.cameraY+(e.clientY-state.pan.y);
+svg.addEventListener(
+ "pointerup",
+ event=>{
+
+  if(
+   state.drag&&
+   state.drag.pointerId===event.pointerId
+  ){
+
+   finishDrag();
+  }
+
+  if(
+   state.pan&&
+   state.pan.pointerId===event.pointerId
+  ){
+
+   state.pan=null;
+  }
+ }
+);
+
+svg.addEventListener(
+ "pointercancel",
+ event=>{
+
+  if(
+   state.drag&&
+   state.drag.pointerId===event.pointerId
+  ){
+
+   state.drag=null;
+   render();
+  }
+
+  if(
+   state.pan&&
+   state.pan.pointerId===event.pointerId
+  ){
+
+   state.pan=null;
+  }
+ }
+);
+
+svg.addEventListener(
+ "contextmenu",
+ event=>{
+  event.preventDefault();
+ }
+);
+
+svg.addEventListener(
+ "wheel",
+ event=>{
+
+  event.preventDefault();
+
+  const before=
+   screenToWorld(
+    event.clientX,
+    event.clientY
+   );
+
+  const factor=
+   event.deltaY<0
+    ?1.1
+    :.9;
+
+  state.camera.zoom=
+   clamp(
+    state.camera.zoom*factor,
+    .25,
+    3
+   );
+
+  const after=
+   screenToWorld(
+    event.clientX,
+    event.clientY
+   );
+
+  state.camera.x+=
+   (
+    after.x-before.x
+   )*
+   state.camera.zoom;
+
+  state.camera.y+=
+   (
+    after.y-before.y
+   )*
+   state.camera.zoom;
+
   applyCamera();
- }
-});
 
-svg.addEventListener("pointerup",e=>{
-
- state.pointerMap.delete(e.pointerId);
-
- if(state.drag){
-  finishDrag();
- }
-
- if(state.pointerMap.size===0){
-  state.pan=null;
- }
-});
-
-svg.addEventListener("pointercancel",e=>{
- state.pointerMap.delete(e.pointerId);
- state.drag=null;
- state.pan=null;
-});
-
-svg.addEventListener("wheel",e=>{
- e.preventDefault();
-
- const before=screenToWorld(e.clientX,e.clientY);
- const factor=e.deltaY<0?1.1:.9;
-
- state.camera.zoom=clamp(state.camera.zoom*factor,.25,3);
-
- const after=screenToWorld(e.clientX,e.clientY);
-
- state.camera.x+=(after.x-before.x)*state.camera.zoom;
- state.camera.y+=(after.y-before.y)*state.camera.zoom;
-
- applyCamera();
-},{passive:false});
+ },
+ {passive:false}
+);
 
 /* ============================================================
    TOOLS
    ============================================================ */
 
+function updateToolButtons(){
+
+ const ids=[
+  "selectTool",
+  "hoseTool",
+  "pipeTool",
+  "deleteTool",
+  "rotateTool"
+ ];
+
+ ids.forEach(id=>{
+  document
+   .getElementById(id)
+   .classList.remove("active");
+ });
+
+ const map={
+  select:"selectTool",
+  hose:"hoseTool",
+  pipe:"pipeTool",
+  delete:"deleteTool",
+  rotate:"rotateTool"
+ };
+
+ if(map[state.tool]){
+
+  document
+   .getElementById(map[state.tool])
+   .classList.add("active");
+ }
+}
+
 function setTool(tool){
 
  state.tool=tool;
-
- ["selectTool","hoseTool","pipeTool","deleteTool","rotateTool"].forEach(id=>{
-  document.getElementById(id).classList.remove("active");
- });
-
- if(tool==="select")document.getElementById("selectTool").classList.add("active");
- if(tool==="hose")document.getElementById("hoseTool").classList.add("active");
- if(tool==="pipe")document.getElementById("pipeTool").classList.add("active");
- if(tool==="delete")document.getElementById("deleteTool").classList.add("active");
- if(tool==="rotate")document.getElementById("rotateTool").classList.add("active");
-
  state.hoseStart=null;
+
+ updateToolButtons();
+
  render();
 }
 
-document.getElementById("selectTool").onclick=()=>setTool("select");
-document.getElementById("hoseTool").onclick=()=>setTool("hose");
-document.getElementById("pipeTool").onclick=()=>setTool("pipe");
-document.getElementById("deleteTool").onclick=()=>setTool("delete");
-document.getElementById("rotateTool").onclick=()=>setTool("rotate");
+document.getElementById(
+ "selectTool"
+).onclick=()=>setTool("select");
 
-document.getElementById("gridBtn").onclick=()=>{
+document.getElementById(
+ "hoseTool"
+).onclick=()=>setTool("hose");
+
+document.getElementById(
+ "pipeTool"
+).onclick=()=>setTool("pipe");
+
+document.getElementById(
+ "deleteTool"
+).onclick=()=>setTool("delete");
+
+document.getElementById(
+ "rotateTool"
+).onclick=()=>setTool("rotate");
+
+document.getElementById(
+ "gridBtn"
+).onclick=()=>{
+
  state.grid=!state.grid;
- document.getElementById("gridBtn").classList.toggle("active",state.grid);
+
+ document
+  .getElementById("gridBtn")
+  .classList.toggle(
+   "active",
+   state.grid
+  );
+
+ toast(
+  state.grid
+   ?"Grid enabled"
+   :"Grid disabled"
+ );
 };
 
-document.getElementById("fitBtn").onclick=fitView;
-document.getElementById("undoBtn").onclick=undo;
-document.getElementById("redoBtn").onclick=redo;
+document.getElementById(
+ "fitBtn"
+).onclick=fitView;
+
+document.getElementById(
+ "undoBtn"
+).onclick=undo;
+
+document.getElementById(
+ "redoBtn"
+).onclick=redo;
 
 /* ============================================================
    LIBRARY
@@ -2485,51 +4484,113 @@ document.getElementById("redoBtn").onclick=redo;
 function renderLibrary(filter=""){
 
  const targets=[
-  document.getElementById("libraryScroll"),
-  document.getElementById("mobileLibraryScroll")
+
+  document.getElementById(
+   "libraryScroll"
+  ),
+
+  document.getElementById(
+   "mobileLibraryScroll"
+  )
+
  ];
 
  targets.forEach(target=>{
+
   if(!target)return;
 
   target.innerHTML="";
 
-  COMPONENTS.forEach(cat=>{
+  COMPONENTS.forEach(category=>{
 
-   if(cat.pneumatic && state.mode!=="pneumatic")return;
+   if(
+    category.pneumatic&&
+    state.mode!=="pneumatic"
+   ){
+    return;
+   }
 
-   const matches=cat.items.filter(item=>{
-    const s=(item[1]+" "+item[2]).toLowerCase();
-    return !filter||s.includes(filter.toLowerCase());
-   });
+   const matches=
+    category.items.filter(item=>{
+
+     const text=
+      (
+       item[1]+
+       " "+
+       item[2]
+      ).toLowerCase();
+
+     return(
+      !filter||
+      text.includes(
+       filter.toLowerCase()
+      )
+     );
+    });
 
    if(!matches.length)return;
 
-   const title=document.createElement("div");
-   title.className="cat";
-   title.textContent=cat.category;
-   target.appendChild(title);
+   const heading=
+    document.createElement("div");
+
+   heading.className="cat";
+   heading.textContent=
+    category.category;
+
+   target.appendChild(heading);
 
    matches.forEach(item=>{
 
-    const btn=document.createElement("button");
-    btn.className="libItem";
+    const button=
+     document.createElement("button");
 
-    btn.innerHTML=`
+    button.className="libItem";
+
+    button.innerHTML=`
+
      <span class="libIcon">
-      <svg width="34" height="34" viewBox="-50 -50 100 100">
+
+      <svg
+       width="34"
+       height="34"
+       viewBox="-50 -50 100 100">
+
        ${miniIcon(item[0])}
+
       </svg>
+
      </span>
+
      <span>
-      <div class="libName">${item[1]}</div>
-      <div class="libSub">${item[2]}</div>
+
+      <div class="libName">
+       ${item[1]}
+      </div>
+
+      <div class="libSub">
+       ${item[2]}
+      </div>
+
      </span>
     `;
 
-    btn.onclick=()=>addComponent(item[0]);
+    button.onclick=()=>{
 
-    target.appendChild(btn);
+     addComponent(item[0]);
+
+     if(
+      window.innerWidth<=900
+     ){
+
+      document
+       .getElementById(
+        "mobileDrawer"
+       )
+       .classList.remove("open");
+     }
+    };
+
+    target.appendChild(button);
    });
   });
  });
@@ -2537,115 +4598,361 @@ function renderLibrary(filter=""){
 
 function miniIcon(type){
 
- if(type.includes("pump")||type==="compressor"){
-  return `<circle cx="0" cy="0" r="25" fill="white" stroke="#111827" stroke-width="3"/>
-          <path d="M-10 -14L15 0L-10 14Z" fill="white" stroke="#111827" stroke-width="3"/>`;
+ if(
+  type.includes("pump")||
+  type==="compressor"
+ ){
+
+  return `
+
+   <circle
+    cx="0"
+    cy="0"
+    r="25"
+    fill="white"
+    stroke="#111827"
+    stroke-width="3"/>
+
+   <path
+    d="M-10 -14L15 0L-10 14Z"
+    fill="white"
+    stroke="#111827"
+    stroke-width="3"/>
+
+  `;
  }
 
  if(type.includes("cylinder")){
-  return `<rect x="-35" y="-14" width="70" height="28" fill="white" stroke="#111827" stroke-width="3"/>
-          <rect x="0" y="-4" width="40" height="8" fill="#cbd5e1" stroke="#111827" stroke-width="2"/>`;
+
+  return `
+
+   <rect
+    x="-35"
+    y="-14"
+    width="70"
+    height="28"
+    fill="white"
+    stroke="#111827"
+    stroke-width="3"/>
+
+   <rect
+    x="0"
+    y="-4"
+    width="40"
+    height="8"
+    fill="#cbd5e1"
+    stroke="#111827"
+    stroke-width="2"/>
+
+  `;
  }
 
- if(type.includes("valve")||type==="directional"){
-  return `<rect x="-35" y="-25" width="25" height="50" fill="white" stroke="#111827" stroke-width="2"/>
-          <rect x="-10" y="-25" width="25" height="50" fill="white" stroke="#111827" stroke-width="2"/>
-          <rect x="15" y="-25" width="25" height="50" fill="white" stroke="#111827" stroke-width="2"/>`;
+ if(
+  type.includes("valve")||
+  type==="directional"
+ ){
+
+  return `
+
+   <rect
+    x="-35"
+    y="-25"
+    width="25"
+    height="50"
+    fill="white"
+    stroke="#111827"
+    stroke-width="2"/>
+
+   <rect
+    x="-10"
+    y="-25"
+    width="25"
+    height="50"
+    fill="white"
+    stroke="#111827"
+    stroke-width="2"/>
+
+   <rect
+    x="15"
+    y="-25"
+    width="25"
+    height="50"
+    fill="white"
+    stroke="#111827"
+    stroke-width="2"/>
+
+  `;
  }
 
- if(type==="reservoir"||type==="airTank"){
-  return `<path d="M-30 -5L30 -5L23 25L-23 25Z" fill="white" stroke="#111827" stroke-width="3"/>`;
+ if(
+  type==="reservoir"||
+  type==="airTank"
+ ){
+
+  return `
+
+   <path
+    d="M-30 -5L30 -5L23 25L-23 25Z"
+    fill="white"
+    stroke="#111827"
+    stroke-width="3"/>
+
+  `;
  }
 
- if(type==="gauge"||type==="flowmeter"){
-  return `<circle cx="0" cy="0" r="27" fill="white" stroke="#111827" stroke-width="3"/>
-          <line x1="0" y1="0" x2="0" y2="-18" stroke="#111827" stroke-width="3"/>`;
+ if(
+  type==="gauge"||
+  type==="flowmeter"
+ ){
+
+  return `
+
+   <circle
+    cx="0"
+    cy="0"
+    r="27"
+    fill="white"
+    stroke="#111827"
+    stroke-width="3"/>
+
+   <line
+    x1="0"
+    y1="0"
+    x2="0"
+    y2="-18"
+    stroke="#111827"
+    stroke-width="3"/>
+
+  `;
  }
 
- return `<rect x="-28" y="-20" width="56" height="40" rx="4" fill="white" stroke="#111827" stroke-width="3"/>`;
+ return `
+
+  <rect
+   x="-28"
+   y="-20"
+   width="56"
+   height="40"
+   rx="4"
+   fill="white"
+   stroke="#111827"
+   stroke-width="3"/>
+
+ `;
 }
 
-document.getElementById("search").addEventListener("input",e=>{
- renderLibrary(e.target.value);
-});
+document.getElementById(
+ "search"
+).addEventListener(
+ "input",
+ event=>{
+  renderLibrary(
+   event.target.value
+  );
+ }
+);
 
-document.getElementById("mobileSearch").addEventListener("input",e=>{
- renderLibrary(e.target.value);
-});
+document.getElementById(
+ "mobileSearch"
+).addEventListener(
+ "input",
+ event=>{
+  renderLibrary(
+   event.target.value
+  );
+ }
+);
 
 /* ============================================================
    MODE
    ============================================================ */
 
-document.querySelectorAll("#modeSwitch button").forEach(btn=>{
- btn.onclick=()=>{
-  document.querySelectorAll("#modeSwitch button").forEach(x=>x.classList.remove("active"));
-  btn.classList.add("active");
+document
+ .querySelectorAll(
+  "#modeSwitch button"
+ )
+ .forEach(button=>{
 
-  state.mode=btn.dataset.mode;
+  button.onclick=()=>{
 
-  renderLibrary();
+   document
+    .querySelectorAll(
+     "#modeSwitch button"
+    )
+    .forEach(x=>
+     x.classList.remove("active")
+    );
 
-  toast(`${state.mode==="hydraulic"?"Hydraulic":"Pneumatic"} mode`);
- };
-});
+   button.classList.add("active");
+
+   state.mode=
+    button.dataset.mode;
+
+   renderLibrary();
+
+   toast(
+    state.mode==="hydraulic"
+     ?"Hydraulic mode"
+     :"Pneumatic mode"
+   );
+  };
+ });
 
 /* ============================================================
-   SAVE / LOAD
+   SAVE
    ============================================================ */
 
-document.getElementById("saveBtn").onclick=()=>{
+document.getElementById(
+ "saveBtn"
+).onclick=()=>{
 
  const data={
-  version:1,
+
+  version:2,
+
   mode:state.mode,
-  components:state.components,
-  connections:state.connections,
-  nextId:state.nextId
+
+  components:
+   state.components,
+
+  connections:
+   state.connections,
+
+  nextId:
+   state.nextId
  };
 
- const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
- const url=URL.createObjectURL(blob);
+ const blob=
+  new Blob(
+   [
+    JSON.stringify(
+     data,
+     null,
+     2
+    )
+   ],
+   {
+    type:"application/json"
+   }
+  );
 
- const a=document.createElement("a");
- a.href=url;
- a.download="hydraulic-studio-circuit.json";
- a.click();
+ const url=
+  URL.createObjectURL(blob);
 
- setTimeout(()=>URL.revokeObjectURL(url),1000);
+ const link=
+  document.createElement("a");
+
+ link.href=url;
+ link.download=
+  "hydraulic-studio-circuit.json";
+
+ document.body.appendChild(link);
+
+ link.click();
+
+ link.remove();
+
+ setTimeout(
+  ()=>URL.revokeObjectURL(url),
+  1000
+ );
 
  toast("Circuit saved");
 };
 
-document.getElementById("loadBtn").onclick=()=>{
+/* ============================================================
+   LOAD
+   ============================================================ */
 
- const input=document.createElement("input");
+document.getElementById(
+ "loadBtn"
+).onclick=()=>{
+
+ const input=
+  document.createElement("input");
+
  input.type="file";
- input.accept=".json,application/json";
+ input.accept=
+  ".json,application/json";
 
  input.onchange=()=>{
-  const file=input.files[0];
+
+  const file=
+   input.files&&input.files[0];
+
   if(!file)return;
 
-  const reader=new FileReader();
+  const reader=
+   new FileReader();
 
   reader.onload=()=>{
+
    try{
-    const data=JSON.parse(reader.result);
+
+    const data=
+     JSON.parse(
+      reader.result
+     );
+
+    if(
+     !Array.isArray(
+      data.components
+     )||
+     !Array.isArray(
+      data.connections
+     )
+    ){
+
+     throw new Error(
+      "Invalid circuit"
+     );
+    }
 
     historyPush();
 
-    state.components=data.components||[];
-    state.connections=data.connections||[];
-    state.nextId=data.nextId||1;
-    state.mode=data.mode||"hydraulic";
+    state.components=
+     data.components;
+
+    state.connections=
+     data.connections;
+
+    state.nextId=
+     Number(data.nextId)||1;
+
+    state.mode=
+     data.mode==="pneumatic"
+      ?"pneumatic"
+      :"hydraulic";
+
+    document
+     .querySelectorAll(
+      "#modeSwitch button"
+     )
+     .forEach(button=>{
+      button.classList.toggle(
+       "active",
+       button.dataset.mode===
+        state.mode
+      );
+     });
+
+    state.selected=null;
+    state.selectedConnection=null;
+    state.hoseStart=null;
 
     renderLibrary();
+
     fitView();
 
     toast("Circuit loaded");
-   }catch(err){
-    alert("Could not load that circuit file.");
+
+   }catch(error){
+
+    console.error(error);
+
+    alert(
+     "Could not load that circuit file."
+    );
    }
   };
 
@@ -2656,160 +4963,294 @@ document.getElementById("loadBtn").onclick=()=>{
 };
 
 /* ============================================================
-   EXAMPLE CIRCUIT
+   EXAMPLE
    ============================================================ */
 
-document.getElementById("exampleBtn").onclick=()=>{
- if(state.components.length){
-  if(!confirm("Replace the current circuit with the example?"))return;
+document.getElementById(
+ "exampleBtn"
+).onclick=()=>{
+
+ if(
+  state.components.length&&
+  !confirm(
+   "Replace the current circuit with the example?"
+  )
+ ){
+  return;
  }
 
  historyPush();
 
  state.components=[];
  state.connections=[];
+
  state.selected=null;
  state.selectedConnection=null;
+ state.hoseStart=null;
+
  state.nextId=1;
 
- const tank=createComponent("reservoir",100,250);
- const pump=createComponent("pump",300,250,{flow:35,pressure:180,rpm:1450});
- const valve=createComponent("directional",520,250,{
-  valveType:"4/3",
-  centre:"closed",
-  position:"left",
-  actuation:"Lever",
-  spring:"yes"
- });
- const cyl=createComponent("cylinder",780,180,{
-  bore:80,
-  rod:40,
-  stroke:500
- });
- const relief=createComponent("relief",520,420,{relief:180});
- const gauge=createComponent("gauge",330,420);
+ const tank=
+  createComponent(
+   "reservoir",
+   100,
+   250
+  );
+
+ const pump=
+  createComponent(
+   "pump",
+   300,
+   250,
+   {
+    flow:35,
+    pressure:180,
+    rpm:1450
+   }
+  );
+
+ const valve=
+  createComponent(
+   "directional",
+   520,
+   250,
+   {
+    valveType:"4/3",
+    centre:"closed",
+    position:"left",
+    actuation:"Lever",
+    spring:"yes"
+   }
+  );
+
+ const cylinder=
+  createComponent(
+   "cylinder",
+   780,
+   180,
+   {
+    bore:80,
+    rod:40,
+    stroke:500
+   }
+  );
+
+ const relief=
+  createComponent(
+   "relief",
+   520,
+   420,
+   {
+    relief:180
+   }
+  );
+
+ const gauge=
+  createComponent(
+   "gauge",
+   300,
+   420
+  );
 
  state.connections=[
-  {
-   id:uid("H"),
-   from:{component:tank.id,port:"P"},
-   to:{component:pump.id,port:"IN"},
-   type:"soft",
-   diameter:25,
-   length:1000,
-   rating:250,
-   flow:0,
-   pressureDrop:0
-  },
-  {
-   id:uid("H"),
-   from:{component:pump.id,port:"OUT"},
-   to:{component:valve.id,port:"P"},
-   type:"hard",
-   diameter:16,
-   length:1500,
-   rating:315,
-   flow:0,
-   pressureDrop:0
-  },
-  {
-   id:uid("H"),
-   from:{component:valve.id,port:"A"},
-   to:{component:cyl.id,port:"A"},
-   type:"soft",
-   diameter:16,
-   length:1000,
-   rating:250,
-   flow:0,
-   pressureDrop:0
-  },
-  {
-   id:uid("H"),
-   from:{component:cyl.id,port:"B"},
-   to:{component:valve.id,port:"B"},
-   type:"soft",
-   diameter:16,
-   length:1000,
-   rating:250,
-   flow:0,
-   pressureDrop:0
-  },
-  {
-   id:uid("H"),
-   from:{component:valve.id,port:"T"},
-   to:{component:tank.id,port:"P"},
-   type:"soft",
-   diameter:25,
-   length:1200,
-   rating:250,
-   flow:0,
-   pressureDrop:0
-  },
-  {
-   id:uid("H"),
-   from:{component:pump.id,port:"OUT"},
-   to:{component:gauge.id,port:"P"},
-   type:"hard",
-   diameter:6,
-   length:500,
-   rating:250,
-   flow:0,
-   pressureDrop:0
-  },
-  {
-   id:uid("H"),
-   from:{component:relief.id,port:"A"},
-   to:{component:pump.id,port:"OUT"},
-   type:"hard",
-   diameter:10,
-   length:600,
-   rating:250,
-   flow:0,
-   pressureDrop:0
-  },
-  {
-   id:uid("H"),
-   from:{component:relief.id,port:"B"},
-   to:{component:tank.id,port:"P"},
-   type:"soft",
-   diameter:16,
-   length:700,
-   rating:250,
-   flow:0,
-   pressureDrop:0
-  }
+
+  makeConnection(
+   tank.id,
+   "P",
+   pump.id,
+   "IN",
+   "soft",
+   25,
+   1000
+  ),
+
+  makeConnection(
+   pump.id,
+   "OUT",
+   valve.id,
+   "P",
+   "hard",
+   16,
+   1000
+  ),
+
+  makeConnection(
+   valve.id,
+   "A",
+   cylinder.id,
+   "A",
+   "soft",
+   16,
+   1000
+  ),
+
+  makeConnection(
+   cylinder.id,
+   "B",
+   valve.id,
+   "B",
+   "soft",
+   16,
+   1000
+  ),
+
+  makeConnection(
+   valve.id,
+   "T",
+   tank.id,
+   "P",
+   "soft",
+   25,
+   1200
+  ),
+
+  makeConnection(
+   pump.id,
+   "OUT",
+   gauge.id,
+   "P",
+   "hard",
+   6,
+   500
+  ),
+
+  makeConnection(
+   relief.id,
+   "A",
+   pump.id,
+   "OUT",
+   "hard",
+   10,
+   600
+  ),
+
+  makeConnection(
+   relief.id,
+   "B",
+   tank.id,
+   "P",
+   "soft",
+   16,
+   700
+  )
  ];
 
+ state.selected=null;
+
  render();
+
  fitView();
- toast("Example hydraulic circuit loaded");
+
+ toast(
+  "Example hydraulic circuit loaded"
+ );
 };
+
+function makeConnection(
+ fromComponent,
+ fromPort,
+ toComponent,
+ toPort,
+ type="soft",
+ diameter=12,
+ length=1000
+){
+
+ return{
+
+  id:uid("H"),
+
+  from:{
+   component:fromComponent,
+   port:fromPort
+  },
+
+  to:{
+   component:toComponent,
+   port:toPort
+  },
+
+  type:type,
+
+  diameter:diameter,
+
+  length:length,
+
+  rating:250,
+
+  flow:0,
+
+  pressureDrop:0
+ };
+}
 
 /* ============================================================
    SIMULATION
    ============================================================ */
 
-document.getElementById("simBtn").onclick=()=>{
+document.getElementById(
+ "simBtn"
+).onclick=()=>{
 
- state.running=!state.running;
+ state.running=
+  !state.running;
 
- const btn=document.getElementById("simBtn");
- const badge=document.getElementById("simBadge");
+ const button=
+  document.getElementById(
+   "simBtn"
+  );
+
+ const badge=
+  document.getElementById(
+   "simBadge"
+  );
 
  if(state.running){
-  btn.textContent="■ Stop";
-  btn.classList.add("active");
-  badge.textContent="RUNNING";
-  badge.classList.add("running");
-  state.lastTime=performance.now();
-  requestAnimationFrame(simLoop);
-  toast("Simulation running");
+
+  button.textContent=
+   "■ Stop";
+
+  button.classList.add(
+   "active"
+  );
+
+  badge.textContent=
+   "RUNNING";
+
+  badge.classList.add(
+   "running"
+  );
+
+  state.lastTime=
+   performance.now();
+
+  requestAnimationFrame(
+   simLoop
+  );
+
+  toast(
+   "Simulation running"
+  );
+
  }else{
-  btn.textContent="▶ Simulate";
-  btn.classList.remove("active");
-  badge.textContent="STOPPED";
-  badge.classList.remove("running");
-  toast("Simulation stopped");
+
+  button.textContent=
+   "▶ Simulate";
+
+  button.classList.remove(
+   "active"
+  );
+
+  badge.textContent=
+   "STOPPED";
+
+  badge.classList.remove(
+   "running"
+  );
+
+  toast(
+   "Simulation stopped"
+  );
  }
 
  render();
@@ -2817,280 +5258,608 @@ document.getElementById("simBtn").onclick=()=>{
 
 function simLoop(now){
 
- if(!state.running)return;
+ if(!state.running){
+  return;
+ }
 
- const dt=Math.min(.05,(now-state.lastTime)/1000||0);
+ const dt=
+  Math.min(
+   .05,
+   (now-state.lastTime)/1000||0
+  );
+
  state.lastTime=now;
- state.simTime+=dt*1000;
+
+ state.simTime+=
+  dt*1000;
 
  simulate(dt);
 
  render();
 
- requestAnimationFrame(simLoop);
+ requestAnimationFrame(
+  simLoop
+ );
 }
 
 function simulate(dt){
 
  state.components.forEach(c=>{
+
   c.sim.pressure=0;
   c.sim.flow=0;
   c.sim.speed=0;
   c.sim.active=false;
+
  });
 
  state.connections.forEach(h=>{
+
   h.flow=0;
   h.pressureDrop=0;
+
  });
 
- const pumps=state.components.filter(c=>
-  c.type==="pump"||c.type==="pumpVariable"||c.type==="compressor"
- );
+ const sources=
+  state.components.filter(c=>
 
- pumps.forEach(p=>{
-  if(p.params.fault==="failed"||p.params.fault==="cavitation")return;
+   c.type==="pump"||
+   c.type==="pumpVariable"||
+   c.type==="compressor"
+  );
 
-  p.sim.active=true;
-  p.sim.pressure=Number(p.params.pressure)||0;
-  p.sim.flow=Number(p.params.flow)||0;
+ sources.forEach(source=>{
+
+  if(
+   source.params.fault==="failed"||
+   source.params.fault==="cavitation"
+  ){
+   return;
+  }
+
+  source.sim.active=true;
+
+  source.sim.pressure=
+   Number(
+    source.params.pressure
+   )||0;
+
+  source.sim.flow=
+   Number(
+    source.params.flow
+   )||0;
  });
 
  propagateFlows();
 
- simulateActuators(dt);
  calculateConnectionLosses();
+
+ simulateActuators(dt);
 }
 
-/* ------------------------------------------------------------
-   Hydraulic graph propagation
-   ------------------------------------------------------------ */
+/* ============================================================
+   FLOW PROPAGATION
+   ============================================================ */
 
 function propagateFlows(){
 
- const visited=new Set();
  const queue=[];
+ const visited=new Set();
 
  state.components.forEach(c=>{
+
   if(
    c.type==="pump"||
    c.type==="pumpVariable"||
    c.type==="compressor"
   ){
-   if(c.params.fault==="failed")return;
+
+   if(
+    c.params.fault==="failed"||
+    c.params.fault==="cavitation"
+   ){
+    return;
+   }
 
    queue.push({
     id:c.id,
-    pressure:Number(c.params.pressure)||0,
-    flow:Number(c.params.flow)||0
+    pressure:
+     Number(c.params.pressure)||0,
+    flow:
+     Number(c.params.flow)||0
    });
   }
  });
 
  while(queue.length){
 
-  const n=queue.shift();
+  const node=
+   queue.shift();
 
-  if(visited.has(n.id))continue;
-  visited.add(n.id);
+  const key=
+   `${node.id}:${Math.round(node.pressure*10)}:${Math.round(node.flow*10)}`;
 
-  const c=findComponent(n.id);
-  if(!c)continue;
+  if(visited.has(key)){
+   continue;
+  }
 
-  c.sim.pressure=Math.max(c.sim.pressure,n.pressure);
-  c.sim.flow=Math.max(c.sim.flow,n.flow);
+  visited.add(key);
 
-  const links=state.connections.filter(h=>
-   h.from.component===c.id||h.to.component===c.id
-  );
+  const component=
+   findComponent(node.id);
 
-  links.forEach(h=>{
+  if(!component){
+   continue;
+  }
+
+  component.sim.pressure=
+   Math.max(
+    component.sim.pressure,
+    node.pressure
+   );
+
+  component.sim.flow=
+   Math.max(
+    component.sim.flow,
+    node.flow
+   );
+
+  const links=
+   state.connections.filter(h=>
+    h.from.component===component.id||
+    h.to.component===component.id
+   );
+
+  links.forEach(connection=>{
 
    const otherId=
-    h.from.component===c.id
-    ?h.to.component
-    :h.from.component;
+    connection.from.component===
+    component.id
+     ?connection.to.component
+     :connection.from.component;
 
-   const other=findComponent(otherId);
-   if(!other)return;
+   const other=
+    findComponent(otherId);
 
-   let flow=n.flow;
-   let pressure=n.pressure;
+   if(!other){
+    return;
+   }
 
-   if(h.type==="soft")pressure*=.98;
-   if(h.type==="hard")pressure*=.995;
-   if(h.type==="steel")pressure*=.997;
-   if(h.type==="flexible")pressure*=.97;
+   let flow=
+    Math.max(
+     0,
+     node.flow
+    );
 
-   if(h.diameter<8)flow*=.45;
-   else if(h.diameter<12)flow*=.7;
-   else if(h.diameter<16)flow*=.88;
+   let pressure=
+    Math.max(
+     0,
+     node.pressure
+    );
 
-   flow=Math.max(0,flow);
+   const type=
+    connection.type;
+
+   if(type==="soft"){
+    pressure*=.985;
+   }
+
+   if(type==="hard"){
+    pressure*=.995;
+   }
+
+   if(type==="steel"){
+    pressure*=.997;
+   }
+
+   if(type==="flexible"){
+    pressure*=.98;
+   }
+
+   const diameter=
+    Number(connection.diameter)||12;
+
+   if(diameter<6){
+    flow*=.35;
+   }else if(diameter<8){
+    flow*=.5;
+   }else if(diameter<12){
+    flow*=.7;
+   }else if(diameter<16){
+    flow*=.88;
+   }
 
    if(other.params.fault==="blocked"){
     flow=0;
    }
 
-   if(other.type==="flow"||
-      other.type==="needle"||
-      other.type==="airFlow"){
-    flow=Math.min(flow,Number(other.params.maxFlow)||60);
+   if(
+    other.type==="filter"||
+    other.type==="strainer"
+   ){
+
+    if(
+     other.params.fault==="blocked"
+    ){
+     flow=0;
+    }else{
+     flow*=.95;
+    }
    }
 
-   if(other.type==="relief"||
-      other.type==="airRelief"){
-    if(pressure>Number(other.params.relief)){
+   if(
+    other.type==="flow"||
+    other.type==="needle"||
+    other.type==="airFlow"
+   ){
+
+    flow=
+     Math.min(
+      flow,
+      Number(
+       other.params.maxFlow
+      )||60
+     );
+   }
+
+   if(
+    other.type==="reducing"
+   ){
+
+    pressure=
+     Math.min(
+      pressure,
+      Number(
+       other.params.reduction
+      )||100
+     );
+   }
+
+   if(
+    other.type==="relief"||
+    other.type==="airRelief"
+   ){
+
+    const setting=
+     Number(
+      other.params.relief
+     )||180;
+
+    if(
+     pressure>setting
+    ){
+
      flow*=.35;
     }
    }
 
-   if(other.type==="reducing"){
-    pressure=Math.min(pressure,Number(other.params.reduction)||100);
+   if(
+    other.params.fault==="leak"
+   ){
+
+    flow*=.7;
    }
 
-   h.flow=Math.max(h.flow,flow);
-   h.pressureDrop=Math.max(0,n.pressure-pressure);
+   if(
+    other.params.fault==="burst"
+   ){
 
-   if(!visited.has(other.id)){
+    flow=0;
+   }
+
+   connection.flow=
+    Math.max(
+     connection.flow,
+     flow
+    );
+
+   const loss=
+    Math.max(
+     0,
+     node.pressure-pressure
+    );
+
+   connection.pressureDrop=
+    Math.max(
+     connection.pressureDrop,
+     loss
+    );
+
+   if(flow>0){
+
     queue.push({
      id:other.id,
-     pressure,
-     flow
+     pressure:pressure,
+     flow:flow
     });
    }
   });
  }
 }
 
-/* ------------------------------------------------------------
-   Actuators
-   ------------------------------------------------------------ */
+/* ============================================================
+   ACTUATORS
+   ============================================================ */
 
 function simulateActuators(dt){
 
  state.components.forEach(c=>{
 
-  if(c.type==="cylinder"||c.type==="singleCylinder"||c.type==="airCylinder"){
+  if(
+   c.type==="cylinder"||
+   c.type==="singleCylinder"||
+   c.type==="airCylinder"
+  ){
 
-   const links=state.connections.filter(h=>
-    h.from.component===c.id||h.to.component===c.id
-   );
+   const links=
+    state.connections.filter(h=>
+     h.from.component===c.id||
+     h.to.component===c.id
+    );
 
-   let fa=0;
-   let fb=0;
+   let flowA=0;
+   let flowB=0;
 
    links.forEach(h=>{
+
     const port=
      h.from.component===c.id
-     ?h.from.port
-     :h.to.port;
+      ?h.from.port
+      :h.to.port;
 
-    if(port==="A")fa=Math.max(fa,h.flow);
-    if(port==="B")fb=Math.max(fb,h.flow);
+    if(port==="A"){
+
+     flowA=
+      Math.max(
+       flowA,
+       h.flow||0
+      );
+    }
+
+    if(port==="B"){
+
+     flowB=
+      Math.max(
+       flowB,
+       h.flow||0
+      );
+    }
    });
 
-   const bore=Number(c.params.bore)||80;
-   const rod=Number(c.params.rod)||40;
-   const area=Math.PI*bore*bore/4;
-   const rodArea=Math.PI*rod*rod/4;
+   const bore=
+    Math.max(
+     1,
+     Number(c.params.bore)||80
+    );
+
+   const rod=
+    Math.max(
+     0,
+     Number(c.params.rod)||40
+    );
+
+   const area=
+    Math.PI*
+    bore*
+    bore/
+    4;
+
+   const annularArea=
+    Math.max(
+     1,
+     area-
+     Math.PI*rod*rod/4
+    );
 
    let direction=0;
 
-   const valve=connectedDirectional(c.id);
+   const valve=
+    connectedDirectional(c.id);
 
    if(valve){
 
-    const pos=valve.params.position||"centre";
+    const position=
+     valve.params.position||
+     "centre";
 
-    if(pos==="left")direction=1;
-    if(pos==="right")direction=-1;
-
-    if(pos==="centre")direction=0;
-
-    if(valve.params.centre==="closed"&&pos==="centre"){
+    if(
+     valve.params.fault==="stuck"
+    ){
+     direction=0;
+    }else if(position==="left"){
+     direction=1;
+    }else if(position==="right"){
+     direction=-1;
+    }else{
      direction=0;
     }
+
+    if(
+     position==="centre"&&
+     valve.params.centre==="closed"
+    ){
+     direction=0;
+    }
+
    }else{
-    if(fa>fb)direction=1;
-    if(fb>fa)direction=-1;
+
+    if(flowA>flowB){
+     direction=1;
+    }else if(flowB>flowA){
+     direction=-1;
+    }
    }
 
-   if(c.params.fault==="leak"){
-    direction*=.3;
+   if(
+    c.params.fault==="leak"
+   ){
+    direction*=.35;
    }
 
-   const flow=Math.max(fa,fb);
+   if(
+    c.params.fault==="overload"
+   ){
+    direction*=.25;
+   }
+
+   const activeFlow=
+    direction>0
+     ?flowA
+     :direction<0
+      ?flowB
+      :0;
 
    let speed=0;
 
-   if(area>0){
-    speed=(flow*1000000/60)/area;
+   if(activeFlow>0){
+
+    const activeArea=
+     direction>0
+      ?area
+      :annularArea;
+
+    speed=
+     (
+      activeFlow*
+      1000000/
+      60
+     )/
+     activeArea;
    }
 
-   speed=clamp(speed,0,1000);
+   speed=
+    clamp(
+     speed,
+     0,
+     1000
+    );
 
-   c.sim.speed=speed;
-   c.sim.flow=flow;
+   c.sim.flow=
+    Math.max(
+     flowA,
+     flowB
+    );
 
-   c.sim.position=clamp(
-    c.sim.position+direction*dt*Math.max(.1,speed/100),
-    0,
-    1
-   );
+   c.sim.speed=
+    speed;
+
+   c.sim.position=
+    clamp(
+     c.sim.position+
+     direction*
+     dt*
+     Math.max(
+      .05,
+      speed/100
+     ),
+     0,
+     1
+    );
+
+   const pressureA=
+    flowA>0
+     ?Math.min(
+      Number(c.params.pressure)||210,
+      flowA*3
+     )
+     :0;
+
+   const pressureB=
+    flowB>0
+     ?Math.min(
+      Number(c.params.pressure)||210,
+      flowB*3
+     )
+     :0;
 
    c.sim.pressure=
     Math.max(
-     c.sim.pressure,
-     direction>0?Math.min(210,fa*3):Math.min(210,fb*3)
+     pressureA,
+     pressureB
     );
 
-   c.sim.active=Math.abs(direction)>0;
+   c.sim.active=
+    Math.abs(direction)>0&&
+    activeFlow>0;
   }
 
-  if(c.type==="motor"||c.type==="airMotor"){
+  if(
+   c.type==="motor"||
+   c.type==="airMotor"
+  ){
 
-   const links=state.connections.filter(h=>
-    h.from.component===c.id||h.to.component===c.id
-   );
+   const links=
+    state.connections.filter(h=>
+     h.from.component===c.id||
+     h.to.component===c.id
+    );
 
    let flow=0;
 
    links.forEach(h=>{
-    flow=Math.max(flow,h.flow);
+    flow=
+     Math.max(
+      flow,
+      h.flow||0
+     );
    });
 
-   const displacement=Number(c.params.displacement)||40;
+   const displacement=
+    Math.max(
+     .1,
+     Number(
+      c.params.displacement
+     )||40
+    );
 
-   const rpm=flow*1000/displacement;
+   const rpm=
+    flow*
+    1000/
+    displacement;
 
    c.sim.flow=flow;
    c.sim.speed=rpm;
-   c.sim.active=flow>0;
+   c.sim.active=
+    flow>0;
 
-   c.sim.position=(c.sim.position+dt*rpm/60)%1;
+   c.sim.position=
+    (
+     c.sim.position+
+     dt*rpm/60
+    )%1;
   }
-}
-
-);
+ });
 }
 
 function connectedDirectional(cid){
 
- const links=state.connections.filter(h=>
-  h.from.component===cid||h.to.component===cid
- );
+ const links=
+  state.connections.filter(h=>
+   h.from.component===cid||
+   h.to.component===cid
+  );
 
- for(const h of links){
+ for(
+  const connection
+  of links
+ ){
 
   const otherId=
-   h.from.component===cid
-   ?h.to.component
-   :h.from.component;
+   connection.from.component===cid
+    ?connection.to.component
+    :connection.from.component;
 
-  const other=findComponent(otherId);
+  const other=
+   findComponent(otherId);
 
-  if(other&&(other.type==="directional"||other.type==="pneumaticValve")){
+  if(
+   other&&
+   (
+    other.type==="directional"||
+    other.type==="pneumaticValve"
+   )
+  ){
+
    return other;
   }
  }
@@ -3098,96 +5867,228 @@ function connectedDirectional(cid){
  return null;
 }
 
+/* ============================================================
+   PRESSURE LOSSES
+   ============================================================ */
+
 function calculateConnectionLosses(){
 
  state.connections.forEach(h=>{
 
-  const d=Math.max(1,Number(h.diameter)||12);
-  const L=Math.max(1,Number(h.length)||1000);
-  const q=Math.max(0,Number(h.flow)||0);
+  const diameter=
+   Math.max(
+    1,
+    Number(h.diameter)||12
+   );
+
+  const length=
+   Math.max(
+    1,
+    Number(h.length)||1000
+   );
+
+  const flow=
+   Math.max(
+    0,
+    Number(h.flow)||0
+   );
 
   const loss=
    .000015*
-   L*
-   Math.pow(q,1.8)/
-   Math.pow(d,4.8);
+   length*
+   Math.pow(flow,1.8)/
+   Math.pow(diameter,4.8);
 
-  h.pressureDrop=Math.max(0,loss);
+  h.pressureDrop=
+   Math.max(
+    0,
+    loss
+   );
 
-  if(h.rating&&h.pressureDrop>h.rating){
-   h.pressureDrop=h.rating;
+  if(
+   h.rating&&
+   h.pressureDrop>h.rating
+  ){
+
+   h.pressureDrop=
+    h.rating;
   }
+
+  const from=
+   findComponent(
+    h.from.component
+   );
+
+  const to=
+   findComponent(
+    h.to.component
+   );
 
   if(
    state.running&&
-   state.components.some(c=>c.params.fault==="burst"&&
-    (c.id===h.from.component||c.id===h.to.component))
+   (
+    (
+     from&&
+     from.params.fault==="burst"
+    )||
+    (
+     to&&
+     to.params.fault==="burst"
+    )
+   )
   ){
+
    h.flow=0;
   }
+ });
 }
 
 /* ============================================================
-   MOBILE DRAWERS
+   MOBILE
    ============================================================ */
 
-document.getElementById("mobileLibrary").onclick=()=>{
- document.getElementById("mobileDrawer").classList.add("open");
+document.getElementById(
+ "mobileLibrary"
+).onclick=()=>{
+
+ document
+  .getElementById(
+   "mobileDrawer"
+  )
+  .classList.add("open");
 };
 
-document.getElementById("closeLibrary").onclick=()=>{
- document.getElementById("mobileDrawer").classList.remove("open");
+document.getElementById(
+ "closeLibrary"
+).onclick=()=>{
+
+ document
+  .getElementById(
+   "mobileDrawer"
+  )
+  .classList.remove("open");
 };
 
-document.getElementById("mobileInspector").onclick=()=>{
- document.getElementById("mobileInspectorDrawer").classList.add("open");
+document.getElementById(
+ "mobileInspector"
+).onclick=()=>{
+
+ document
+  .getElementById(
+   "mobileInspectorDrawer"
+  )
+  .classList.add("open");
 };
 
-document.getElementById("closeInspector").onclick=()=>{
- document.getElementById("mobileInspectorDrawer").classList.remove("open");
+document.getElementById(
+ "closeInspector"
+).onclick=()=>{
+
+ document
+  .getElementById(
+   "mobileInspectorDrawer"
+  )
+  .classList.remove("open");
 };
 
 /* ============================================================
    KEYBOARD
    ============================================================ */
 
-document.addEventListener("keydown",e=>{
+document.addEventListener(
+ "keydown",
+ event=>{
 
- if(e.key==="Escape"){
-  state.hoseStart=null;
-  state.drag=null;
-  state.pan=null;
-  closeValveBuilder();
-  render();
- }
+  if(event.key==="Escape"){
 
- if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="z"){
-  e.preventDefault();
-  undo();
- }
+   state.hoseStart=null;
+   state.drag=null;
+   state.pan=null;
 
- if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="y"){
-  e.preventDefault();
-  redo();
- }
+   closeValveBuilder();
 
- if(e.key==="Delete"||e.key==="Backspace"){
-  if(state.selected)deleteComponent(state.selected);
-  else if(state.selectedConnection){
-   historyPush();
-   state.connections=state.connections.filter(h=>h.id!==state.selectedConnection);
-   state.selectedConnection=null;
-   render();
+   setTool("select");
+
+   return;
+  }
+
+  if(
+   (event.ctrlKey||event.metaKey)&&
+   event.key.toLowerCase()==="z"
+  ){
+
+   event.preventDefault();
+
+   undo();
+
+   return;
+  }
+
+  if(
+   (event.ctrlKey||event.metaKey)&&
+   event.key.toLowerCase()==="y"
+  ){
+
+   event.preventDefault();
+
+   redo();
+
+   return;
+  }
+
+  if(
+   event.key==="Delete"||
+   event.key==="Backspace"
+  ){
+
+   if(state.selected){
+
+    deleteComponent(
+     state.selected
+    );
+
+   }else if(
+    state.selectedConnection
+   ){
+
+    historyPush();
+
+    state.connections=
+     state.connections.filter(
+      h=>
+       h.id!==state.selectedConnection
+     );
+
+    state.selectedConnection=null;
+
+    render();
+   }
+
+   return;
+  }
+
+  if(
+   event.key.toLowerCase()==="r"&&
+   state.selected
+  ){
+
+   const c=
+    findComponent(
+     state.selected
+    );
+
+   if(c){
+
+    historyPush();
+
+    c.rotation=
+     ((c.rotation||0)+90)%360;
+
+    render();
+   }
   }
  }
-
- if(e.key.toLowerCase()==="r"&&state.selected){
-  const c=findComponent(state.selected);
-  historyPush();
-  c.rotation=(c.rotation+90)%360;
-  render();
- }
-});
+);
 
 /* ============================================================
    INITIALISE
@@ -3203,98 +6104,129 @@ function init(){
 
  renderLibrary();
 
- /* Starter circuit gives the user something immediately visible. */
- const tank=createComponent("reservoir",-350,120);
- const pump=createComponent("pump",-100,120,{
-  flow:35,
-  pressure:180,
-  rpm:1450
- });
- const valve=createComponent("directional",180,120,{
-  valveType:"4/3",
-  centre:"closed",
-  position:"left",
-  actuation:"Lever",
-  spring:"yes"
- });
- const cylinder=createComponent("cylinder",500,40,{
-  bore:80,
-  rod:40,
-  stroke:500
- });
+ /*
+  Starter circuit.
+  This is deliberately created after every function
+  has been defined.
+ */
+
+ const tank=
+  createComponent(
+   "reservoir",
+   -350,
+   120
+  );
+
+ const pump=
+  createComponent(
+   "pump",
+   -100,
+   120,
+   {
+    flow:35,
+    pressure:180,
+    rpm:1450
+   }
+  );
+
+ const valve=
+  createComponent(
+   "directional",
+   180,
+   120,
+   {
+    valveType:"4/3",
+    centre:"closed",
+    position:"left",
+    actuation:"Lever",
+    spring:"yes"
+   }
+  );
+
+ const cylinder=
+  createComponent(
+   "cylinder",
+   500,
+   40,
+   {
+    bore:80,
+    rod:40,
+    stroke:500
+   }
+  );
 
  state.connections=[
-  {
-   id:uid("H"),
-   from:{component:tank.id,port:"P"},
-   to:{component:pump.id,port:"IN"},
-   type:"soft",
-   diameter:25,
-   length:800,
-   rating:250,
-   flow:0,
-   pressureDrop:0
-  },
-  {
-   id:uid("H"),
-   from:{component:pump.id,port:"OUT"},
-   to:{component:valve.id,port:"P"},
-   type:"hard",
-   diameter:16,
-   length:700,
-   rating:315,
-   flow:0,
-   pressureDrop:0
-  },
-  {
-   id:uid("H"),
-   from:{component:valve.id,port:"A"},
-   to:{component:cylinder.id,port:"A"},
-   type:"soft",
-   diameter:16,
-   length:800,
-   rating:250,
-   flow:0,
-   pressureDrop:0
-  },
-  {
-   id:uid("H"),
-   from:{component:cylinder.id,port:"B"},
-   to:{component:valve.id,port:"B"},
-   type:"soft",
-   diameter:16,
-   length:800,
-   rating:250,
-   flow:0,
-   pressureDrop:0
-  },
-  {
-   id:uid("H"),
-   from:{component:valve.id,port:"T"},
-   to:{component:tank.id,port:"P"},
-   type:"soft",
-   diameter:25,
-   length:1000,
-   rating:250,
-   flow:0,
-   pressureDrop:0
-  }
+
+  makeConnection(
+   tank.id,
+   "P",
+   pump.id,
+   "IN",
+   "soft",
+   25,
+   800
+  ),
+
+  makeConnection(
+   pump.id,
+   "OUT",
+   valve.id,
+   "P",
+   "hard",
+   16,
+   700
+  ),
+
+  makeConnection(
+   valve.id,
+   "A",
+   cylinder.id,
+   "A",
+   "soft",
+   16,
+   800
+  ),
+
+  makeConnection(
+   cylinder.id,
+   "B",
+   valve.id,
+   "B",
+   "soft",
+   16,
+   800
+  ),
+
+  makeConnection(
+   valve.id,
+   "T",
+   tank.id,
+   "P",
+   "soft",
+   25,
+   1000
+  )
  ];
 
  state.selected=null;
 
  render();
+
  fitView();
 
- window.addEventListener("resize",()=>{
-  applyCamera();
- });
-
+ window.addEventListener(
+  "resize",
+  ()=>{
+   applyCamera();
+   render();
+  }
+ );
 }
 
-/* Start only after everything above exists. */
+/* START */
 init();
 
 </script>
+
 </body>
 </html>
